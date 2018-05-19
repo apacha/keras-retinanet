@@ -41,7 +41,7 @@ class DatasetSplitter:
         test_set_writer_page = [[int(x.group("writer")), int(x.group("page"))]
                                 for x in test_set_writer_page]
         names = os.listdir(self.source_directory)
-        name_regex = re.compile(r".*w-(?P<writer>\d+).*p(?P<page>\d+).*.jpg")
+        name_regex = re.compile(r".*w-(?P<writer>\d+).*p(?P<page>\d+).*.png")
         test_set_indices = []
         training_set_indices = []
         for i, name in enumerate(names):

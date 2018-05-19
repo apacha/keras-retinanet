@@ -48,8 +48,8 @@ def prepare_annotations(muscima_image_directory: str,
                     break
 
             image = Image.open(image_path, "r")  # type: Image.Image
-            output_file_path = os.path.join(output_path, "w-{0}_p{1}.jpg".format(writer, page.zfill(3)))
-            image.save(output_file_path, "JPEG", quality=95)
+            output_file_path = os.path.join(output_path, "w-{0}_p{1}.png".format(writer, page.zfill(3)))
+            image.save(output_file_path)
             for crop_object in crop_objects:
                 class_name = crop_object.clsname
                 classes.append(class_name)
