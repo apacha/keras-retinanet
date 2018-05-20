@@ -9,8 +9,8 @@ python dataset_splitter.py
 
 # Train
 
-```commandline
-python keras_retinanet/bin/train.py
-
+```bash
+# cd into root
+python keras_retinanet/bin/train.py csv data/training.csv data/ClassMapping.csv --val-annotations data/validation.csv
 ```
 
