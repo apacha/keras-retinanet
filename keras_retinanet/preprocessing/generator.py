@@ -81,6 +81,7 @@ class Generator(object):
 
         self.group_index = 0
         self.lock        = threading.Lock()
+        self.group_to_target_dict = {}
 
         self.group_images()
 
@@ -278,8 +279,13 @@ class Generator(object):
         # compute network inputs
         inputs = self.compute_inputs(image_group)
 
-        # compute network targets
+        # Cache the targets - only works for batch-size of 1
+        if group[0] in self.group_to_target_dict:
+            return inputs, self.group_to_target_dict[group[0]]
+
+        # compute network targets and store them for upcoming epochs
         targets = self.compute_targets(image_group, annotations_group)
+        self.group_to_target_dict[group[0]] = targets
 
         return inputs, targets
 
