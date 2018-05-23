@@ -20,6 +20,7 @@ import argparse
 import os
 import sys
 import warnings
+from datetime import datetime
 
 import keras
 import keras.preprocessing.image
@@ -172,7 +173,8 @@ def create_callbacks(model, training_model, prediction_model, validation_generat
         checkpoint = keras.callbacks.ModelCheckpoint(
             os.path.join(
                 args.snapshot_path,
-                '{backbone}_{dataset_type}_{{epoch:02d}}.h5'.format(backbone=args.backbone, dataset_type=args.dataset_type)
+                #'{backbone}_{dataset_type}_{{epoch:02d}}.h5'.format(backbone=args.backbone, dataset_type=args.dataset_type)
+                '{backbone}_{dataset_type}_{date}.h5'.format(backbone=args.backbone, dataset_type=args.dataset_type, date=datetime.now().date())
             ),
             verbose=1,
             # save_best_only=True,
@@ -225,7 +227,7 @@ def create_generators(args, preprocess_image):
             flip_y_chance=0.5,
         )
     else:
-        transform_generator = random_transform_generator(flip_x_chance=0.5)
+        transform_generator = None # random_transform_generator(flip_x_chance=0.0)
 
     if args.dataset_type == 'coco':
         # import here to prevent unnecessary dependency on cocoapi
@@ -233,7 +235,7 @@ def create_generators(args, preprocess_image):
 
         train_generator = CocoGenerator(
             args.coco_path,
-            'train2017',
+            'train2014',
             transform_generator=transform_generator,
             **common_args
         )
@@ -385,16 +387,16 @@ def parse_args(args):
     parser.add_argument('--gpu',             help='Id of the GPU to use (as reported by nvidia-smi).')
     parser.add_argument('--multi-gpu',       help='Number of GPUs to use for parallel processing.', type=int, default=0)
     parser.add_argument('--multi-gpu-force', help='Extra flag needed to enable (experimental) multi-gpu support.', action='store_true')
-    parser.add_argument('--epochs',          help='Number of epochs to train.', type=int, default=50)
-    parser.add_argument('--steps',           help='Number of steps per epoch.', type=int, default=10000)
+    parser.add_argument('--epochs',          help='Number of epochs to train.', type=int, default=500)
+    parser.add_argument('--steps',           help='Number of steps per epoch.', type=int, default=100)
     parser.add_argument('--snapshot-path',   help='Path to store snapshots of models during training (defaults to \'./snapshots\')', default='./snapshots')
     parser.add_argument('--tensorboard-dir', help='Log directory for Tensorboard output', default='./logs')
     parser.add_argument('--no-snapshots',    help='Disable saving snapshots.', dest='snapshots', action='store_false')
     parser.add_argument('--no-evaluation',   help='Disable per epoch evaluation.', dest='evaluation', action='store_false')
     parser.add_argument('--freeze-backbone', help='Freeze training of backbone layers.', action='store_true')
     parser.add_argument('--random-transform', help='Randomly transform image and annotations.', action='store_true')
-    parser.add_argument('--image-min-side', help='Rescale the image so the smallest side is min_side.', type=int, default=800)
-    parser.add_argument('--image-max-side', help='Rescale the image if the largest side is larger than max_side.', type=int, default=1333)
+    parser.add_argument('--image-min-side', help='Rescale the image so the smallest side is min_side.', type=int, default=1000)
+    parser.add_argument('--image-max-side', help='Rescale the image if the largest side is larger than max_side.', type=int, default=3500)
 
     return check_args(parser.parse_args(args))
 
