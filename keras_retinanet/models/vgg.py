@@ -19,7 +19,7 @@ import keras
 from keras.utils import get_file
 
 from . import retinanet
-from . import Backbone
+from keras_retinanet.models.backbone import Backbone
 from ..utils.image import preprocess_image
 
 

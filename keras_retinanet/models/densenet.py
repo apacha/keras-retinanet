@@ -19,8 +19,8 @@ from keras.applications.densenet import densenet
 from keras.utils import get_file
 
 from . import retinanet
-from . import Backbone
 from ..utils.image import preprocess_image
+from keras_retinanet.models.backbone import Backbone
 
 allowed_backbones = {'densenet121': [6, 12, 24, 16], 'densenet169': [6, 12, 32, 32], 'densenet201': [6, 12, 48, 32]}
 

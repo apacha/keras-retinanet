@@ -20,7 +20,7 @@ import keras_resnet
 import keras_resnet.models
 
 from . import retinanet
-from . import Backbone
+from keras_retinanet.models.backbone import Backbone
 from ..utils.image import preprocess_image
 
 

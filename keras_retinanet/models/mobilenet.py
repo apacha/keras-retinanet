@@ -20,7 +20,7 @@ from keras.utils import get_file
 from ..utils.image import preprocess_image
 
 from . import retinanet
-from . import Backbone
+from keras_retinanet.models.backbone import Backbone
 
 
 class MobileNetBackbone(Backbone):
