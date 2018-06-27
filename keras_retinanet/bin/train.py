@@ -118,7 +118,7 @@ def create_models(backbone_retinanet, num_classes, weights, multi_gpu=0, freeze_
             'regression'    : losses.smooth_l1(),
             'classification': losses.focal()
         },
-        optimizer=keras.optimizers.adam(lr=1e-5, clipnorm=0.001)
+        optimizer=keras.optimizers.adam(lr=1e-4, clipnorm=0.001)
     )
 
     return model, training_model, prediction_model
@@ -186,8 +186,8 @@ def create_callbacks(model, training_model, prediction_model, validation_generat
 
     callbacks.append(keras.callbacks.ReduceLROnPlateau(
         monitor  = 'loss',
-        factor   = 0.1,
-        patience = 2,
+        factor   = 0.5,
+        patience = 5,
         verbose  = 1,
         mode     = 'auto',
         epsilon  = 0.0001,
