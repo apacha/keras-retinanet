@@ -172,9 +172,9 @@ def create_callbacks(model, training_model, prediction_model, validation_generat
                                                              date=datetime.now().date())
             ),
             verbose=1,
-            # save_best_only=True,
-            # monitor="mAP",
-            # mode='max'
+            save_best_only=True,
+            monitor="mAP",
+            mode='max'
         )
         checkpoint = RedirectModel(checkpoint, model)
         callbacks.append(checkpoint)
