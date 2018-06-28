@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 import keras
-from keras.applications.densenet import densenet
+from keras.applications.densenet import DenseNet
 from keras.utils import get_file
 
 from . import retinanet
@@ -83,10 +83,10 @@ def densenet_retinanet(num_classes, backbone='densenet121', inputs=None, modifie
         inputs = keras.layers.Input((None, None, 3))
 
     blocks = allowed_backbones[backbone]
-    backbone = densenet.DenseNet(blocks=blocks, input_tensor=inputs, include_top=False, pooling=None, weights=None)
+    backbone = DenseNet(blocks=blocks, input_tensor=inputs, include_top=False, pooling=None, weights=None)
 
     # get last conv layer from the end of each dense block
-    layer_outputs = [densenet.get_layer(name='conv{}_block{}_concat'.format(idx + 2, block_num)).output for
+    layer_outputs = [backbone.get_layer(name='conv{}_block{}_concat'.format(idx + 2, block_num)).output for
                      idx, block_num in enumerate(blocks)]
 
     # create the densenet backbone
