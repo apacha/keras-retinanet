@@ -26,9 +26,6 @@ import keras
 import keras.preprocessing.image
 import tensorflow as tf
 
-# Allow relative imports when being executed as script.
-from keras_retinanet.models.backbone import Backbone, load_model
-
 if __name__ == "__main__" and __package__ is None:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
     import keras_retinanet.bin  # noqa: F401
@@ -415,7 +412,7 @@ def main(args=None):
     args = parse_args(args)
 
     # create object that stores backbone information
-    backbone = Backbone(args.backbone)
+    backbone = models.backbone(args.backbone)
 
     # make sure keras is the minimum required version
     check_keras_version()
@@ -431,7 +428,7 @@ def main(args=None):
     # create the model
     if args.snapshot is not None:
         print('Loading model, this may take a second...')
-        model = load_model(args.snapshot, backbone_name=args.backbone)
+        model = models.load_model(args.snapshot, backbone_name=args.backbone)
         training_model = model
         prediction_model = retinanet_bbox(model=model)
     else:
