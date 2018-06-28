@@ -4,8 +4,9 @@ from keras_resnet.models import ResNet50
 
 from keras_retinanet.models.resnet import ResNetBackbone
 from keras_retinanet.models.backbone import Backbone
-from keras_retinanet.models.retinanet import retinanet
+from keras_retinanet.models.retinanet import retinanet, detail_retinanet
 from keras.utils import plot_model
+
 
 class DetailNetBackbone(Backbone):
     """ Describes backbone information and provides utility functions.
@@ -54,10 +55,11 @@ def detailnet_retinanet(num_classes, inputs=None, modifier=None, **kwargs):
         resnet = modifier(resnet)
 
     # create the full model
-    return retinanet(inputs=inputs, num_classes=num_classes, backbone_layers=resnet.outputs[1:], **kwargs)
+    return detail_retinanet(inputs=inputs, num_classes=num_classes, backbone_layers=resnet.outputs[0:2], **kwargs)
 
 
 if __name__ == '__main__':
     backbone_network = DetailNetBackbone()
     retina_network = backbone_network.retinanet(num_classes=100)
     plot_model(retina_network, "detail_net.png")
+    retina_network.summary()

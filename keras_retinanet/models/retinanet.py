@@ -15,6 +15,8 @@ limitations under the License.
 """
 
 import keras
+from keras import Model
+
 from .. import initializers
 from .. import layers
 
@@ -112,6 +114,37 @@ def default_regression_model(num_anchors, pyramid_feature_size=256, regression_f
     outputs = keras.layers.Reshape((-1, 4), name='pyramid_regression_reshape')(outputs)
 
     return keras.models.Model(inputs=inputs, outputs=outputs, name=name)
+
+
+def __create_low_level_pyramid_features(C2, C3, feature_size=256):
+    """ Creates the FPN layers on top of the backbone features.
+
+    Args
+        C2           : Feature stage C2 from the backbone.
+        C3           : Feature stage C3 from the backbone.
+        feature_size : The feature size to use for the resulting feature levels.
+
+    Returns
+        A list of feature levels [P3, P4, P5, P6, P7].
+    """
+    # upsample C3 to get P3 from the FPN paper
+    P3 = keras.layers.Conv2D(feature_size, kernel_size=1, strides=1, padding='same', name='C3_reduced')(C3)
+    P3_upsampled = layers.UpsampleLike(name='P3_upsampled')([P3, C2])
+    P3 = keras.layers.Conv2D(feature_size, kernel_size=3, strides=1, padding='same', name='P3')(P3)
+
+    # add P3 elementwise to C2
+    P2 = keras.layers.Conv2D(feature_size, kernel_size=1, strides=1, padding='same', name='C2_reduced')(C2)
+    P2 = keras.layers.Add(name='P2_merged')([P3_upsampled, P2])
+    P2 = keras.layers.Conv2D(feature_size, kernel_size=3, strides=1, padding='same', name='P2')(P2)
+
+    # "P4 is obtained via a 3x3 stride-2 conv on C3"
+    P4 = keras.layers.Conv2D(feature_size, kernel_size=3, strides=2, padding='same', name='P4')(C3)
+
+    # "P5 is computed by applying ReLU followed by a 3x3 stride-2 conv on P4"
+    P5 = keras.layers.Activation('relu', name='C4_relu')(P4)
+    P5 = keras.layers.Conv2D(feature_size, kernel_size=3, strides=2, padding='same', name='P5')(P5)
+
+    return [P2, P3, P4, P5]
 
 
 def __create_pyramid_features(C3, C4, C5, feature_size=256):
@@ -256,6 +289,50 @@ def __build_anchors(anchor_parameters, features):
     return keras.layers.Concatenate(axis=1, name='anchors')(anchors)
 
 
+def detail_retinanet(
+        inputs,
+        backbone_layers,
+        num_classes,
+        num_anchors=9,
+        create_pyramid_features=__create_low_level_pyramid_features,
+        submodels=None,
+        name='detail_retinanet'
+) -> Model:
+    """ Construct a RetinaNet model on top of a backbone.
+
+    This model is the minimum model necessary for training (with the unfortunate exception of anchors as output).
+
+    Args
+        inputs                  : keras.layers.Input (or list of) for the input to the model.
+        num_classes             : Number of classes to classify.
+        num_anchors             : Number of base anchors.
+        create_pyramid_features : Functor for creating pyramid features given the features C3, C4, C5 from the backbone.
+        submodels               : Submodels to run on each feature map (default is regression and classification submodels).
+        name                    : Name of the model.
+
+    Returns
+        A keras.models.Model which takes an image as input and outputs generated anchors and the result from each submodel on every pyramid level.
+
+        The order of the outputs is as defined in submodels:
+        ```
+        [
+            regression, classification, other[0], other[1], ...
+        ]
+        ```
+    """
+    if submodels is None:
+        submodels = default_submodels(num_classes, num_anchors)
+
+    C2, C3 = backbone_layers
+
+    features = create_pyramid_features(C2, C3)
+
+    # for all pyramid levels, run available submodels
+    pyramids = __build_pyramid(submodels, features)
+
+    return keras.models.Model(inputs=inputs, outputs=pyramids, name=name)
+
+
 def retinanet(
         inputs,
         backbone_layers,
@@ -264,7 +341,7 @@ def retinanet(
         create_pyramid_features=__create_pyramid_features,
         submodels=None,
         name='retinanet'
-):
+) -> Model:
     """ Construct a RetinaNet model on top of a backbone.
 
     This model is the minimum model necessary for training (with the unfortunate exception of anchors as output).
