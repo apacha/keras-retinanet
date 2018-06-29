@@ -12,7 +12,7 @@ class DetailNetBackbone(Backbone):
     """ Describes backbone information and provides utility functions.
     """
 
-    def __init__(self):
+    def __init__(self, _=None):
         super(DetailNetBackbone, self).__init__(None)
         self.custom_objects.update(keras_resnet.custom_objects)
 
@@ -24,6 +24,9 @@ class DetailNetBackbone(Backbone):
     def download_imagenet(self):
         """ Downloads ImageNet weights and returns path to weights file.
         """
+
+        # Uncomment this line to not use a pre-trained model, but train from scratch
+        # return None
         return ResNetBackbone('resnet50').download_imagenet()
 
     def validate(self):

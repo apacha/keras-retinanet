@@ -413,7 +413,10 @@ def retinanet_bbox(
         model = retinanet(num_anchors=anchor_parameters.num_anchors(), **kwargs)
 
     # compute the anchors
-    features = [model.get_layer(p_name).output for p_name in ['P3', 'P4', 'P5', 'P6', 'P7']]
+    if 'P7' in [x.name for x in model.layers]:
+        features = [model.get_layer(p_name).output for p_name in ['P3', 'P4', 'P5', 'P6', 'P7']]
+    else: # DetailNet
+        features = [model.get_layer(p_name).output for p_name in ['P2', 'P3', 'P4', 'P5']]
     anchors = __build_anchors(anchor_parameters, features)
 
     # we expect the anchors, regression and classification values as first output
