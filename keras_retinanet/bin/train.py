@@ -25,6 +25,7 @@ from datetime import datetime
 import keras
 import keras.preprocessing.image
 import tensorflow as tf
+from keras_tqdm import TQDMCallback
 
 if __name__ == "__main__" and __package__ is None:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -186,6 +187,8 @@ def create_callbacks(model, training_model, prediction_model, validation_generat
         cooldown=0,
         min_lr=0
     ))
+
+    callbacks.append(TQDMCallback())
 
     return callbacks
 
@@ -400,7 +403,7 @@ def parse_args(args):
     parser.add_argument('--image-min-side', help='Rescale the image so the smallest side is min_side.', type=int,
                         default=1000)
     parser.add_argument('--image-max-side', help='Rescale the image if the largest side is larger than max_side.',
-                        type=int, default=3500)
+                        type=int, default=2000)
 
     return check_args(parser.parse_args(args))
 
@@ -469,7 +472,7 @@ def main(args=None):
         generator=train_generator,
         steps_per_epoch=args.steps,
         epochs=args.epochs,
-        verbose=1,
+        verbose=0,
         callbacks=callbacks,
     )
 
