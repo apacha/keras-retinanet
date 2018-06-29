@@ -34,6 +34,7 @@ class Evaluate(keras.callbacks.Callback):
             save_path       : The path to save images with visualized detections to.
             tensorboard     : Instance of keras.callbacks.TensorBoard used to log the mAP value.
             verbose         : Set the verbosity level, by default this is set to 1.
+                              0 = no output, 1 = only mAP, 2 = details for all classes
         """
         self.generator = generator
         self.iou_threshold = iou_threshold
@@ -62,7 +63,7 @@ class Evaluate(keras.callbacks.Callback):
         present_classes = 0
         precision = 0
         for label, (average_precision, num_annotations) in average_precisions.items():
-            if self.verbose == 1:
+            if self.verbose > 1:
                 print('{:.0f} instances of class'.format(num_annotations),
                       self.generator.label_to_name(label), 'with average precision: {:.4f}'.format(average_precision))
             if num_annotations > 0:
@@ -80,5 +81,5 @@ class Evaluate(keras.callbacks.Callback):
 
         logs['mAP'] = self.mean_ap
 
-        if self.verbose == 1:
+        if self.verbose > 0:
             print('mAP: {:.4f}'.format(self.mean_ap))
