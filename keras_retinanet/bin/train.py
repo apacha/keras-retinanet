@@ -117,7 +117,7 @@ def create_models(backbone_retinanet, num_classes, weights, multi_gpu=0, freeze_
     return model, training_model, prediction_model
 
 
-def create_callbacks(model, training_model, prediction_model, validation_generator, args):
+def create_callbacks(model, backbone_name, prediction_model, validation_generator, args):
     """ Creates the callbacks to use during training.
 
     Args
@@ -134,9 +134,15 @@ def create_callbacks(model, training_model, prediction_model, validation_generat
 
     tensorboard_callback = None
 
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
+    if args.tensorboard_dir is "./logs": # do not use default directory, or all files will be placed in the very same folder
+        log_dir = "{0}_{1}".format(backbone_name, timestamp)
+    else:
+        log_dir = args.tensorboard_dir
+
     if args.tensorboard_dir:
         tensorboard_callback = keras.callbacks.TensorBoard(
-            log_dir=args.tensorboard_dir,
+            log_dir=log_dir,
             histogram_freq=0,
             batch_size=args.batch_size,
             write_graph=True,
@@ -209,10 +215,10 @@ def create_generators(args, preprocess_image):
         preprocess_image : Function that preprocesses an image for the network.
     """
     common_args = {
-        'batch_size'       : args.batch_size,
-        'image_min_side'   : args.image_min_side,
-        'image_max_side'   : args.image_max_side,
-        'preprocess_image' : preprocess_image,
+        'batch_size': args.batch_size,
+        'image_min_side': args.image_min_side,
+        'image_max_side': args.image_max_side,
+        'preprocess_image': preprocess_image,
     }
 
     # create random transform generator for augmenting training data
@@ -469,7 +475,7 @@ def main(args=None):
     # create the callbacks
     callbacks = create_callbacks(
         model,
-        training_model,
+        args.backbone,
         prediction_model,
         validation_generator,
         args,
