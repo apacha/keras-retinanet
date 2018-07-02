@@ -135,7 +135,7 @@ def create_callbacks(model, backbone_name, prediction_model, validation_generato
     tensorboard_callback = None
 
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
-    if args.tensorboard_dir is "./logs": # do not use default directory, or all files will be placed in the very same folder
+    if args.tensorboard_dir == "./logs": # do not use default directory, or all files will be placed in the very same folder
         log_dir = "{0}_{1}".format(backbone_name, timestamp)
     else:
         log_dir = args.tensorboard_dir
@@ -187,7 +187,7 @@ def create_callbacks(model, backbone_name, prediction_model, validation_generato
     callbacks.append(keras.callbacks.ReduceLROnPlateau(
         monitor='mAP',
         factor=0.5,
-        patience=8,
+        patience=args.learning_rate_reduction_patience,
         verbose=1,
         mode='max',
         epsilon=0.0001,
@@ -197,7 +197,7 @@ def create_callbacks(model, backbone_name, prediction_model, validation_generato
 
     callbacks.append(EarlyStopping(
         monitor='mAP',
-        patience=20,
+        patience=args.early_stopping_patience,
         mode="max",
         verbose=1
     ))
@@ -418,6 +418,12 @@ def parse_args(args):
                         default=500)
     parser.add_argument('--image-max-side', help='Rescale the image if the largest side is larger than max_side.',
                         type=int, default=1500)
+    parser.add_argument('--early_stopping_patience',
+                        help='Number of epochs patience (= no improval), before stopping the training',
+                        type=int, default=40)
+    parser.add_argument('--learning_rate_reduction_patience',
+                        help='Number of epochs patience (= no improval), before reducing the learning rate',
+                        type=int, default=16)
 
     return check_args(parser.parse_args(args))
 
