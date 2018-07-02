@@ -16,6 +16,7 @@ limitations under the License.
 
 import keras
 from ..utils.eval import evaluate
+import tensorflow as tf
 
 
 class Evaluate(keras.callbacks.Callback):
@@ -62,6 +63,7 @@ class Evaluate(keras.callbacks.Callback):
         # compute per class average precision
         present_classes = 0
         precision = 0
+
         for label, (average_precision, num_annotations) in average_precisions.items():
             if self.verbose > 1:
                 print('{:.0f} instances of class'.format(num_annotations),
@@ -69,17 +71,18 @@ class Evaluate(keras.callbacks.Callback):
             if num_annotations > 0:
                 present_classes += 1
                 precision += average_precision
+
+            self.log_scalar("AP - {0}".format(self.generator.label_to_name(label)), average_precision, epoch)
+
         self.mean_ap = precision / present_classes
 
-        if self.tensorboard is not None and self.tensorboard.writer is not None:
-            import tensorflow as tf
-            summary = tf.Summary()
-            summary_value = summary.value.add()
-            summary_value.simple_value = self.mean_ap
-            summary_value.tag = "mAP"
-            self.tensorboard.writer.add_summary(summary, epoch)
+        self.log_scalar("mAP", self.mean_ap, epoch)
 
         logs['mAP'] = self.mean_ap
 
         if self.verbose > 0:
             print('mAP: {:.4f}'.format(self.mean_ap))
+
+    def log_scalar(self, tag, value, epoch):
+        summary = tf.Summary(value=[tf.Summary.Value(tag=tag, simple_value=value)])
+        self.tensorboard.writer.add_summary(summary, epoch)
