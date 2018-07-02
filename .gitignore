@@ -7,3 +7,4 @@ __pycache__/
 /.idea/
 /data/
 logs
+/keras_retinanet/bin/snapshots/
