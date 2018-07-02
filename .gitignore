@@ -8,3 +8,5 @@ __pycache__/
 /data/
 logs
 /keras_retinanet/bin/snapshots/
+/build/
+*.pyd
