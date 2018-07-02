@@ -25,6 +25,7 @@ from datetime import datetime
 import keras
 import keras.preprocessing.image
 import tensorflow as tf
+from keras.callbacks import EarlyStopping
 from keras_tqdm import TQDMCallback
 
 if __name__ == "__main__" and __package__ is None:
@@ -178,17 +179,24 @@ def create_callbacks(model, training_model, prediction_model, validation_generat
         callbacks.append(checkpoint)
 
     callbacks.append(keras.callbacks.ReduceLROnPlateau(
-        monitor='loss',
+        monitor='mAP',
         factor=0.5,
-        patience=5,
+        patience=8,
         verbose=1,
-        mode='auto',
+        mode='max',
         epsilon=0.0001,
         cooldown=0,
         min_lr=0
     ))
 
-    callbacks.append(TQDMCallback())
+    callbacks.append(EarlyStopping(
+        monitor='mAP',
+        patience=20,
+        mode="max",
+        verbose=1
+    ))
+
+    # callbacks.append(TQDMCallback())
 
     return callbacks
 
@@ -401,9 +409,9 @@ def parse_args(args):
     parser.add_argument('--freeze-backbone', help='Freeze training of backbone layers.', action='store_true')
     parser.add_argument('--random-transform', help='Randomly transform image and annotations.', action='store_true')
     parser.add_argument('--image-min-side', help='Rescale the image so the smallest side is min_side.', type=int,
-                        default=1000)
+                        default=500)
     parser.add_argument('--image-max-side', help='Rescale the image if the largest side is larger than max_side.',
-                        type=int, default=2000)
+                        type=int, default=1500)
 
     return check_args(parser.parse_args(args))
 
@@ -472,7 +480,7 @@ def main(args=None):
         generator=train_generator,
         steps_per_epoch=args.steps,
         epochs=args.epochs,
-        verbose=0,
+        verbose=1,
         callbacks=callbacks,
     )
 
