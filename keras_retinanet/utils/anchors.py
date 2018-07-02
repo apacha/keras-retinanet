@@ -20,13 +20,13 @@ from ..utils.compute_overlap import compute_overlap
 
 
 def anchor_targets_bbox(
-    anchors,
-    annotations,
-    num_classes,
-    mask_shape=None,
-    negative_overlap=0.3,
-    positive_overlap=0.5,
-    **kwargs
+        anchors,
+        annotations,
+        num_classes,
+        mask_shape=None,
+        negative_overlap=0.3,
+        positive_overlap=0.5,
+        **kwargs
 ):
     """ Generate anchor targets for bbox detection.
 
@@ -45,18 +45,18 @@ def anchor_targets_bbox(
     """
     # anchor states: 1 is positive, 0 is negative, -1 is dont care
     anchor_states = np.zeros((anchors.shape[0],))
-    labels        = np.zeros((anchors.shape[0], num_classes))
+    labels = np.zeros((anchors.shape[0], num_classes))
 
     if annotations.shape[0]:
         # obtain indices of gt annotations with the greatest overlap
-        overlaps             = compute_overlap(anchors.astype(np.float64), annotations.astype(np.float64))
+        overlaps = compute_overlap(anchors.astype(np.float64), annotations.astype(np.float64))
         argmax_overlaps_inds = np.argmax(overlaps, axis=1)
         max_overlaps = overlaps[np.arange(overlaps.shape[0]), argmax_overlaps_inds]
 
         # assign "dont care" labels
-        positive_indices                = max_overlaps >= positive_overlap
-        ignore_indices                  = (max_overlaps > negative_overlap) & ~positive_indices
-        anchor_states[ignore_indices]   = -1
+        positive_indices = max_overlaps >= positive_overlap
+        ignore_indices = (max_overlaps > negative_overlap) & ~positive_indices
+        anchor_states[ignore_indices] = -1
         anchor_states[positive_indices] = 1
 
         # compute box regression targets
@@ -70,8 +70,8 @@ def anchor_targets_bbox(
 
     # ignore annotations outside of image
     if mask_shape:
-        anchors_centers        = np.vstack([(anchors[:, 0] + anchors[:, 2]) / 2, (anchors[:, 1] + anchors[:, 3]) / 2]).T
-        indices                = np.logical_or(anchors_centers[:, 0] >= mask_shape[1], anchors_centers[:, 1] >= mask_shape[0])
+        anchors_centers = np.vstack([(anchors[:, 0] + anchors[:, 2]) / 2, (anchors[:, 1] + anchors[:, 3]) / 2]).T
+        indices = np.logical_or(anchors_centers[:, 0] >= mask_shape[1], anchors_centers[:, 1] >= mask_shape[0])
         anchor_states[indices] = -1
 
     return labels, annotations, anchor_states
@@ -137,6 +137,7 @@ def anchors_for_shape(
         strides=None,
         sizes=None,
         shapes_callback=None,
+        verbose=False
 ):
     """ Generators anchors for a given shape.
 
@@ -153,18 +154,22 @@ def anchors_for_shape(
         np.array of shape (N, 4) containing the (x1, y1, x2, y2) coordinates for the anchors.
     """
     if pyramid_levels is None:
+        # pyramid_levels = [2, 3, 4, 5, 6, 7] <- Definitely does not work better
         pyramid_levels = [3, 4, 5, 6, 7]
     if strides is None:
         strides = [2 ** x for x in pyramid_levels]
-        # strides = [8, 16, 32]
     if sizes is None:
-        sizes = [2 ** (x + 1) for x in pyramid_levels]
-        # sizes = [4, 8, 16]
+        sizes = [2 ** (x + 2) for x in pyramid_levels]
+        # sizes = [2 ** (x + 1) for x in pyramid_levels]
     if ratios is None:
-        ratios = np.array([0.125, 0.25, 0.5, 1, 2, 8, 16, 32])
+        # ratios = np.array([0.125, 0.25, 0.5, 1, 2, 8, 16, 32])
+        # ratios = np.array([0.0625, 0.25, 1, 4, 16])
+        # ratios = np.array([0.5, 1, 2])
+        ratios = np.array([0.125, 0.5, 1, 2, 8])
+        # ratios = np.array([0.25, 0.5, 1, 2, 4])
     if scales is None:
-        # scales = np.array([2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)])
-        scales = np.array([0.5, 1, 2])
+        scales = np.array([2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)])
+        # scales = [0.5, 1.0, 2.0] <- Definitely does not work better, because it defeats the purpose of multiscale stuff
 
     if shapes_callback is None:
         shapes_callback = guess_shapes
@@ -176,6 +181,12 @@ def anchors_for_shape(
         anchors = generate_anchors(base_size=sizes[idx], ratios=ratios, scales=scales)
         shifted_anchors = shift(image_shapes[idx], strides[idx], anchors)
         all_anchors = np.append(all_anchors, shifted_anchors, axis=0)
+
+    if verbose:
+        print("Strides = {0}".format(strides))
+        print("Sizes = {0}".format(sizes))
+        print("Ratios = {0}".format(ratios))
+        print("Scales = {0}".format(scales))
 
     return all_anchors
 

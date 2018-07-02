@@ -42,17 +42,17 @@ class Generator(object):
     """
 
     def __init__(
-        self,
-        transform_generator = None,
-        batch_size=1,
-        group_method='ratio',  # one of 'none', 'random', 'ratio'
-        shuffle_groups=True,
-        image_min_side=800,
-        image_max_side=1333,
-        transform_parameters=None,
-        compute_anchor_targets=anchor_targets_bbox,
-        compute_shapes=guess_shapes,
-        preprocess_image=preprocess_image,
+            self,
+            transform_generator=None,
+            batch_size=1,
+            group_method='ratio',  # one of 'none', 'random', 'ratio'
+            shuffle_groups=True,
+            image_min_side=800,
+            image_max_side=1333,
+            transform_parameters=None,
+            compute_anchor_targets=anchor_targets_bbox,
+            compute_shapes=guess_shapes,
+            preprocess_image=preprocess_image,
     ):
         """ Initialize Generator object.
 
@@ -76,14 +76,15 @@ class Generator(object):
         self.image_max_side = image_max_side
         self.transform_parameters = transform_parameters or TransformParameters()
         self.compute_anchor_targets = compute_anchor_targets
-        self.compute_shapes         = compute_shapes
-        self.preprocess_image       = preprocess_image
+        self.compute_shapes = compute_shapes
+        self.preprocess_image = preprocess_image
 
         self.group_index = 0
         self.lock = threading.Lock()
         self.group_to_target_dict = {}
 
         self.group_images()
+        self.first_run = True
 
     def size(self):
         """ Size of the dataset.
@@ -241,17 +242,21 @@ class Generator(object):
         return image_batch
 
     def generate_anchors(self, image_shape):
-        return anchors_for_shape(image_shape, shapes_callback=self.compute_shapes)
+        anchors = anchors_for_shape(image_shape, shapes_callback=self.compute_shapes, verbose=self.first_run)
+        if self.first_run:
+            self.first_run = False
+        return anchors
 
     def compute_targets(self, image_group, annotations_group):
         """ Compute target outputs for the network using images and their annotations.
         """
         # get the max image shape
         max_shape = tuple(max(image.shape[x] for image in image_group) for x in range(3))
-        anchors   = self.generate_anchors(max_shape)
+        anchors = self.generate_anchors(max_shape)
 
         regression_batch = np.empty((self.batch_size, anchors.shape[0], 4 + 1), dtype=keras.backend.floatx())
-        labels_batch     = np.empty((self.batch_size, anchors.shape[0], self.num_classes() + 1), dtype=keras.backend.floatx())
+        labels_batch = np.empty((self.batch_size, anchors.shape[0], self.num_classes() + 1),
+                                dtype=keras.backend.floatx())
 
         # compute labels and regression targets
         for index, (image, annotations) in enumerate(zip(image_group, annotations_group)):
@@ -263,7 +268,8 @@ class Generator(object):
                 mask_shape=image.shape,
             )
             regression_batch[index, :, :-1] = bbox_transform(anchors, annotations)
-            regression_batch[index, :, -1]  = labels_batch[index, :, -1]  # copy the anchor states to the regression batch
+            # copy the anchor states to the regression batch
+            regression_batch[index, :, -1] = labels_batch[index, :, -1]
 
         return [regression_batch, labels_batch]
 
