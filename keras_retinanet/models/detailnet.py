@@ -48,15 +48,11 @@ def detailnet_retinanet(num_classes, inputs=None, modifier=None, **kwargs):
         inputs: The inputs to the network (defaults to a Tensor of shape (None, None, 3)).
         modifier: A function handler which can modify the backbone before using it in retinanet (this can be used to freeze backbone layers for example).
 
-    Returns
-        RetinaNet model with a ResNet backbone.
     """
-    # choose default input
     if inputs is None:
         inputs = keras.layers.Input(shape=(None, None, 3))
 
-    # create the resnet backbone
-    blocks = [1, 2, 4, 3]
+    blocks = [1, 2, 2, 2]
     backbone = DenseNet(blocks=blocks, input_tensor=inputs, include_top=False, pooling=None, weights=None)
 
     # invoke modifier if given

@@ -154,7 +154,7 @@ def parse_args(args):
                         action='store_true')
     parser.add_argument('--random-transform', help='Randomly transform image and annotations.', action='store_true')
     parser.add_argument('--image-min-side', help='Rescale the image so the smallest side is min_side.', type=int,
-                        default=1000)
+                        default=1300)
     parser.add_argument('--image-max-side', help='Rescale the image if the largest side is larger than max_side.',
                         type=int, default=2000)
 

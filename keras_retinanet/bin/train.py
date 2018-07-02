@@ -415,9 +415,9 @@ def parse_args(args):
     parser.add_argument('--freeze-backbone', help='Freeze training of backbone layers.', action='store_true')
     parser.add_argument('--random-transform', help='Randomly transform image and annotations.', action='store_true')
     parser.add_argument('--image-min-side', help='Rescale the image so the smallest side is min_side.', type=int,
-                        default=500)
+                        default=1300)
     parser.add_argument('--image-max-side', help='Rescale the image if the largest side is larger than max_side.',
-                        type=int, default=1500)
+                        type=int, default=2000)
     parser.add_argument('--early_stopping_patience',
                         help='Number of epochs patience (= no improval), before stopping the training',
                         type=int, default=40)
