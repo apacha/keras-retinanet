@@ -135,8 +135,8 @@ def create_callbacks(model, backbone_name, prediction_model, validation_generato
     tensorboard_callback = None
 
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
-    if args.tensorboard_dir == "./logs": # do not use default directory, or all files will be placed in the very same folder
-        log_dir = "{0}_{1}".format(backbone_name, timestamp)
+    if args.tensorboard_dir == "./logs":  # do not use default directory, or all files will be placed in the very same folder
+        log_dir = "./logs/{0}_{1}".format(backbone_name, timestamp)
     else:
         log_dir = args.tensorboard_dir
 
@@ -173,8 +173,8 @@ def create_callbacks(model, backbone_name, prediction_model, validation_generato
             os.path.join(
                 args.snapshot_path,
                 # '{backbone}_{dataset_type}_{{epoch:02d}}.h5'.format(backbone=args.backbone, dataset_type=args.dataset_type)
-                '{backbone}_{dataset_type}_{date}.h5'.format(backbone=args.backbone, dataset_type=args.dataset_type,
-                                                             date=datetime.now().date())
+                '{backbone}_{dataset_type}_{timestamp}.h5'.format(backbone=args.backbone, dataset_type=args.dataset_type,
+                                                             timestamp=timestamp)
             ),
             verbose=1,
             save_best_only=True,
