@@ -15,8 +15,8 @@ limitations under the License.
 """
 
 import keras
-from keras.applications.densenet import DenseNet
-from keras.utils import get_file
+from keras.utils import get_file, plot_model
+from keras_applications.densenet import DenseNet
 
 from . import retinanet
 from ..utils.image import preprocess_image
@@ -100,3 +100,10 @@ def densenet_retinanet(num_classes, backbone='densenet121', inputs=None, modifie
     model = retinanet.retinanet(inputs=inputs, num_classes=num_classes, backbone_layers=backbone.outputs, **kwargs)
 
     return model
+
+
+if __name__ == '__main__':
+    backbone_network = DenseNetBackbone(backbone="densenet121")
+    retina_network = backbone_network.retinanet(num_classes=100, inputs=keras.layers.Input(shape=(1500, 800, 3)))
+    plot_model(retina_network, "densenet.png")
+    retina_network.summary()
