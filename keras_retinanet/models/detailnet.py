@@ -1,11 +1,11 @@
 import keras
 import keras_resnet
-from keras_resnet.models import ResNet50
-
-from keras_retinanet.models.resnet import ResNetBackbone
-from keras_retinanet.models.backbone import Backbone
-from keras_retinanet.models.retinanet import retinanet, detail_retinanet
 from keras.utils import plot_model
+from keras_applications.densenet import DenseNet
+
+from keras_retinanet.models.backbone import Backbone
+from keras_retinanet.models.retinanet import detail_retinanet, retinanet
+from keras_retinanet.utils.image import preprocess_image
 
 
 class DetailNetBackbone(Backbone):
@@ -27,12 +27,17 @@ class DetailNetBackbone(Backbone):
 
         # Uncomment this line to not use a pre-trained model, but train from scratch
         # return None
-        return ResNetBackbone('resnet50').download_imagenet()
+        return None
 
     def validate(self):
         """ Checks whether the backbone string is correct.
         """
         pass
+
+    def preprocess_image(self, inputs):
+        """ Takes as input an image and prepares it for being passed through the network.
+        """
+        return preprocess_image(inputs, mode='tf')
 
 
 def detailnet_retinanet(num_classes, inputs=None, modifier=None, **kwargs):
@@ -51,14 +56,18 @@ def detailnet_retinanet(num_classes, inputs=None, modifier=None, **kwargs):
         inputs = keras.layers.Input(shape=(None, None, 3))
 
     # create the resnet backbone
-    resnet = ResNet50(inputs, include_top=False, freeze_bn=True)
+    blocks = [1, 2, 4, 3]
+    backbone = DenseNet(blocks=blocks, input_tensor=inputs, include_top=False, pooling=None, weights=None)
 
     # invoke modifier if given
     if modifier:
-        resnet = modifier(resnet)
+        backbone = modifier(backbone)
+
+    layer_outputs = [backbone.get_layer(name='conv{}_block{}_concat'.format(idx + 2, block_num)).output for
+                     idx, block_num in enumerate(blocks)]
 
     # create the full model
-    return detail_retinanet(inputs=inputs, num_classes=num_classes, backbone_layers=resnet.outputs[0:2], **kwargs)
+    return retinanet(inputs=inputs, num_classes=num_classes, backbone_layers=layer_outputs[1:], **kwargs)
 
 
 if __name__ == '__main__':
