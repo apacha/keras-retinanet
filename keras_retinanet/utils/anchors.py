@@ -24,7 +24,7 @@ def anchor_targets_bbox(
     annotations,
     num_classes,
     mask_shape=None,
-    negative_overlap=0.4,
+    negative_overlap=0.3,
     positive_overlap=0.5,
     **kwargs
 ):
@@ -156,12 +156,15 @@ def anchors_for_shape(
         pyramid_levels = [3, 4, 5, 6, 7]
     if strides is None:
         strides = [2 ** x for x in pyramid_levels]
+        # strides = [8, 16, 32]
     if sizes is None:
-        sizes = [2 ** (x + 2) for x in pyramid_levels]
+        sizes = [2 ** (x + 1) for x in pyramid_levels]
+        # sizes = [4, 8, 16]
     if ratios is None:
-        ratios = np.array([0.5, 1, 2])
+        ratios = np.array([0.125, 0.25, 0.5, 1, 2, 8, 16, 32])
     if scales is None:
-        scales = np.array([2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)])
+        # scales = np.array([2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)])
+        scales = np.array([0.5, 1, 2])
 
     if shapes_callback is None:
         shapes_callback = guess_shapes
