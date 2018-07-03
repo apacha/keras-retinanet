@@ -26,7 +26,6 @@ import keras
 import keras.preprocessing.image
 import tensorflow as tf
 from keras.callbacks import EarlyStopping
-from keras_tqdm import TQDMCallback
 
 if __name__ == "__main__" and __package__ is None:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -173,8 +172,9 @@ def create_callbacks(model, backbone_name, prediction_model, validation_generato
             os.path.join(
                 args.snapshot_path,
                 # '{backbone}_{dataset_type}_{{epoch:02d}}.h5'.format(backbone=args.backbone, dataset_type=args.dataset_type)
-                '{backbone}_{dataset_type}_{timestamp}.h5'.format(backbone=args.backbone, dataset_type=args.dataset_type,
-                                                             timestamp=timestamp)
+                '{backbone}_{dataset_type}_{timestamp}.h5'.format(backbone=args.backbone,
+                                                                  dataset_type=args.dataset_type,
+                                                                  timestamp=timestamp)
             ),
             verbose=1,
             save_best_only=True,
@@ -488,6 +488,7 @@ def main(args=None):
     )
 
     # start training
+    start_time = datetime.now()
     training_model.fit_generator(
         generator=train_generator,
         steps_per_epoch=args.steps,
@@ -495,6 +496,9 @@ def main(args=None):
         verbose=1,
         callbacks=callbacks,
     )
+    end_time = datetime.now()
+
+    print("Trained for: {0}".format(end_time - start_time))
 
 
 if __name__ == '__main__':
