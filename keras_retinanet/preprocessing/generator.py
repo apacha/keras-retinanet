@@ -84,7 +84,8 @@ class Generator(object):
         self.group_to_target_dict = {}
 
         self.group_images()
-        self.first_run = True
+        self.first_call_to_anchors_for_shape = True
+        self.first_call_to_anchor_targets_bbox = True
 
     def size(self):
         """ Size of the dataset.
@@ -242,9 +243,9 @@ class Generator(object):
         return image_batch
 
     def generate_anchors(self, image_shape):
-        anchors = anchors_for_shape(image_shape, shapes_callback=self.compute_shapes, verbose=self.first_run)
-        if self.first_run:
-            self.first_run = False
+        anchors = anchors_for_shape(image_shape, shapes_callback=self.compute_shapes, verbose=self.first_call_to_anchors_for_shape)
+        if self.first_call_to_anchors_for_shape:
+            self.first_call_to_anchors_for_shape = False
         return anchors
 
     def compute_targets(self, image_group, annotations_group):
@@ -266,10 +267,15 @@ class Generator(object):
                 annotations,
                 self.num_classes(),
                 mask_shape=image.shape,
+                verbose=self.first_call_to_anchor_targets_bbox
             )
+
             regression_batch[index, :, :-1] = bbox_transform(anchors, annotations)
             # copy the anchor states to the regression batch
             regression_batch[index, :, -1] = labels_batch[index, :, -1]
+
+            if self.first_call_to_anchor_targets_bbox:
+                self.first_call_to_anchor_targets_bbox = False
 
         return [regression_batch, labels_batch]
 

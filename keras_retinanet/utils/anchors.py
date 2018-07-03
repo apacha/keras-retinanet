@@ -16,7 +16,7 @@ limitations under the License.
 
 import numpy as np
 
-from ..utils.compute_overlap import compute_overlap
+from keras_retinanet.utils.compute_overlap import compute_overlap
 
 
 def anchor_targets_bbox(
@@ -25,7 +25,8 @@ def anchor_targets_bbox(
         num_classes,
         mask_shape=None,
         negative_overlap=0.3,
-        positive_overlap=0.5,
+        positive_overlap=0.4,
+        verbose=False,
         **kwargs
 ):
     """ Generate anchor targets for bbox detection.
@@ -44,6 +45,11 @@ def anchor_targets_bbox(
         anchor_states: np.array of shape (N,) containing the state of an anchor (-1 for ignore, 0 for bg, 1 for fg).
     """
     # anchor states: 1 is positive, 0 is negative, -1 is dont care
+    if verbose:
+        print("Classifying samples as positive if they overlap with ground truth more than {0} and as background if "
+              "they overlap less than {1}. Overlaps inbetween will be ignored".format(positive_overlap,
+                                                                                      negative_overlap))
+
     anchor_states = np.zeros((anchors.shape[0],))
     labels = np.zeros((anchors.shape[0], num_classes))
 
@@ -166,9 +172,12 @@ def anchors_for_shape(
         # ratios = np.array([0.0625, 0.25, 1, 4, 16])
         # ratios = np.array([0.5, 1, 2])
         ratios = np.array([0.125, 0.5, 1, 2, 8])
+        # ratios = np.array([0.125, 0.5, 1, 2, 8])
+        # ratios = np.array([0.125, 0.5, 1, 2, 8])
         # ratios = np.array([0.25, 0.5, 1, 2, 4])
     if scales is None:
-        scales = np.array([2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)])
+        # scales = np.array([1])
+        scales = np.array([0.66, 2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)])
         # scales = [0.5, 1.0, 2.0] <- Definitely does not work better, because it defeats the purpose of multiscale stuff
 
     if shapes_callback is None:
