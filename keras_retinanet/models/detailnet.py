@@ -4,7 +4,7 @@ from keras.utils import plot_model
 from keras_applications.densenet import DenseNet
 
 from keras_retinanet.models.backbone import Backbone
-from keras_retinanet.models.retinanet import detail_retinanet, retinanet
+from keras_retinanet.models.retinanet import retinanet
 from keras_retinanet.utils.image import preprocess_image
 
 
