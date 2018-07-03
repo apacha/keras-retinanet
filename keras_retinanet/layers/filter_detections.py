@@ -19,14 +19,14 @@ from .. import backend
 
 
 def filter_detections(
-    boxes,
-    classification,
-    other                 = [],
-    class_specific_filter = True,
-    nms                   = True,
-    score_threshold       = 0.05,
-    max_detections        = 1200,
-    nms_threshold         = 0.5
+        boxes,
+        classification,
+        other=[],
+        class_specific_filter=True,
+        nms=True,
+        score_threshold=0.05,
+        max_detections=1200,
+        nms_threshold=0.5
 ):
     """ Filter detections using the boxes and classification values.
 
@@ -48,6 +48,7 @@ def filter_detections(
         other[i] is shaped (max_detections, ...) and contains the filtered other[i] data.
         In case there are less than max_detections detections, the tensors are padded with -1's.
     """
+
     def _filter_detections(scores, labels):
         # threshold based on score
         indices = backend.where(keras.backend.greater(scores, score_threshold))
@@ -80,8 +81,8 @@ def filter_detections(
         # concatenate indices to single tensor
         indices = keras.backend.concatenate(all_indices, axis=0)
     else:
-        scores  = keras.backend.max(classification, axis    = 1)
-        labels  = keras.backend.argmax(classification, axis = 1)
+        scores = keras.backend.max(classification, axis=1)
+        labels = keras.backend.argmax(classification, axis=1)
         indices = _filter_detections(scores, labels)
 
     # select top k
@@ -119,14 +120,14 @@ class FilterDetections(keras.layers.Layer):
     """
 
     def __init__(
-        self,
-        nms                   = True,
-        class_specific_filter = True,
-        nms_threshold         = 0.5,
-        score_threshold       = 0.05,
-        max_detections        = 1200,
-        parallel_iterations   = 32,
-        **kwargs
+            self,
+            nms=True,
+            class_specific_filter=True,
+            nms_threshold=0.5,
+            score_threshold=0.05,
+            max_detections=1200,
+            parallel_iterations=32,
+            **kwargs
     ):
         """ Filters detections using score threshold, NMS and selecting the top-k detections.
 
@@ -138,12 +139,12 @@ class FilterDetections(keras.layers.Layer):
             max_detections        : Maximum number of detections to keep.
             parallel_iterations   : Number of batch items to process in parallel.
         """
-        self.nms                   = nms
+        self.nms = nms
         self.class_specific_filter = class_specific_filter
-        self.nms_threshold         = nms_threshold
-        self.score_threshold       = score_threshold
-        self.max_detections        = max_detections
-        self.parallel_iterations   = parallel_iterations
+        self.nms_threshold = nms_threshold
+        self.score_threshold = score_threshold
+        self.max_detections = max_detections
+        self.parallel_iterations = parallel_iterations
         super(FilterDetections, self).__init__(**kwargs)
 
     def call(self, inputs, **kwargs):
@@ -166,11 +167,11 @@ class FilterDetections(keras.layers.Layer):
                 boxes,
                 classification,
                 other,
-                nms                   = self.nms,
-                class_specific_filter = self.class_specific_filter,
-                score_threshold       = self.score_threshold,
-                max_detections        = self.max_detections,
-                nms_threshold         = self.nms_threshold,
+                nms=self.nms,
+                class_specific_filter=self.class_specific_filter,
+                score_threshold=self.score_threshold,
+                max_detections=self.max_detections,
+                nms_threshold=self.nms_threshold,
             )
 
         # call filter_detections on each batch
@@ -215,12 +216,12 @@ class FilterDetections(keras.layers.Layer):
         """
         config = super(FilterDetections, self).get_config()
         config.update({
-            'nms'                   : self.nms,
-            'class_specific_filter' : self.class_specific_filter,
-            'nms_threshold'         : self.nms_threshold,
-            'score_threshold'       : self.score_threshold,
-            'max_detections'        : self.max_detections,
-            'parallel_iterations'   : self.parallel_iterations,
+            'nms': self.nms,
+            'class_specific_filter': self.class_specific_filter,
+            'nms_threshold': self.nms_threshold,
+            'score_threshold': self.score_threshold,
+            'max_detections': self.max_detections,
+            'parallel_iterations': self.parallel_iterations,
         })
 
         return config
