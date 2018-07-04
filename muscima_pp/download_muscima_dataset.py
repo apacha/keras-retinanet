@@ -14,11 +14,11 @@ if __name__ == "__main__":
     if os.path.exists(dataset_directory):
         shutil.rmtree(dataset_directory, ignore_errors=True)
 
-    downloader = MuscimaPlusPlusDatasetDownloader(muscima_pp_raw_dataset_directory)
-    downloader.download_and_extract_dataset()
+    downloader = MuscimaPlusPlusDatasetDownloader()
+    downloader.download_and_extract_dataset(muscima_pp_raw_dataset_directory)
 
-    downloader = CvcMuscimaDatasetDownloader(muscima_image_directory, CvcMuscimaDataset.StaffRemoval)
-    downloader.download_and_extract_dataset()
+    downloader = CvcMuscimaDatasetDownloader(CvcMuscimaDataset.StaffRemoval)
+    downloader.download_and_extract_dataset(muscima_image_directory)
 
     inverter = ImageInverter()
     # We would like to work with black-on-white images instead of white-on-black images

@@ -1,13 +1,8 @@
 import os
 import re
-import shutil
 from glob import glob
-from typing import List
 
 from PIL import Image
-from lxml import etree
-from lxml.etree import Element, SubElement
-from muscima.cropobject import CropObject
 from omrdatasettools.image_generators.MuscimaPlusPlusImageGenerator import MuscimaPlusPlusImageGenerator
 from tqdm import tqdm
 
