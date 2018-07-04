@@ -177,7 +177,7 @@ def anchors_for_shape(
         # ratios = np.array([0.25, 0.5, 1, 2, 4])
     if scales is None:
         # scales = np.array([1])
-        scales = np.array([0.66, 2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)])
+        scales = np.array([2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)])
         # scales = [0.5, 1.0, 2.0] <- Definitely does not work better, because it defeats the purpose of multiscale stuff
 
     if shapes_callback is None:
