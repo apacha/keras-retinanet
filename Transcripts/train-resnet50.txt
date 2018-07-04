@@ -1,0 +1,650 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20180629180354
+Username: DONKEY\Alex
+RunAs User: DONKEY\Alex
+Configuration Name: 
+Machine: DONKEY (Microsoft Windows NT 10.0.16299.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command if((Get-ExecutionPolicy ) -ne 'AllSigned') { Set-ExecutionPolicy -Scope Process Bypass }; & 'C:\Users\Alex\Repositories\keras-retinanet\train.ps1'
+Process ID: 12148
+PSVersion: 5.1.16299.492
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.16299.492
+BuildVersion: 10.0.16299.492
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:/Users/Alex/Repositories/keras-retinanet/Transcripts/train-resnet50.txt
+**********************
+Windows PowerShell transcript start
+Start time: 20180629180834
+Username: DONKEY\Alex
+RunAs User: DONKEY\Alex
+Configuration Name: 
+Machine: DONKEY (Microsoft Windows NT 10.0.16299.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command if((Get-ExecutionPolicy ) -ne 'AllSigned') { Set-ExecutionPolicy -Scope Process Bypass }; & 'C:\Users\Alex\Repositories\keras-retinanet\train.ps1'
+Process ID: 4712
+PSVersion: 5.1.16299.492
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.16299.492
+BuildVersion: 10.0.16299.492
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:/Users/Alex/Repositories/keras-retinanet/Transcripts/train-resnet50.txt
+C:\Programmieren\Anaconda3\lib\site-packages\h5py\__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype
+from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+2018-06-29 18:08:37.183922: I T:\src\github\tensorflow\tensorflow\core\platform\cpu_feature_guard.cc:140] Your CPU supports instr
+uctions that this TensorFlow binary was not compiled to use: AVX2
+2018-06-29 18:08:37.375520: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1356] Found device 0 with
+ properties:
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.582
+pciBusID: 0000:01:00.0
+totalMemory: 11.00GiB freeMemory: 9.10GiB
+2018-06-29 18:08:37.380916: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1435] Adding visible gpu
+devices: 0
+2018-06-29 18:08:37.969127: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:923] Device interconnect
+StreamExecutor with strength 1 edge matrix:
+2018-06-29 18:08:37.972141: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:929]      0
+2018-06-29 18:08:37.974174: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:942] 0:   N
+2018-06-29 18:08:37.976351: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1053] Created TensorFlow
+device (/job:localhost/replica:0/task:0/device:GPU:0 with 8805 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti,
+pci bus id: 0000:01:00.0, compute capability: 6.1)
+Creating model, this may take a second...
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to
+==================================================================================================
+input_1 (InputLayer)            (None, None, None, 3 0
+__________________________________________________________________________________________________
+padding_conv1 (ZeroPadding2D)   (None, None, None, 3 0           input_1[0][0]
+__________________________________________________________________________________________________
+conv1 (Conv2D)                  (None, None, None, 6 9408        padding_conv1[0][0]
+__________________________________________________________________________________________________
+bn_conv1 (BatchNormalization)   (None, None, None, 6 256         conv1[0][0]
+__________________________________________________________________________________________________
+conv1_relu (Activation)         (None, None, None, 6 0           bn_conv1[0][0]
+__________________________________________________________________________________________________
+pool1 (MaxPooling2D)            (None, None, None, 6 0           conv1_relu[0][0]
+__________________________________________________________________________________________________
+res2a_branch2a (Conv2D)         (None, None, None, 6 4096        pool1[0][0]
+__________________________________________________________________________________________________
+bn2a_branch2a (BatchNormalizati (None, None, None, 6 256         res2a_branch2a[0][0]
+__________________________________________________________________________________________________
+res2a_branch2a_relu (Activation (None, None, None, 6 0           bn2a_branch2a[0][0]
+__________________________________________________________________________________________________
+padding2a_branch2b (ZeroPadding (None, None, None, 6 0           res2a_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res2a_branch2b (Conv2D)         (None, None, None, 6 36864       padding2a_branch2b[0][0]
+__________________________________________________________________________________________________
+bn2a_branch2b (BatchNormalizati (None, None, None, 6 256         res2a_branch2b[0][0]
+__________________________________________________________________________________________________
+res2a_branch2b_relu (Activation (None, None, None, 6 0           bn2a_branch2b[0][0]
+__________________________________________________________________________________________________
+res2a_branch2c (Conv2D)         (None, None, None, 2 16384       res2a_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+res2a_branch1 (Conv2D)          (None, None, None, 2 16384       pool1[0][0]
+__________________________________________________________________________________________________
+bn2a_branch2c (BatchNormalizati (None, None, None, 2 1024        res2a_branch2c[0][0]
+__________________________________________________________________________________________________
+bn2a_branch1 (BatchNormalizatio (None, None, None, 2 1024        res2a_branch1[0][0]
+__________________________________________________________________________________________________
+res2a (Add)                     (None, None, None, 2 0           bn2a_branch2c[0][0]
+                                                                 bn2a_branch1[0][0]
+__________________________________________________________________________________________________
+res2a_relu (Activation)         (None, None, None, 2 0           res2a[0][0]
+__________________________________________________________________________________________________
+res2b_branch2a (Conv2D)         (None, None, None, 6 16384       res2a_relu[0][0]
+__________________________________________________________________________________________________
+bn2b_branch2a (BatchNormalizati (None, None, None, 6 256         res2b_branch2a[0][0]
+__________________________________________________________________________________________________
+res2b_branch2a_relu (Activation (None, None, None, 6 0           bn2b_branch2a[0][0]
+__________________________________________________________________________________________________
+padding2b_branch2b (ZeroPadding (None, None, None, 6 0           res2b_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res2b_branch2b (Conv2D)         (None, None, None, 6 36864       padding2b_branch2b[0][0]
+__________________________________________________________________________________________________
+bn2b_branch2b (BatchNormalizati (None, None, None, 6 256         res2b_branch2b[0][0]
+__________________________________________________________________________________________________
+res2b_branch2b_relu (Activation (None, None, None, 6 0           bn2b_branch2b[0][0]
+__________________________________________________________________________________________________
+res2b_branch2c (Conv2D)         (None, None, None, 2 16384       res2b_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn2b_branch2c (BatchNormalizati (None, None, None, 2 1024        res2b_branch2c[0][0]
+__________________________________________________________________________________________________
+res2b (Add)                     (None, None, None, 2 0           bn2b_branch2c[0][0]
+                                                                 res2a_relu[0][0]
+__________________________________________________________________________________________________
+res2b_relu (Activation)         (None, None, None, 2 0           res2b[0][0]
+__________________________________________________________________________________________________
+res2c_branch2a (Conv2D)         (None, None, None, 6 16384       res2b_relu[0][0]
+__________________________________________________________________________________________________
+bn2c_branch2a (BatchNormalizati (None, None, None, 6 256         res2c_branch2a[0][0]
+__________________________________________________________________________________________________
+res2c_branch2a_relu (Activation (None, None, None, 6 0           bn2c_branch2a[0][0]
+__________________________________________________________________________________________________
+padding2c_branch2b (ZeroPadding (None, None, None, 6 0           res2c_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res2c_branch2b (Conv2D)         (None, None, None, 6 36864       padding2c_branch2b[0][0]
+__________________________________________________________________________________________________
+bn2c_branch2b (BatchNormalizati (None, None, None, 6 256         res2c_branch2b[0][0]
+__________________________________________________________________________________________________
+res2c_branch2b_relu (Activation (None, None, None, 6 0           bn2c_branch2b[0][0]
+__________________________________________________________________________________________________
+res2c_branch2c (Conv2D)         (None, None, None, 2 16384       res2c_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn2c_branch2c (BatchNormalizati (None, None, None, 2 1024        res2c_branch2c[0][0]
+__________________________________________________________________________________________________
+res2c (Add)                     (None, None, None, 2 0           bn2c_branch2c[0][0]
+                                                                 res2b_relu[0][0]
+__________________________________________________________________________________________________
+res2c_relu (Activation)         (None, None, None, 2 0           res2c[0][0]
+__________________________________________________________________________________________________
+res3a_branch2a (Conv2D)         (None, None, None, 1 32768       res2c_relu[0][0]
+__________________________________________________________________________________________________
+bn3a_branch2a (BatchNormalizati (None, None, None, 1 512         res3a_branch2a[0][0]
+__________________________________________________________________________________________________
+res3a_branch2a_relu (Activation (None, None, None, 1 0           bn3a_branch2a[0][0]
+__________________________________________________________________________________________________
+padding3a_branch2b (ZeroPadding (None, None, None, 1 0           res3a_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res3a_branch2b (Conv2D)         (None, None, None, 1 147456      padding3a_branch2b[0][0]
+__________________________________________________________________________________________________
+bn3a_branch2b (BatchNormalizati (None, None, None, 1 512         res3a_branch2b[0][0]
+__________________________________________________________________________________________________
+res3a_branch2b_relu (Activation (None, None, None, 1 0           bn3a_branch2b[0][0]
+__________________________________________________________________________________________________
+res3a_branch2c (Conv2D)         (None, None, None, 5 65536       res3a_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+res3a_branch1 (Conv2D)          (None, None, None, 5 131072      res2c_relu[0][0]
+__________________________________________________________________________________________________
+bn3a_branch2c (BatchNormalizati (None, None, None, 5 2048        res3a_branch2c[0][0]
+__________________________________________________________________________________________________
+bn3a_branch1 (BatchNormalizatio (None, None, None, 5 2048        res3a_branch1[0][0]
+__________________________________________________________________________________________________
+res3a (Add)                     (None, None, None, 5 0           bn3a_branch2c[0][0]
+                                                                 bn3a_branch1[0][0]
+__________________________________________________________________________________________________
+res3a_relu (Activation)         (None, None, None, 5 0           res3a[0][0]
+__________________________________________________________________________________________________
+res3b_branch2a (Conv2D)         (None, None, None, 1 65536       res3a_relu[0][0]
+__________________________________________________________________________________________________
+bn3b_branch2a (BatchNormalizati (None, None, None, 1 512         res3b_branch2a[0][0]
+__________________________________________________________________________________________________
+res3b_branch2a_relu (Activation (None, None, None, 1 0           bn3b_branch2a[0][0]
+__________________________________________________________________________________________________
+padding3b_branch2b (ZeroPadding (None, None, None, 1 0           res3b_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res3b_branch2b (Conv2D)         (None, None, None, 1 147456      padding3b_branch2b[0][0]
+__________________________________________________________________________________________________
+bn3b_branch2b (BatchNormalizati (None, None, None, 1 512         res3b_branch2b[0][0]
+__________________________________________________________________________________________________
+res3b_branch2b_relu (Activation (None, None, None, 1 0           bn3b_branch2b[0][0]
+__________________________________________________________________________________________________
+res3b_branch2c (Conv2D)         (None, None, None, 5 65536       res3b_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn3b_branch2c (BatchNormalizati (None, None, None, 5 2048        res3b_branch2c[0][0]
+__________________________________________________________________________________________________
+res3b (Add)                     (None, None, None, 5 0           bn3b_branch2c[0][0]
+                                                                 res3a_relu[0][0]
+__________________________________________________________________________________________________
+res3b_relu (Activation)         (None, None, None, 5 0           res3b[0][0]
+__________________________________________________________________________________________________
+res3c_branch2a (Conv2D)         (None, None, None, 1 65536       res3b_relu[0][0]
+__________________________________________________________________________________________________
+bn3c_branch2a (BatchNormalizati (None, None, None, 1 512         res3c_branch2a[0][0]
+__________________________________________________________________________________________________
+res3c_branch2a_relu (Activation (None, None, None, 1 0           bn3c_branch2a[0][0]
+__________________________________________________________________________________________________
+padding3c_branch2b (ZeroPadding (None, None, None, 1 0           res3c_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res3c_branch2b (Conv2D)         (None, None, None, 1 147456      padding3c_branch2b[0][0]
+__________________________________________________________________________________________________
+bn3c_branch2b (BatchNormalizati (None, None, None, 1 512         res3c_branch2b[0][0]
+__________________________________________________________________________________________________
+res3c_branch2b_relu (Activation (None, None, None, 1 0           bn3c_branch2b[0][0]
+__________________________________________________________________________________________________
+res3c_branch2c (Conv2D)         (None, None, None, 5 65536       res3c_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn3c_branch2c (BatchNormalizati (None, None, None, 5 2048        res3c_branch2c[0][0]
+__________________________________________________________________________________________________
+res3c (Add)                     (None, None, None, 5 0           bn3c_branch2c[0][0]
+                                                                 res3b_relu[0][0]
+__________________________________________________________________________________________________
+res3c_relu (Activation)         (None, None, None, 5 0           res3c[0][0]
+__________________________________________________________________________________________________
+res3d_branch2a (Conv2D)         (None, None, None, 1 65536       res3c_relu[0][0]
+__________________________________________________________________________________________________
+bn3d_branch2a (BatchNormalizati (None, None, None, 1 512         res3d_branch2a[0][0]
+__________________________________________________________________________________________________
+res3d_branch2a_relu (Activation (None, None, None, 1 0           bn3d_branch2a[0][0]
+__________________________________________________________________________________________________
+padding3d_branch2b (ZeroPadding (None, None, None, 1 0           res3d_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res3d_branch2b (Conv2D)         (None, None, None, 1 147456      padding3d_branch2b[0][0]
+__________________________________________________________________________________________________
+bn3d_branch2b (BatchNormalizati (None, None, None, 1 512         res3d_branch2b[0][0]
+__________________________________________________________________________________________________
+res3d_branch2b_relu (Activation (None, None, None, 1 0           bn3d_branch2b[0][0]
+__________________________________________________________________________________________________
+res3d_branch2c (Conv2D)         (None, None, None, 5 65536       res3d_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn3d_branch2c (BatchNormalizati (None, None, None, 5 2048        res3d_branch2c[0][0]
+__________________________________________________________________________________________________
+res3d (Add)                     (None, None, None, 5 0           bn3d_branch2c[0][0]
+                                                                 res3c_relu[0][0]
+__________________________________________________________________________________________________
+res3d_relu (Activation)         (None, None, None, 5 0           res3d[0][0]
+__________________________________________________________________________________________________
+res4a_branch2a (Conv2D)         (None, None, None, 2 131072      res3d_relu[0][0]
+__________________________________________________________________________________________________
+bn4a_branch2a (BatchNormalizati (None, None, None, 2 1024        res4a_branch2a[0][0]
+__________________________________________________________________________________________________
+res4a_branch2a_relu (Activation (None, None, None, 2 0           bn4a_branch2a[0][0]
+__________________________________________________________________________________________________
+padding4a_branch2b (ZeroPadding (None, None, None, 2 0           res4a_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res4a_branch2b (Conv2D)         (None, None, None, 2 589824      padding4a_branch2b[0][0]
+__________________________________________________________________________________________________
+bn4a_branch2b (BatchNormalizati (None, None, None, 2 1024        res4a_branch2b[0][0]
+__________________________________________________________________________________________________
+res4a_branch2b_relu (Activation (None, None, None, 2 0           bn4a_branch2b[0][0]
+__________________________________________________________________________________________________
+res4a_branch2c (Conv2D)         (None, None, None, 1 262144      res4a_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+res4a_branch1 (Conv2D)          (None, None, None, 1 524288      res3d_relu[0][0]
+__________________________________________________________________________________________________
+bn4a_branch2c (BatchNormalizati (None, None, None, 1 4096        res4a_branch2c[0][0]
+__________________________________________________________________________________________________
+bn4a_branch1 (BatchNormalizatio (None, None, None, 1 4096        res4a_branch1[0][0]
+__________________________________________________________________________________________________
+res4a (Add)                     (None, None, None, 1 0           bn4a_branch2c[0][0]
+                                                                 bn4a_branch1[0][0]
+__________________________________________________________________________________________________
+res4a_relu (Activation)         (None, None, None, 1 0           res4a[0][0]
+__________________________________________________________________________________________________
+res4b_branch2a (Conv2D)         (None, None, None, 2 262144      res4a_relu[0][0]
+__________________________________________________________________________________________________
+bn4b_branch2a (BatchNormalizati (None, None, None, 2 1024        res4b_branch2a[0][0]
+__________________________________________________________________________________________________
+res4b_branch2a_relu (Activation (None, None, None, 2 0           bn4b_branch2a[0][0]
+__________________________________________________________________________________________________
+padding4b_branch2b (ZeroPadding (None, None, None, 2 0           res4b_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res4b_branch2b (Conv2D)         (None, None, None, 2 589824      padding4b_branch2b[0][0]
+__________________________________________________________________________________________________
+bn4b_branch2b (BatchNormalizati (None, None, None, 2 1024        res4b_branch2b[0][0]
+__________________________________________________________________________________________________
+res4b_branch2b_relu (Activation (None, None, None, 2 0           bn4b_branch2b[0][0]
+__________________________________________________________________________________________________
+res4b_branch2c (Conv2D)         (None, None, None, 1 262144      res4b_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn4b_branch2c (BatchNormalizati (None, None, None, 1 4096        res4b_branch2c[0][0]
+__________________________________________________________________________________________________
+res4b (Add)                     (None, None, None, 1 0           bn4b_branch2c[0][0]
+                                                                 res4a_relu[0][0]
+__________________________________________________________________________________________________
+res4b_relu (Activation)         (None, None, None, 1 0           res4b[0][0]
+__________________________________________________________________________________________________
+res4c_branch2a (Conv2D)         (None, None, None, 2 262144      res4b_relu[0][0]
+__________________________________________________________________________________________________
+bn4c_branch2a (BatchNormalizati (None, None, None, 2 1024        res4c_branch2a[0][0]
+__________________________________________________________________________________________________
+res4c_branch2a_relu (Activation (None, None, None, 2 0           bn4c_branch2a[0][0]
+__________________________________________________________________________________________________
+padding4c_branch2b (ZeroPadding (None, None, None, 2 0           res4c_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res4c_branch2b (Conv2D)         (None, None, None, 2 589824      padding4c_branch2b[0][0]
+__________________________________________________________________________________________________
+bn4c_branch2b (BatchNormalizati (None, None, None, 2 1024        res4c_branch2b[0][0]
+__________________________________________________________________________________________________
+res4c_branch2b_relu (Activation (None, None, None, 2 0           bn4c_branch2b[0][0]
+__________________________________________________________________________________________________
+res4c_branch2c (Conv2D)         (None, None, None, 1 262144      res4c_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn4c_branch2c (BatchNormalizati (None, None, None, 1 4096        res4c_branch2c[0][0]
+__________________________________________________________________________________________________
+res4c (Add)                     (None, None, None, 1 0           bn4c_branch2c[0][0]
+                                                                 res4b_relu[0][0]
+__________________________________________________________________________________________________
+res4c_relu (Activation)         (None, None, None, 1 0           res4c[0][0]
+__________________________________________________________________________________________________
+res4d_branch2a (Conv2D)         (None, None, None, 2 262144      res4c_relu[0][0]
+__________________________________________________________________________________________________
+bn4d_branch2a (BatchNormalizati (None, None, None, 2 1024        res4d_branch2a[0][0]
+__________________________________________________________________________________________________
+res4d_branch2a_relu (Activation (None, None, None, 2 0           bn4d_branch2a[0][0]
+__________________________________________________________________________________________________
+padding4d_branch2b (ZeroPadding (None, None, None, 2 0           res4d_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res4d_branch2b (Conv2D)         (None, None, None, 2 589824      padding4d_branch2b[0][0]
+__________________________________________________________________________________________________
+bn4d_branch2b (BatchNormalizati (None, None, None, 2 1024        res4d_branch2b[0][0]
+__________________________________________________________________________________________________
+res4d_branch2b_relu (Activation (None, None, None, 2 0           bn4d_branch2b[0][0]
+__________________________________________________________________________________________________
+res4d_branch2c (Conv2D)         (None, None, None, 1 262144      res4d_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn4d_branch2c (BatchNormalizati (None, None, None, 1 4096        res4d_branch2c[0][0]
+__________________________________________________________________________________________________
+res4d (Add)                     (None, None, None, 1 0           bn4d_branch2c[0][0]
+                                                                 res4c_relu[0][0]
+__________________________________________________________________________________________________
+res4d_relu (Activation)         (None, None, None, 1 0           res4d[0][0]
+__________________________________________________________________________________________________
+res4e_branch2a (Conv2D)         (None, None, None, 2 262144      res4d_relu[0][0]
+__________________________________________________________________________________________________
+bn4e_branch2a (BatchNormalizati (None, None, None, 2 1024        res4e_branch2a[0][0]
+__________________________________________________________________________________________________
+res4e_branch2a_relu (Activation (None, None, None, 2 0           bn4e_branch2a[0][0]
+__________________________________________________________________________________________________
+padding4e_branch2b (ZeroPadding (None, None, None, 2 0           res4e_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res4e_branch2b (Conv2D)         (None, None, None, 2 589824      padding4e_branch2b[0][0]
+__________________________________________________________________________________________________
+bn4e_branch2b (BatchNormalizati (None, None, None, 2 1024        res4e_branch2b[0][0]
+__________________________________________________________________________________________________
+res4e_branch2b_relu (Activation (None, None, None, 2 0           bn4e_branch2b[0][0]
+__________________________________________________________________________________________________
+res4e_branch2c (Conv2D)         (None, None, None, 1 262144      res4e_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn4e_branch2c (BatchNormalizati (None, None, None, 1 4096        res4e_branch2c[0][0]
+__________________________________________________________________________________________________
+res4e (Add)                     (None, None, None, 1 0           bn4e_branch2c[0][0]
+                                                                 res4d_relu[0][0]
+__________________________________________________________________________________________________
+res4e_relu (Activation)         (None, None, None, 1 0           res4e[0][0]
+__________________________________________________________________________________________________
+res4f_branch2a (Conv2D)         (None, None, None, 2 262144      res4e_relu[0][0]
+__________________________________________________________________________________________________
+bn4f_branch2a (BatchNormalizati (None, None, None, 2 1024        res4f_branch2a[0][0]
+__________________________________________________________________________________________________
+res4f_branch2a_relu (Activation (None, None, None, 2 0           bn4f_branch2a[0][0]
+__________________________________________________________________________________________________
+padding4f_branch2b (ZeroPadding (None, None, None, 2 0           res4f_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res4f_branch2b (Conv2D)         (None, None, None, 2 589824      padding4f_branch2b[0][0]
+__________________________________________________________________________________________________
+bn4f_branch2b (BatchNormalizati (None, None, None, 2 1024        res4f_branch2b[0][0]
+__________________________________________________________________________________________________
+res4f_branch2b_relu (Activation (None, None, None, 2 0           bn4f_branch2b[0][0]
+__________________________________________________________________________________________________
+res4f_branch2c (Conv2D)         (None, None, None, 1 262144      res4f_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn4f_branch2c (BatchNormalizati (None, None, None, 1 4096        res4f_branch2c[0][0]
+__________________________________________________________________________________________________
+res4f (Add)                     (None, None, None, 1 0           bn4f_branch2c[0][0]
+                                                                 res4e_relu[0][0]
+__________________________________________________________________________________________________
+res4f_relu (Activation)         (None, None, None, 1 0           res4f[0][0]
+__________________________________________________________________________________________________
+res5a_branch2a (Conv2D)         (None, None, None, 5 524288      res4f_relu[0][0]
+__________________________________________________________________________________________________
+bn5a_branch2a (BatchNormalizati (None, None, None, 5 2048        res5a_branch2a[0][0]
+__________________________________________________________________________________________________
+res5a_branch2a_relu (Activation (None, None, None, 5 0           bn5a_branch2a[0][0]
+__________________________________________________________________________________________________
+padding5a_branch2b (ZeroPadding (None, None, None, 5 0           res5a_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res5a_branch2b (Conv2D)         (None, None, None, 5 2359296     padding5a_branch2b[0][0]
+__________________________________________________________________________________________________
+bn5a_branch2b (BatchNormalizati (None, None, None, 5 2048        res5a_branch2b[0][0]
+__________________________________________________________________________________________________
+res5a_branch2b_relu (Activation (None, None, None, 5 0           bn5a_branch2b[0][0]
+__________________________________________________________________________________________________
+res5a_branch2c (Conv2D)         (None, None, None, 2 1048576     res5a_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+res5a_branch1 (Conv2D)          (None, None, None, 2 2097152     res4f_relu[0][0]
+__________________________________________________________________________________________________
+bn5a_branch2c (BatchNormalizati (None, None, None, 2 8192        res5a_branch2c[0][0]
+__________________________________________________________________________________________________
+bn5a_branch1 (BatchNormalizatio (None, None, None, 2 8192        res5a_branch1[0][0]
+__________________________________________________________________________________________________
+res5a (Add)                     (None, None, None, 2 0           bn5a_branch2c[0][0]
+                                                                 bn5a_branch1[0][0]
+__________________________________________________________________________________________________
+res5a_relu (Activation)         (None, None, None, 2 0           res5a[0][0]
+__________________________________________________________________________________________________
+res5b_branch2a (Conv2D)         (None, None, None, 5 1048576     res5a_relu[0][0]
+__________________________________________________________________________________________________
+bn5b_branch2a (BatchNormalizati (None, None, None, 5 2048        res5b_branch2a[0][0]
+__________________________________________________________________________________________________
+res5b_branch2a_relu (Activation (None, None, None, 5 0           bn5b_branch2a[0][0]
+__________________________________________________________________________________________________
+padding5b_branch2b (ZeroPadding (None, None, None, 5 0           res5b_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res5b_branch2b (Conv2D)         (None, None, None, 5 2359296     padding5b_branch2b[0][0]
+__________________________________________________________________________________________________
+bn5b_branch2b (BatchNormalizati (None, None, None, 5 2048        res5b_branch2b[0][0]
+__________________________________________________________________________________________________
+res5b_branch2b_relu (Activation (None, None, None, 5 0           bn5b_branch2b[0][0]
+__________________________________________________________________________________________________
+res5b_branch2c (Conv2D)         (None, None, None, 2 1048576     res5b_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn5b_branch2c (BatchNormalizati (None, None, None, 2 8192        res5b_branch2c[0][0]
+__________________________________________________________________________________________________
+res5b (Add)                     (None, None, None, 2 0           bn5b_branch2c[0][0]
+                                                                 res5a_relu[0][0]
+__________________________________________________________________________________________________
+res5b_relu (Activation)         (None, None, None, 2 0           res5b[0][0]
+__________________________________________________________________________________________________
+res5c_branch2a (Conv2D)         (None, None, None, 5 1048576     res5b_relu[0][0]
+__________________________________________________________________________________________________
+bn5c_branch2a (BatchNormalizati (None, None, None, 5 2048        res5c_branch2a[0][0]
+__________________________________________________________________________________________________
+res5c_branch2a_relu (Activation (None, None, None, 5 0           bn5c_branch2a[0][0]
+__________________________________________________________________________________________________
+padding5c_branch2b (ZeroPadding (None, None, None, 5 0           res5c_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res5c_branch2b (Conv2D)         (None, None, None, 5 2359296     padding5c_branch2b[0][0]
+__________________________________________________________________________________________________
+bn5c_branch2b (BatchNormalizati (None, None, None, 5 2048        res5c_branch2b[0][0]
+__________________________________________________________________________________________________
+res5c_branch2b_relu (Activation (None, None, None, 5 0           bn5c_branch2b[0][0]
+__________________________________________________________________________________________________
+res5c_branch2c (Conv2D)         (None, None, None, 2 1048576     res5c_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn5c_branch2c (BatchNormalizati (None, None, None, 2 8192        res5c_branch2c[0][0]
+__________________________________________________________________________________________________
+res5c (Add)                     (None, None, None, 2 0           bn5c_branch2c[0][0]
+                                                                 res5b_relu[0][0]
+__________________________________________________________________________________________________
+res5c_relu (Activation)         (None, None, None, 2 0           res5c[0][0]
+__________________________________________________________________________________________________
+C5_reduced (Conv2D)             (None, None, None, 2 524544      res5c_relu[0][0]
+__________________________________________________________________________________________________
+P5_upsampled (UpsampleLike)     (None, None, None, 2 0           C5_reduced[0][0]
+                                                                 res4f_relu[0][0]
+__________________________________________________________________________________________________
+C4_reduced (Conv2D)             (None, None, None, 2 262400      res4f_relu[0][0]
+__________________________________________________________________________________________________
+P4_merged (Add)                 (None, None, None, 2 0           P5_upsampled[0][0]
+                                                                 C4_reduced[0][0]
+__________________________________________________________________________________________________
+P4_upsampled (UpsampleLike)     (None, None, None, 2 0           P4_merged[0][0]
+                                                                 res3d_relu[0][0]
+__________________________________________________________________________________________________
+C3_reduced (Conv2D)             (None, None, None, 2 131328      res3d_relu[0][0]
+__________________________________________________________________________________________________
+P6 (Conv2D)                     (None, None, None, 2 4718848     res5c_relu[0][0]
+__________________________________________________________________________________________________
+P3_merged (Add)                 (None, None, None, 2 0           P4_upsampled[0][0]
+                                                                 C3_reduced[0][0]
+__________________________________________________________________________________________________
+C6_relu (Activation)            (None, None, None, 2 0           P6[0][0]
+__________________________________________________________________________________________________
+P3 (Conv2D)                     (None, None, None, 2 590080      P3_merged[0][0]
+__________________________________________________________________________________________________
+P4 (Conv2D)                     (None, None, None, 2 590080      P4_merged[0][0]
+__________________________________________________________________________________________________
+P5 (Conv2D)                     (None, None, None, 2 590080      C5_reduced[0][0]
+__________________________________________________________________________________________________
+P7 (Conv2D)                     (None, None, None, 2 590080      C6_relu[0][0]
+__________________________________________________________________________________________________
+regression_submodel (Model)     (None, None, 4)      2443300     P3[0][0]
+                                                                 P4[0][0]
+                                                                 P5[0][0]
+                                                                 P6[0][0]
+                                                                 P7[0][0]
+__________________________________________________________________________________________________
+classification_submodel (Model) (None, None, 107)    4580035     P3[0][0]
+                                                                 P4[0][0]
+                                                                 P5[0][0]
+                                                                 P6[0][0]
+                                                                 P7[0][0]
+__________________________________________________________________________________________________
+regression (Concatenate)        (None, None, 4)      0           regression_submodel[1][0]
+                                                                 regression_submodel[2][0]
+                                                                 regression_submodel[3][0]
+                                                                 regression_submodel[4][0]
+                                                                 regression_submodel[5][0]
+__________________________________________________________________________________________________
+classification (Concatenate)    (None, None, 107)    0           classification_submodel[1][0]
+                                                                 classification_submodel[2][0]
+                                                                 classification_submodel[3][0]
+                                                                 classification_submodel[4][0]
+                                                                 classification_submodel[5][0]
+==================================================================================================
+Total params: 38,581,927
+Trainable params: 38,475,687
+Non-trainable params: 106,240
+__________________________________________________________________________________________________
+None
+C:\Programmieren\Anaconda3\lib\site-packages\keras\callbacks.py:999: UserWarning: `epsilon` argument is deprecated and will be re
+moved, use `min_delta` instead.
+  warnings.warn('`epsilon` argument is deprecated and '
+Training:   0%|                                                                                | 0/500 [00:00<?, ?it/s]1mAP: 0.00
+00loss: 6.797, regression_loss: 2.714, classification_loss: 4.083:  99%|████▉| 99/100 [19:40<00:12, 12.86s/it]
+
+Epoch 00001: mAP improved from -inf to 0.00000, saving model to ./snapshots\resnet50_csv_2018-06-29.h5
+Training:   0%|▏                                                                 | 1/500 [20:09<167:41:35, 1209.81s/it]1mAP: 0.00
+00loss: 5.490, regression_loss: 2.709, classification_loss: 2.781:  99%|████▉| 99/100 [00:25<00:00,  3.67it/s]
+
+Epoch 00002: mAP did not improve from 0.00000
+Training:   0%|▎                                                                  | 2/500 [20:39<118:22:52, 855.77s/it]1mAP: 0.00
+00loss: 5.497, regression_loss: 2.710, classification_loss: 2.788:  99%|████▉| 99/100 [00:25<00:00,  3.63it/s]
+
+Epoch 00003: mAP did not improve from 0.00000
+Training:   1%|▍                                                                   | 3/500 [21:10<84:00:08, 608.47s/it]1mAP: 0.00
+00loss: 5.472, regression_loss: 2.706, classification_loss: 2.766:  99%|████▉| 99/100 [00:25<00:00,  3.94it/s]
+
+Epoch 00004: mAP did not improve from 0.00000
+Training:   1%|▌                                                                   | 4/500 [21:39<59:51:53, 434.50s/it]1mAP: 0.00
+00loss: 5.547, regression_loss: 2.772, classification_loss: 2.775:  99%|████▉| 99/100 [00:24<00:00,  4.14it/s]
+
+Epoch 00005: mAP did not improve from 0.00000
+Training:   1%|▋                                                                   | 5/500 [22:12<43:09:44, 313.91s/it]1mAP: 0.00
+00loss: 97.413, regression_loss: 2.715, classification_loss: 94.698:  99%|██▉| 99/100 [00:25<00:00,  3.86it/s]
+
+Epoch 00006: mAP did not improve from 0.00000
+Training:   1%|▊                                                                   | 6/500 [22:53<31:52:44, 232.32s/it]
+Epoch: 6 - loss: 2586.025, regression_loss: 2.890, classification_loss: 2583.135:  13%|▏| 13/100 [00:03<00:21,  4.08it/sEpoch: 6
+- loss: 3164.516, regression_loss: 3.189, classification_loss: 3161.327:  14%|▏| 14/100 [00:03<00:20,  4.26it/sEpoch: 6 - loss: 3
+290.498, regression_loss: 3.578, classification_loss: 3286.920:  15%|▏| 15/100 [00:03<00:19,  4.44it/sEpoch: 6 - loss: 3297.976,
+regression_loss: 3.790, classification_loss: 3294.187:  16%|▏| 16/100 [00:03<00:19,  4.27it/sEpoch: 6 - loss: 3123.646, regressio
+n_loss: 3.789, classification_loss: 3119.857:  17%|▏| 17/100 [00:04<00:19,  4.17it/sEpoch: 6 - loss: 2952.048, regression_loss: 3
+.731, classification_loss: 2948.317:  18%|▏| 18/100 [00:04<00:20,  4.09it/sEpoch: 6 - loss: 2796.969, regression_loss: 3.694, cla
+ssification_loss: 2793.275:  19%|▏| 19/100 [00:04<00:19,  4.15it/sEpoch: 6 - loss: 2657.404, regression_loss: 3.642, classificati
+on_loss: 2653.762:  20%|▏| 20/100 [00:04<00:19,  4.07it/sEpoch: 6 - loss: 2531.117, regression_loss: 3.597, classification_loss:
+2527.520:  21%|▏| 21/100 [00:05<00:19,  3.98it/sEpoch: 6 - loss: 2416.322, regression_loss: 3.560, classification_loss: 2412.762:
+  22%|▏| 22/100 [00:05<00:20,  3.73it/sEpoch: 6 - loss: 2527.309, regression_loss: 3.527, classification_loss: 2523.783:  23%|▏|
+23/100 [00:05<00:20,  3.68it/sEpoch: 6 - loss: 2422.251, regression_loss: 3.501, classification_loss: 2418.749:  24%|▏| 24/100 [0
+0:05<00:21,  3.51it/sEpoch: 6 - loss: 2325.583, regression_loss: 3.469, classification_loss: 2322.114:  25%|▎| 25/100 [00:06<00:2
+0,  3.61it/sEpoch: 6 - loss: 2236.356, regression_loss: 3.442, classification_loss: 2232.913:  26%|▎| 26/100 [00:06<00:19,  3.79i
+t/sEpoch: 6 - loss: 2153.726, regression_loss: 3.416, classification_loss: 2150.310:  27%|▎| 27/100 [00:06<00:18,  3.92it/sEpoch:
+ 6 - loss: 2076.989, regression_loss: 3.386, classification_loss: 2073.603:  28%|▎| 28/100 [00:06<00:17,  4.12it/sEpoch: 6 - loss
+: 2009.738, regression_loss: 3.361, classification_loss: 2006.377:  29%|▎| 29/100 [00:07<00:18,  3.92it/sEpoch: 6 - loss: 1943.12
+7, regression_loss: 3.340, classification_loss: 1939.787:  30%|▎| 30/100 [00:07<00:18,  3.74it/sEpoch: 6 - loss: 1880.614, regres
+sion_loss: 3.317, classification_loss: 1877.298:  31%|▎| 31/100 [00:07<00:18,  3.68it/sEpoch: 6 - loss: 1822.016, regression_loss
+: 3.296, classification_loss: 1818.720:  32%|▎| 32/100 [00:08<00:18,  3.75it/sEpoch: 6 - loss: 1766.994, regression_loss: 3.280,
+classification_loss: 1763.714:  33%|▎| 33/100 [00:08<00:19,  3.50it/sEpoch: 6 - loss: 1715.176, regression_loss: 3.259, classific
+ation_loss: 1711.917:  34%|▎| 34/100 [00:08<00:18,  3.60it/sEpoch: 6 - loss: 1666.343, regression_loss: 3.249, classification_los
+s: 1663.095:  35%|▎| 35/100 [00:08<00:18,  3.45it/sEpoch: 6 - loss: 1620.214, regression_loss: 3.238, classification_loss: 1616.9
+76:  36%|▎| 36/100 [00:09<00:18,  3.42it/sEpoch: 6 - loss: 1576.575, regression_loss: 3.223, classification_loss: 1573.352:  37%|
+▎| 37/100 [00:09<00:16,  3.71it/sEpoch: 6 - loss: 1535.243, regression_loss: 3.208, classification_loss: 1532.036:  38%|▍| 38/100
+ [00:09<00:15,  3.91it/sEpoch: 6 - loss: 1516.590, regression_loss: 3.195, classification_loss: 1513.395:  39%|▍| 39/100 [00:09<0
+0:16,  3.78it/sEpoch: 6 - loss: 1478.823, regression_loss: 3.180, classification_loss: 1475.642:  40%|▍| 40/100 [00:10<00:15,  3.
+80it/sEpoch: 6 - loss: 1445.299, regression_loss: 3.172, classification_loss: 1442.126:  41%|▍| 41/100 [00:10<00:14,  3.98it/sEpo
+ch: 6 - loss: 1411.016, regression_loss: 3.159, classification_loss: 1407.857:  42%|▍| 42/100 [00:10<00:14,  4.09it/sEpoch: 6 - l
+oss: 1378.355, regression_loss: 3.147, classification_loss: 1375.208:  43%|▍| 43/100 [00:10<00:13,  4.23it/sEpoch: 6 - loss: 1347
+.152, regression_loss: 3.136, classification_loss: 1344.016:  44%|▍| 44/100 [00:11<00:13,  4.20it/sEpoch: 6 - loss: 1317.337, reg
+ression_loss: 3.126, classification_loss: 1314.210:  45%|▍| 45/100 [00:11<00:13,  4.07it/sEpoch: 6 - loss: 1288.816, regression_l
+oss: 3.121, classification_loss: 1285.694:  46%|▍| 46/100 [00:11<00:12,  4.21it/sEpoch: 6 - loss: 1261.514, regression_loss: 3.11
+2, classification_loss: 1258.402:  47%|▍| 47/100 [00:11<00:12,  4.18it/sEpoch: 6 - loss: 1235.348, regression_loss: 3.102, classi
+fication_loss: 1232.246:  48%|▍| 48/100 [00:12<00:12,  4.05it/sEpoch: 6 - loss: 1210.239, regression_loss: 3.094, classification_
+loss: 1207.145:  49%|▍| 49/100 [00:12<00:12,  4.20it/sEpoch: 6 - loss: 1186.615, regression_loss: 3.087, classification_loss: 118
+3.528:  50%|▌| 50/100 [00:12<00:11,  4.22it/sEpoch: 6 - loss: 1163.453, regression_loss: 3.080, classification_loss: 1160.374:  5
+mAP: 0.00000 [00:12<00:12,  3.81it/sEpoch: 6 - loss: 1141.202, regression_loss: 3.073, classEpoch: 6 - loss: 1119.780, 1/20ession
+Epoch: 6 - loss: 602.081, regression_loss: 2.905, classification_loss: 599.177:  99%|▉| 99/100 [00:25<00:00,  3.74it/s]
+Epoch 00007: mAP did not improve from 0.00000
+Training:   1%|▉                                                                   | 7/500 [23:27<23:39:25, 172.75s/it]         1
+mAP: 0.0000loss: 27.106, regression_loss: 2.718, classification_loss: 24.388:  99%|███████████▉| 99/100 [00:25<00:00,  4.33it/s]
+
+Epoch 00008: mAP did not improve from 0.00000
+Training:   2%|█                                                                   | 8/500 [23:56<17:41:43, 129.48s/it]         1
+mAP: 0.0000loss: 5.499, regression_loss: 2.727, classification_loss: 2.772:  99%|█████████████▊| 99/100 [00:25<00:00,  3.78it/s]
+
+Epoch 00009: mAP did not improve from 0.00000
+
+Epoch 00009: ReduceLROnPlateau reducing learning rate to 0.0005000000237487257.
+Training:   2%|█▏                                                                   | 9/500 [24:27<13:37:52, 99.94s/it]         1
+mAP: 0.0000loss: 5.470, regression_loss: 2.707, classification_loss: 2.762:  99%|█████████████▊| 99/100 [00:25<00:00,  3.84it/s]
+
+Epoch 00010: mAP did not improve from 0.00000
+Training:   2%|█▎                                                                  | 10/500 [24:55<10:41:32, 78.56s/it]         1
+mAP: 0.0000 loss: 5.472, regression_loss: 2.707, classification_loss: 2.765:  99%|████████████▊| 99/100 [00:25<00:00,  3.65it/s]
+
+Epoch 00011: mAP did not improve from 0.00000
+Training:   2%|█▌                                                                   | 11/500 [25:24<8:38:23, 63.61s/it]         1
+mAP: 0.0000 loss: 5.467, regression_loss: 2.708, classification_loss: 2.759:  99%|████████████▊| 99/100 [00:25<00:00,  3.98it/s]
+
+Epoch 00012: mAP did not improve from 0.00000
+Training:   2%|█▋                                                                   | 12/500 [25:53<7:11:48, 53.09s/it]         1
+mAP: 0.0000 loss: 5.471, regression_loss: 2.706, classification_loss: 2.764:  99%|████████████▊| 99/100 [00:33<00:00,  4.16it/s]
+
+Epoch 00013: mAP did not improve from 0.00000
+Training:   3%|█▊                                                                   | 13/500 [26:30<6:31:31, 48.24s/it]         1
+mAP: 0.0000 loss: 5.471, regression_loss: 2.707, classification_loss: 2.765:  99%|████████████▊| 99/100 [00:24<00:00,  4.17it/s]
+
+Epoch 00014: mAP did not improve from 0.00000
+Training:   3%|█▉                                                                   | 14/500 [26:58<5:42:38, 42.30s/it]         1
+mAP: 0.0000 loss: 5.471, regression_loss: 2.706, classification_loss: 2.765:  99%|████████████▊| 99/100 [00:24<00:00,  3.97it/s]
+
+Epoch 00015: mAP did not improve from 0.00000
+Training:   3%|██                                                                   | 15/500 [27:26<5:07:49, 38.08s/it]         1
+mAP: 0.0000 loss: 5.470, regression_loss: 2.707, classification_loss: 2.764:  99%|████████████▊| 99/100 [00:24<00:00,  4.04it/s]
+
+Epoch 00016: mAP did not improve from 0.00000
+Training:   3%|██▏                                                                  | 16/500 [27:54<4:43:12, 35.11s/it]         1
+mAP: 0.0000 loss: 5.471, regression_loss: 2.707, classification_loss: 2.764:  99%|████████████▊| 99/100 [00:24<00:00,  3.89it/s]
+
+Epoch 00017: mAP did not improve from 0.00000
+
+Epoch 00017: ReduceLROnPlateau reducing learning rate to 0.0002500000118743628.
+Training:   3%|██▎                                                                  | 17/500 [28:23<4:26:00, 33.04s/it]         1
+mAP: 0.0000 loss: 5.470, regression_loss: 2.705, classification_loss: 2.765:  99%|████████████▊| 99/100 [00:24<00:00,  3.99it/s]
+
+Epoch 00018: mAP did not improve from 0.00000
+Training:   4%|██▍                                                                  | 18/500 [28:51<4:14:45, 31.71s/it]         1
+mAP: 0.0000 loss: 5.469, regression_loss: 2.706, classification_loss: 2.763:  99%|████████████▊| 99/100 [00:25<00:00,  4.61it/s]
+
+Epoch 00019: mAP did not improve from 0.00000
+Training:   4%|██▌                                                                  | 19/500 [29:20<4:07:11, 30.83s/it]         1
+mAP: 0.0000 loss: 5.466, regression_loss: 2.707, classification_loss: 2.759:  99%|████████████▊| 99/100 [00:24<00:00,  4.01it/s]
+
+Epoch 00020: mAP did not improve from 0.00000
+Training:   4%|██▊                                                                  | 20/500 [29:49<4:01:11, 30.15s/it]         1
+mAP: 0.0000 loss: 5.468, regression_loss: 2.706, classification_loss: 2.762:  99%|████████████▊| 99/100 [00:24<00:00,  4.16it/s]
+
+Epoch 00021: mAP did not improve from 0.00000
+Training:   4%|██▉                                                                  | 21/500 [30:17<3:56:59, 29.69s/it]Epoch 0002
+1: early stopping 5.468, regression_loss: 2.706, classification_loss: 2.762: 100%|████████████| 100/100 [00:28<00:00,  1.27s/it]
+**********************
+Windows PowerShell transcript end
+End time: 20180629183916
+**********************

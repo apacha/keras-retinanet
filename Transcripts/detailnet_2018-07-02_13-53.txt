@@ -1,0 +1,342 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20180703135313
+Username: DONKEY\Alex
+RunAs User: DONKEY\Alex
+Configuration Name: 
+Machine: DONKEY (Microsoft Windows NT 10.0.16299.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command if((Get-ExecutionPolicy ) -ne 'AllSigned') { Set-ExecutionPolicy -Scope Process Bypass }; & 'C:\Users\Alex\Repositories\keras-retinanet\train.ps1'
+Process ID: 15912
+PSVersion: 5.1.16299.492
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.16299.492
+BuildVersion: 10.0.16299.492
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:/Users/Alex/Repositories/keras-retinanet/Transcripts/detailnet_2018-07-02_13-53.txt
+y\__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float
+64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+train.py:354: UserWarning: Using experimental backbone detailnet. Only resnet50 has been properly tested.
+  'Using experimental backbone {}. Only resnet50 has been properly tested.'.format(parsed_args.backbone))
+2018-07-03 13:53:15.097477: I T:\src\github\tensorflow\tensorflow\core\platform\cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was
+ not compiled to use: AVX2
+2018-07-03 13:53:15.316680: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1356] Found device 0 with properties:
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.582
+pciBusID: 0000:01:00.0
+totalMemory: 11.00GiB freeMemory: 9.10GiB
+2018-07-03 13:53:15.324304: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-07-03 13:53:15.898200: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge mat
+rix:
+2018-07-03 13:53:15.901166: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:929]      0
+2018-07-03 13:53:15.903184: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:942] 0:   N
+2018-07-03 13:53:15.905532: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0
+/device:GPU:0 with 8805 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Creating model, this may take a second...
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to
+==================================================================================================
+input_1 (InputLayer)            (None, None, None, 3 0
+__________________________________________________________________________________________________
+zero_padding2d_1 (ZeroPadding2D (None, None, None, 3 0           input_1[0][0]
+__________________________________________________________________________________________________
+conv1/conv (Conv2D)             (None, None, None, 6 9408        zero_padding2d_1[0][0]
+__________________________________________________________________________________________________
+conv1/bn (BatchNormalization)   (None, None, None, 6 256         conv1/conv[0][0]
+__________________________________________________________________________________________________
+conv1/relu (Activation)         (None, None, None, 6 0           conv1/bn[0][0]
+__________________________________________________________________________________________________
+zero_padding2d_2 (ZeroPadding2D (None, None, None, 6 0           conv1/relu[0][0]
+__________________________________________________________________________________________________
+pool1 (MaxPooling2D)            (None, None, None, 6 0           zero_padding2d_2[0][0]
+__________________________________________________________________________________________________
+conv2_block1_0_bn (BatchNormali (None, None, None, 6 256         pool1[0][0]
+__________________________________________________________________________________________________
+conv2_block1_0_relu (Activation (None, None, None, 6 0           conv2_block1_0_bn[0][0]
+__________________________________________________________________________________________________
+conv2_block1_1_conv (Conv2D)    (None, None, None, 1 8192        conv2_block1_0_relu[0][0]
+__________________________________________________________________________________________________
+conv2_block1_1_bn (BatchNormali (None, None, None, 1 512         conv2_block1_1_conv[0][0]
+__________________________________________________________________________________________________
+conv2_block1_1_relu (Activation (None, None, None, 1 0           conv2_block1_1_bn[0][0]
+__________________________________________________________________________________________________
+conv2_block1_2_conv (Conv2D)    (None, None, None, 3 36864       conv2_block1_1_relu[0][0]
+__________________________________________________________________________________________________
+conv2_block1_concat (Concatenat (None, None, None, 9 0           pool1[0][0]
+                                                                 conv2_block1_2_conv[0][0]
+__________________________________________________________________________________________________
+pool2_bn (BatchNormalization)   (None, None, None, 9 384         conv2_block1_concat[0][0]
+__________________________________________________________________________________________________
+pool2_relu (Activation)         (None, None, None, 9 0           pool2_bn[0][0]
+__________________________________________________________________________________________________
+pool2_conv (Conv2D)             (None, None, None, 4 4608        pool2_relu[0][0]
+__________________________________________________________________________________________________
+pool2_pool (AveragePooling2D)   (None, None, None, 4 0           pool2_conv[0][0]
+__________________________________________________________________________________________________
+conv3_block1_0_bn (BatchNormali (None, None, None, 4 192         pool2_pool[0][0]
+__________________________________________________________________________________________________
+conv3_block1_0_relu (Activation (None, None, None, 4 0           conv3_block1_0_bn[0][0]
+__________________________________________________________________________________________________
+conv3_block1_1_conv (Conv2D)    (None, None, None, 1 6144        conv3_block1_0_relu[0][0]
+__________________________________________________________________________________________________
+conv3_block1_1_bn (BatchNormali (None, None, None, 1 512         conv3_block1_1_conv[0][0]
+__________________________________________________________________________________________________
+conv3_block1_1_relu (Activation (None, None, None, 1 0           conv3_block1_1_bn[0][0]
+__________________________________________________________________________________________________
+conv3_block1_2_conv (Conv2D)    (None, None, None, 3 36864       conv3_block1_1_relu[0][0]
+__________________________________________________________________________________________________
+conv3_block1_concat (Concatenat (None, None, None, 8 0           pool2_pool[0][0]
+                                                                 conv3_block1_2_conv[0][0]
+__________________________________________________________________________________________________
+conv3_block2_0_bn (BatchNormali (None, None, None, 8 320         conv3_block1_concat[0][0]
+__________________________________________________________________________________________________
+conv3_block2_0_relu (Activation (None, None, None, 8 0           conv3_block2_0_bn[0][0]
+__________________________________________________________________________________________________
+conv3_block2_1_conv (Conv2D)    (None, None, None, 1 10240       conv3_block2_0_relu[0][0]
+__________________________________________________________________________________________________
+conv3_block2_1_bn (BatchNormali (None, None, None, 1 512         conv3_block2_1_conv[0][0]
+__________________________________________________________________________________________________
+conv3_block2_1_relu (Activation (None, None, None, 1 0           conv3_block2_1_bn[0][0]
+__________________________________________________________________________________________________
+conv3_block2_2_conv (Conv2D)    (None, None, None, 3 36864       conv3_block2_1_relu[0][0]
+__________________________________________________________________________________________________
+conv3_block2_concat (Concatenat (None, None, None, 1 0           conv3_block1_concat[0][0]
+                                                                 conv3_block2_2_conv[0][0]
+__________________________________________________________________________________________________
+pool3_bn (BatchNormalization)   (None, None, None, 1 448         conv3_block2_concat[0][0]
+__________________________________________________________________________________________________
+pool3_relu (Activation)         (None, None, None, 1 0           pool3_bn[0][0]
+__________________________________________________________________________________________________
+pool3_conv (Conv2D)             (None, None, None, 5 6272        pool3_relu[0][0]
+__________________________________________________________________________________________________
+pool3_pool (AveragePooling2D)   (None, None, None, 5 0           pool3_conv[0][0]
+__________________________________________________________________________________________________
+conv4_block1_0_bn (BatchNormali (None, None, None, 5 224         pool3_pool[0][0]
+__________________________________________________________________________________________________
+conv4_block1_0_relu (Activation (None, None, None, 5 0           conv4_block1_0_bn[0][0]
+__________________________________________________________________________________________________
+conv4_block1_1_conv (Conv2D)    (None, None, None, 1 7168        conv4_block1_0_relu[0][0]
+__________________________________________________________________________________________________
+conv4_block1_1_bn (BatchNormali (None, None, None, 1 512         conv4_block1_1_conv[0][0]
+__________________________________________________________________________________________________
+conv4_block1_1_relu (Activation (None, None, None, 1 0           conv4_block1_1_bn[0][0]
+__________________________________________________________________________________________________
+conv4_block1_2_conv (Conv2D)    (None, None, None, 3 36864       conv4_block1_1_relu[0][0]
+__________________________________________________________________________________________________
+conv4_block1_concat (Concatenat (None, None, None, 8 0           pool3_pool[0][0]
+                                                                 conv4_block1_2_conv[0][0]
+__________________________________________________________________________________________________
+conv4_block2_0_bn (BatchNormali (None, None, None, 8 352         conv4_block1_concat[0][0]
+__________________________________________________________________________________________________
+conv4_block2_0_relu (Activation (None, None, None, 8 0           conv4_block2_0_bn[0][0]
+__________________________________________________________________________________________________
+conv4_block2_1_conv (Conv2D)    (None, None, None, 1 11264       conv4_block2_0_relu[0][0]
+__________________________________________________________________________________________________
+conv4_block2_1_bn (BatchNormali (None, None, None, 1 512         conv4_block2_1_conv[0][0]
+__________________________________________________________________________________________________
+conv4_block2_1_relu (Activation (None, None, None, 1 0           conv4_block2_1_bn[0][0]
+__________________________________________________________________________________________________
+conv4_block2_2_conv (Conv2D)    (None, None, None, 3 36864       conv4_block2_1_relu[0][0]
+__________________________________________________________________________________________________
+conv4_block2_concat (Concatenat (None, None, None, 1 0           conv4_block1_concat[0][0]
+                                                                 conv4_block2_2_conv[0][0]
+__________________________________________________________________________________________________
+pool4_bn (BatchNormalization)   (None, None, None, 1 480         conv4_block2_concat[0][0]
+__________________________________________________________________________________________________
+pool4_relu (Activation)         (None, None, None, 1 0           pool4_bn[0][0]
+__________________________________________________________________________________________________
+pool4_conv (Conv2D)             (None, None, None, 6 7200        pool4_relu[0][0]
+__________________________________________________________________________________________________
+pool4_pool (AveragePooling2D)   (None, None, None, 6 0           pool4_conv[0][0]
+__________________________________________________________________________________________________
+conv5_block1_0_bn (BatchNormali (None, None, None, 6 240         pool4_pool[0][0]
+__________________________________________________________________________________________________
+conv5_block1_0_relu (Activation (None, None, None, 6 0           conv5_block1_0_bn[0][0]
+__________________________________________________________________________________________________
+conv5_block1_1_conv (Conv2D)    (None, None, None, 1 7680        conv5_block1_0_relu[0][0]
+__________________________________________________________________________________________________
+conv5_block1_1_bn (BatchNormali (None, None, None, 1 512         conv5_block1_1_conv[0][0]
+__________________________________________________________________________________________________
+conv5_block1_1_relu (Activation (None, None, None, 1 0           conv5_block1_1_bn[0][0]
+__________________________________________________________________________________________________
+conv5_block1_2_conv (Conv2D)    (None, None, None, 3 36864       conv5_block1_1_relu[0][0]
+__________________________________________________________________________________________________
+conv5_block1_concat (Concatenat (None, None, None, 9 0           pool4_pool[0][0]
+                                                                 conv5_block1_2_conv[0][0]
+__________________________________________________________________________________________________
+conv5_block2_0_bn (BatchNormali (None, None, None, 9 368         conv5_block1_concat[0][0]
+__________________________________________________________________________________________________
+conv5_block2_0_relu (Activation (None, None, None, 9 0           conv5_block2_0_bn[0][0]
+__________________________________________________________________________________________________
+conv5_block2_1_conv (Conv2D)    (None, None, None, 1 11776       conv5_block2_0_relu[0][0]
+__________________________________________________________________________________________________
+conv5_block2_1_bn (BatchNormali (None, None, None, 1 512         conv5_block2_1_conv[0][0]
+__________________________________________________________________________________________________
+conv5_block2_1_relu (Activation (None, None, None, 1 0           conv5_block2_1_bn[0][0]
+__________________________________________________________________________________________________
+conv5_block2_2_conv (Conv2D)    (None, None, None, 3 36864       conv5_block2_1_relu[0][0]
+__________________________________________________________________________________________________
+conv5_block2_concat (Concatenat (None, None, None, 1 0           conv5_block1_concat[0][0]
+                                                                 conv5_block2_2_conv[0][0]
+__________________________________________________________________________________________________
+C5_reduced (Conv2D)             (None, None, None, 2 32000       conv5_block2_concat[0][0]
+__________________________________________________________________________________________________
+P5_upsampled (UpsampleLike)     (None, None, None, 2 0           C5_reduced[0][0]
+                                                                 conv4_block2_concat[0][0]
+__________________________________________________________________________________________________
+C4_reduced (Conv2D)             (None, None, None, 2 30976       conv4_block2_concat[0][0]
+__________________________________________________________________________________________________
+P4_merged (Add)                 (None, None, None, 2 0           P5_upsampled[0][0]
+                                                                 C4_reduced[0][0]
+__________________________________________________________________________________________________
+P4_upsampled (UpsampleLike)     (None, None, None, 2 0           P4_merged[0][0]
+                                                                 conv3_block2_concat[0][0]
+__________________________________________________________________________________________________
+C3_reduced (Conv2D)             (None, None, None, 2 28928       conv3_block2_concat[0][0]
+__________________________________________________________________________________________________
+P6 (Conv2D)                     (None, None, None, 2 285952      conv5_block2_concat[0][0]
+__________________________________________________________________________________________________
+P3_merged (Add)                 (None, None, None, 2 0           P4_upsampled[0][0]
+                                                                 C3_reduced[0][0]
+__________________________________________________________________________________________________
+C6_relu (Activation)            (None, None, None, 2 0           P6[0][0]
+__________________________________________________________________________________________________
+P3 (Conv2D)                     (None, None, None, 2 590080      P3_merged[0][0]
+__________________________________________________________________________________________________
+P4 (Conv2D)                     (None, None, None, 2 590080      P4_merged[0][0]
+__________________________________________________________________________________________________
+P5 (Conv2D)                     (None, None, None, 2 590080      C5_reduced[0][0]
+__________________________________________________________________________________________________
+P7 (Conv2D)                     (None, None, None, 2 590080      C6_relu[0][0]
+__________________________________________________________________________________________________
+regression_submodel (Model)     (None, None, 4)      2443300     P3[0][0]
+                                                                 P4[0][0]
+                                                                 P5[0][0]
+                                                                 P6[0][0]
+                                                                 P7[0][0]
+__________________________________________________________________________________________________
+classification_submodel (Model) (None, None, 107)    4580035     P3[0][0]
+                                                                 P4[0][0]
+                                                                 P5[0][0]
+                                                                 P6[0][0]
+                                                                 P7[0][0]
+__________________________________________________________________________________________________
+regression (Concatenate)        (None, None, 4)      0           regression_submodel[1][0]
+                                                                 regression_submodel[2][0]
+                                                                 regression_submodel[3][0]
+                                                                 regression_submodel[4][0]
+                                                                 regression_submodel[5][0]
+__________________________________________________________________________________________________
+classification (Concatenate)    (None, None, 107)    0           classification_submodel[1][0]
+                                                                 classification_submodel[2][0]
+                                                                 classification_submodel[3][0]
+                                                                 classification_submodel[4][0]
+                                                                 classification_submodel[5][0]
+==================================================================================================
+Total params: 10,116,615
+Trainable params: 10,113,063
+Non-trainable params: 3,552
+__________________________________________________________________________________________________
+None
+C:\Programmieren\Anaconda3\lib\site-packages\keras\callbacks.py:999: UserWarning: `epsilon` argument is deprecated and will be removed, use `min_delta` instead.
+  warnings.warn('`epsilon` argument is deprecated and '
+Epoch 1/500
+Strides = [8, 16, 32, 64, 128]
+Sizes = [16, 32, 64, 128, 256]
+Ratios = [0.5 1.  2.  8. ]
+Scales = [1.         1.25992105 1.58740105]
+100/100 [==============================] - 376s 4s/step - loss: 5.3737 - regression_loss: 3.8051 - classification_loss: 1.5686
+mAP: 0.0000
+
+Epoch 00001: mAP improved from -inf to 0.00000, saving model to ./snapshots\detailnet_csv_2018-07-03_13-53.h5
+Epoch 2/500
+100/100 [==============================] - 47s 470ms/step - loss: 5.1441 - regression_loss: 3.8026 - classification_loss: 1.3415
+mAP: 0.0000
+
+Epoch 00002: mAP did not improve from 0.00000
+Epoch 3/500
+100/100 [==============================] - 42s 424ms/step - loss: 5.1378 - regression_loss: 3.8026 - classification_loss: 1.3352
+mAP: 0.0000
+
+Epoch 00003: mAP did not improve from 0.00000
+Epoch 4/500
+100/100 [==============================] - 42s 417ms/step - loss: 5.1368 - regression_loss: 3.8020 - classification_loss: 1.3348
+mAP: 0.0000
+
+Epoch 00004: mAP did not improve from 0.00000
+Epoch 5/500
+100/100 [==============================] - 42s 423ms/step - loss: 5.1399 - regression_loss: 3.8001 - classification_loss: 1.3398
+mAP: 0.0000
+
+Epoch 00005: mAP did not improve from 0.00000
+Epoch 6/500
+100/100 [==============================] - 42s 421ms/step - loss: 5.1307 - regression_loss: 3.8003 - classification_loss: 1.3303
+mAP: 0.0000
+
+Epoch 00006: mAP did not improve from 0.00000
+Epoch 7/500
+100/100 [==============================] - 42s 417ms/step - loss: 5.1251 - regression_loss: 3.7995 - classification_loss: 1.3256
+mAP: 0.0000
+
+Epoch 00007: mAP did not improve from 0.00000
+Epoch 8/500
+100/100 [==============================] - 41s 409ms/step - loss: 5.1269 - regression_loss: 3.7995 - classification_loss: 1.3274
+mAP: 0.0000
+
+Epoch 00008: mAP did not improve from 0.00000
+Epoch 9/500
+100/100 [==============================] - 44s 441ms/step - loss: 5.1273 - regression_loss: 3.7987 - classification_loss: 1.3286
+mAP: 0.0000
+
+Epoch 00009: mAP did not improve from 0.00000
+Epoch 10/500
+100/100 [==============================] - 42s 417ms/step - loss: 5.1224 - regression_loss: 3.7983 - classification_loss: 1.3240
+mAP: 0.0000
+
+Epoch 00010: mAP did not improve from 0.00000
+Epoch 11/500
+100/100 [==============================] - 41s 415ms/step - loss: 5.1176 - regression_loss: 3.7969 - classification_loss: 1.3207
+mAP: 0.0000
+
+Epoch 00011: mAP did not improve from 0.00000
+Epoch 12/500
+100/100 [==============================] - 42s 419ms/step - loss: 5.1152 - regression_loss: 3.7935 - classification_loss: 1.3217
+mAP: 0.0000
+
+Epoch 00012: mAP did not improve from 0.00000
+Epoch 13/500
+100/100 [==============================] - 42s 418ms/step - loss: 5.1084 - regression_loss: 3.7896 - classification_loss: 1.3188
+mAP: 0.0000
+
+Epoch 00013: mAP did not improve from 0.00000
+Epoch 14/500
+100/100 [==============================] - 42s 419ms/step - loss: 5.1020 - regression_loss: 3.7851 - classification_loss: 1.3169
+mAP: 0.0000
+
+Epoch 00014: mAP did not improve from 0.00000
+Epoch 15/500
+100/100 [==============================] - 42s 417ms/step - loss: 5.0936 - regression_loss: 3.7797 - classification_loss: 1.3139
+mAP: 0.0000
+
+Epoch 00015: mAP did not improve from 0.00000
+Epoch 16/500
+ 12/100 [==>...........................] - ETA: 37s - loss: 5.1142 - regression_loss: 3.7711 - classification_loss: 1.3431forrtl: error (200): program aborting due to c
+ontrol-C event
+Image              PC                Routine            Line        Source
+libifcoremd.dll    00007FFBABAF94C4  Unknown               Unknown  Unknown
+KERNELBASE.dll     00007FFBBF187EDD  Unknown               Unknown  Unknown
+KERNEL32.DLL       00007FFBC1D31FE4  Unknown               Unknown  Unknown
+ntdll.dll          00007FFBC228CB31  Unknown               Unknown  Unknown
+PS>TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> $global:?
+False
+**********************
+Windows PowerShell transcript end
+End time: 20180703141450
+**********************

@@ -1,0 +1,918 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20180628144838
+Username: DONKEY\Alex
+RunAs User: DONKEY\Alex
+Configuration Name: 
+Machine: DONKEY (Microsoft Windows NT 10.0.16299.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command if((Get-ExecutionPolicy ) -ne 'AllSigned') { Set-ExecutionPolicy -Scope Process Bypass }; & 'C:\Users\Alex\Repositories\keras-retinanet\train.ps1'
+Process ID: 7888
+PSVersion: 5.1.16299.492
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.16299.492
+BuildVersion: 10.0.16299.492
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:/Users/Alex/Repositories/keras-retinanet/Transcripts/train-detailnet.txt
+C:\Programmieren\Anaconda3\lib\site-packages\h5py\__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecate
+d. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+train.py:350: UserWarning: Using experimental backbone detailnet. Only resnet50 has been properly tested.
+  'Using experimental backbone {}. Only resnet50 has been properly tested.'.format(parsed_args.backbone))
+2018-06-28 14:48:40.719538: I T:\src\github\tensorflow\tensorflow\core\platform\cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was no
+t compiled to use: AVX2
+2018-06-28 14:48:40.915316: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1356] Found device 0 with properties:
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.582
+pciBusID: 0000:01:00.0
+totalMemory: 11.00GiB freeMemory: 9.10GiB
+2018-06-28 14:48:40.923834: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-06-28 14:48:41.521175: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix
+:
+2018-06-28 14:48:41.525459: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:929]      0
+2018-06-28 14:48:41.527562: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:942] 0:   N
+2018-06-28 14:48:41.530386: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/de
+vice:GPU:0 with 8805 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Creating model, this may take a second...
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to
+==================================================================================================
+input_1 (InputLayer)            (None, None, None, 3 0
+__________________________________________________________________________________________________
+padding_conv1 (ZeroPadding2D)   (None, None, None, 3 0           input_1[0][0]
+__________________________________________________________________________________________________
+conv1 (Conv2D)                  (None, None, None, 6 9408        padding_conv1[0][0]
+__________________________________________________________________________________________________
+bn_conv1 (BatchNormalization)   (None, None, None, 6 256         conv1[0][0]
+__________________________________________________________________________________________________
+conv1_relu (Activation)         (None, None, None, 6 0           bn_conv1[0][0]
+__________________________________________________________________________________________________
+pool1 (MaxPooling2D)            (None, None, None, 6 0           conv1_relu[0][0]
+__________________________________________________________________________________________________
+res2a_branch2a (Conv2D)         (None, None, None, 6 4096        pool1[0][0]
+__________________________________________________________________________________________________
+bn2a_branch2a (BatchNormalizati (None, None, None, 6 256         res2a_branch2a[0][0]
+__________________________________________________________________________________________________
+res2a_branch2a_relu (Activation (None, None, None, 6 0           bn2a_branch2a[0][0]
+__________________________________________________________________________________________________
+padding2a_branch2b (ZeroPadding (None, None, None, 6 0           res2a_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res2a_branch2b (Conv2D)         (None, None, None, 6 36864       padding2a_branch2b[0][0]
+__________________________________________________________________________________________________
+bn2a_branch2b (BatchNormalizati (None, None, None, 6 256         res2a_branch2b[0][0]
+__________________________________________________________________________________________________
+res2a_branch2b_relu (Activation (None, None, None, 6 0           bn2a_branch2b[0][0]
+__________________________________________________________________________________________________
+res2a_branch2c (Conv2D)         (None, None, None, 2 16384       res2a_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+res2a_branch1 (Conv2D)          (None, None, None, 2 16384       pool1[0][0]
+__________________________________________________________________________________________________
+bn2a_branch2c (BatchNormalizati (None, None, None, 2 1024        res2a_branch2c[0][0]
+__________________________________________________________________________________________________
+bn2a_branch1 (BatchNormalizatio (None, None, None, 2 1024        res2a_branch1[0][0]
+__________________________________________________________________________________________________
+res2a (Add)                     (None, None, None, 2 0           bn2a_branch2c[0][0]
+                                                                 bn2a_branch1[0][0]
+__________________________________________________________________________________________________
+res2a_relu (Activation)         (None, None, None, 2 0           res2a[0][0]
+__________________________________________________________________________________________________
+res2b_branch2a (Conv2D)         (None, None, None, 6 16384       res2a_relu[0][0]
+__________________________________________________________________________________________________
+bn2b_branch2a (BatchNormalizati (None, None, None, 6 256         res2b_branch2a[0][0]
+__________________________________________________________________________________________________
+res2b_branch2a_relu (Activation (None, None, None, 6 0           bn2b_branch2a[0][0]
+__________________________________________________________________________________________________
+padding2b_branch2b (ZeroPadding (None, None, None, 6 0           res2b_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res2b_branch2b (Conv2D)         (None, None, None, 6 36864       padding2b_branch2b[0][0]
+__________________________________________________________________________________________________
+bn2b_branch2b (BatchNormalizati (None, None, None, 6 256         res2b_branch2b[0][0]
+__________________________________________________________________________________________________
+res2b_branch2b_relu (Activation (None, None, None, 6 0           bn2b_branch2b[0][0]
+__________________________________________________________________________________________________
+res2b_branch2c (Conv2D)         (None, None, None, 2 16384       res2b_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn2b_branch2c (BatchNormalizati (None, None, None, 2 1024        res2b_branch2c[0][0]
+__________________________________________________________________________________________________
+res2b (Add)                     (None, None, None, 2 0           bn2b_branch2c[0][0]
+                                                                 res2a_relu[0][0]
+__________________________________________________________________________________________________
+res2b_relu (Activation)         (None, None, None, 2 0           res2b[0][0]
+__________________________________________________________________________________________________
+res2c_branch2a (Conv2D)         (None, None, None, 6 16384       res2b_relu[0][0]
+__________________________________________________________________________________________________
+bn2c_branch2a (BatchNormalizati (None, None, None, 6 256         res2c_branch2a[0][0]
+__________________________________________________________________________________________________
+res2c_branch2a_relu (Activation (None, None, None, 6 0           bn2c_branch2a[0][0]
+__________________________________________________________________________________________________
+padding2c_branch2b (ZeroPadding (None, None, None, 6 0           res2c_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res2c_branch2b (Conv2D)         (None, None, None, 6 36864       padding2c_branch2b[0][0]
+__________________________________________________________________________________________________
+bn2c_branch2b (BatchNormalizati (None, None, None, 6 256         res2c_branch2b[0][0]
+__________________________________________________________________________________________________
+res2c_branch2b_relu (Activation (None, None, None, 6 0           bn2c_branch2b[0][0]
+__________________________________________________________________________________________________
+res2c_branch2c (Conv2D)         (None, None, None, 2 16384       res2c_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn2c_branch2c (BatchNormalizati (None, None, None, 2 1024        res2c_branch2c[0][0]
+__________________________________________________________________________________________________
+res2c (Add)                     (None, None, None, 2 0           bn2c_branch2c[0][0]
+                                                                 res2b_relu[0][0]
+__________________________________________________________________________________________________
+res2c_relu (Activation)         (None, None, None, 2 0           res2c[0][0]
+__________________________________________________________________________________________________
+res3a_branch2a (Conv2D)         (None, None, None, 1 32768       res2c_relu[0][0]
+__________________________________________________________________________________________________
+bn3a_branch2a (BatchNormalizati (None, None, None, 1 512         res3a_branch2a[0][0]
+__________________________________________________________________________________________________
+res3a_branch2a_relu (Activation (None, None, None, 1 0           bn3a_branch2a[0][0]
+__________________________________________________________________________________________________
+padding3a_branch2b (ZeroPadding (None, None, None, 1 0           res3a_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res3a_branch2b (Conv2D)         (None, None, None, 1 147456      padding3a_branch2b[0][0]
+__________________________________________________________________________________________________
+bn3a_branch2b (BatchNormalizati (None, None, None, 1 512         res3a_branch2b[0][0]
+__________________________________________________________________________________________________
+res3a_branch2b_relu (Activation (None, None, None, 1 0           bn3a_branch2b[0][0]
+__________________________________________________________________________________________________
+res3a_branch2c (Conv2D)         (None, None, None, 5 65536       res3a_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+res3a_branch1 (Conv2D)          (None, None, None, 5 131072      res2c_relu[0][0]
+__________________________________________________________________________________________________
+bn3a_branch2c (BatchNormalizati (None, None, None, 5 2048        res3a_branch2c[0][0]
+__________________________________________________________________________________________________
+bn3a_branch1 (BatchNormalizatio (None, None, None, 5 2048        res3a_branch1[0][0]
+__________________________________________________________________________________________________
+res3a (Add)                     (None, None, None, 5 0           bn3a_branch2c[0][0]
+                                                                 bn3a_branch1[0][0]
+__________________________________________________________________________________________________
+res3a_relu (Activation)         (None, None, None, 5 0           res3a[0][0]
+__________________________________________________________________________________________________
+res3b_branch2a (Conv2D)         (None, None, None, 1 65536       res3a_relu[0][0]
+__________________________________________________________________________________________________
+bn3b_branch2a (BatchNormalizati (None, None, None, 1 512         res3b_branch2a[0][0]
+__________________________________________________________________________________________________
+res3b_branch2a_relu (Activation (None, None, None, 1 0           bn3b_branch2a[0][0]
+__________________________________________________________________________________________________
+padding3b_branch2b (ZeroPadding (None, None, None, 1 0           res3b_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res3b_branch2b (Conv2D)         (None, None, None, 1 147456      padding3b_branch2b[0][0]
+__________________________________________________________________________________________________
+bn3b_branch2b (BatchNormalizati (None, None, None, 1 512         res3b_branch2b[0][0]
+__________________________________________________________________________________________________
+res3b_branch2b_relu (Activation (None, None, None, 1 0           bn3b_branch2b[0][0]
+__________________________________________________________________________________________________
+res3b_branch2c (Conv2D)         (None, None, None, 5 65536       res3b_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn3b_branch2c (BatchNormalizati (None, None, None, 5 2048        res3b_branch2c[0][0]
+__________________________________________________________________________________________________
+res3b (Add)                     (None, None, None, 5 0           bn3b_branch2c[0][0]
+                                                                 res3a_relu[0][0]
+__________________________________________________________________________________________________
+res3b_relu (Activation)         (None, None, None, 5 0           res3b[0][0]
+__________________________________________________________________________________________________
+res3c_branch2a (Conv2D)         (None, None, None, 1 65536       res3b_relu[0][0]
+__________________________________________________________________________________________________
+bn3c_branch2a (BatchNormalizati (None, None, None, 1 512         res3c_branch2a[0][0]
+__________________________________________________________________________________________________
+res3c_branch2a_relu (Activation (None, None, None, 1 0           bn3c_branch2a[0][0]
+__________________________________________________________________________________________________
+padding3c_branch2b (ZeroPadding (None, None, None, 1 0           res3c_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res3c_branch2b (Conv2D)         (None, None, None, 1 147456      padding3c_branch2b[0][0]
+__________________________________________________________________________________________________
+bn3c_branch2b (BatchNormalizati (None, None, None, 1 512         res3c_branch2b[0][0]
+__________________________________________________________________________________________________
+res3c_branch2b_relu (Activation (None, None, None, 1 0           bn3c_branch2b[0][0]
+__________________________________________________________________________________________________
+res3c_branch2c (Conv2D)         (None, None, None, 5 65536       res3c_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn3c_branch2c (BatchNormalizati (None, None, None, 5 2048        res3c_branch2c[0][0]
+__________________________________________________________________________________________________
+res3c (Add)                     (None, None, None, 5 0           bn3c_branch2c[0][0]
+                                                                 res3b_relu[0][0]
+__________________________________________________________________________________________________
+res3c_relu (Activation)         (None, None, None, 5 0           res3c[0][0]
+__________________________________________________________________________________________________
+res3d_branch2a (Conv2D)         (None, None, None, 1 65536       res3c_relu[0][0]
+__________________________________________________________________________________________________
+bn3d_branch2a (BatchNormalizati (None, None, None, 1 512         res3d_branch2a[0][0]
+__________________________________________________________________________________________________
+res3d_branch2a_relu (Activation (None, None, None, 1 0           bn3d_branch2a[0][0]
+__________________________________________________________________________________________________
+padding3d_branch2b (ZeroPadding (None, None, None, 1 0           res3d_branch2a_relu[0][0]
+__________________________________________________________________________________________________
+res3d_branch2b (Conv2D)         (None, None, None, 1 147456      padding3d_branch2b[0][0]
+__________________________________________________________________________________________________
+bn3d_branch2b (BatchNormalizati (None, None, None, 1 512         res3d_branch2b[0][0]
+__________________________________________________________________________________________________
+res3d_branch2b_relu (Activation (None, None, None, 1 0           bn3d_branch2b[0][0]
+__________________________________________________________________________________________________
+res3d_branch2c (Conv2D)         (None, None, None, 5 65536       res3d_branch2b_relu[0][0]
+__________________________________________________________________________________________________
+bn3d_branch2c (BatchNormalizati (None, None, None, 5 2048        res3d_branch2c[0][0]
+__________________________________________________________________________________________________
+res3d (Add)                     (None, None, None, 5 0           bn3d_branch2c[0][0]
+                                                                 res3c_relu[0][0]
+__________________________________________________________________________________________________
+res3d_relu (Activation)         (None, None, None, 5 0           res3d[0][0]
+__________________________________________________________________________________________________
+C3_reduced (Conv2D)             (None, None, None, 2 131328      res3d_relu[0][0]
+__________________________________________________________________________________________________
+P3_upsampled (UpsampleLike)     (None, None, None, 2 0           C3_reduced[0][0]
+                                                                 res2c_relu[0][0]
+__________________________________________________________________________________________________
+C2_reduced (Conv2D)             (None, None, None, 2 65792       res2c_relu[0][0]
+__________________________________________________________________________________________________
+P4 (Conv2D)                     (None, None, None, 2 1179904     res3d_relu[0][0]
+__________________________________________________________________________________________________
+P2_merged (Add)                 (None, None, None, 2 0           P3_upsampled[0][0]
+                                                                 C2_reduced[0][0]
+__________________________________________________________________________________________________
+C4_relu (Activation)            (None, None, None, 2 0           P4[0][0]
+__________________________________________________________________________________________________
+P2 (Conv2D)                     (None, None, None, 2 590080      P2_merged[0][0]
+__________________________________________________________________________________________________
+P3 (Conv2D)                     (None, None, None, 2 590080      C3_reduced[0][0]
+__________________________________________________________________________________________________
+P5 (Conv2D)                     (None, None, None, 2 590080      C4_relu[0][0]
+__________________________________________________________________________________________________
+regression_submodel (Model)     (None, None, 4)      2443300     P2[0][0]
+                                                                 P3[0][0]
+                                                                 P4[0][0]
+                                                                 P5[0][0]
+__________________________________________________________________________________________________
+classification_submodel (Model) (None, None, 107)    4580035     P2[0][0]
+                                                                 P3[0][0]
+                                                                 P4[0][0]
+                                                                 P5[0][0]
+__________________________________________________________________________________________________
+regression (Concatenate)        (None, None, 4)      0           regression_submodel[1][0]
+                                                                 regression_submodel[2][0]
+                                                                 regression_submodel[3][0]
+                                                                 regression_submodel[4][0]
+__________________________________________________________________________________________________
+classification (Concatenate)    (None, None, 107)    0           classification_submodel[1][0]
+                                                                 classification_submodel[2][0]
+                                                                 classification_submodel[3][0]
+                                                                 classification_submodel[4][0]
+==================================================================================================
+Total params: 11,625,639
+Trainable params: 11,605,415
+Non-trainable params: 20,224
+__________________________________________________________________________________________________
+None
+C:\Programmieren\Anaconda3\lib\site-packages\keras\callbacks.py:999: UserWarning: `epsilon` argument is deprecated and will be removed, use `min_delta` instead.
+  warnings.warn('`epsilon` argument is deprecated and '
+Training:   0%|                                                                                                                                   | 0/500 [00:00<?, ?it/s]2
+018-06-28 14:49:04.201676: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.51G
+iB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-06-28 14:49:04.396793: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.51
+GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-06-28 14:49:05.238570: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.80
+GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+                                                                                                                                                                          2
+018-06-28 14:49:19.226907: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.15G
+iB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-06-28 14:49:19.308013: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.15
+GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+                                                                                                                                                                          2
+018-06-28 14:49:21.668395: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.83G
+iB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-06-28 14:49:21.992535: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.83
+GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+                                                                                                                                                                          2
+018-06-28 14:49:25.812724: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.68G
+iB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-06-28 14:49:26.017162: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.68
+GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-06-28 14:49:26.940227: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.99
+GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+                                                                                                                                                                          1
+108 instances of class 16th_flag with average precision: 0.0000loss: 0.993:  99%|███████████████████████████████████████████████████████▍| 99/100 [08:54<00:05,  5.10s/it]
+78 instances of class 16th_rest with average precision: 0.0000
+469 instances of class 8th_flag with average precision: 0.0000
+238 instances of class 8th_rest with average precision: 0.0000
+4 instances of class accent with average precision: 0.0000
+2 instances of class arpeggio_wobble with average precision: 0.0000
+902 instances of class beam with average precision: 0.0000
+3 instances of class breath_mark with average precision: 0.0000
+28 instances of class c-clef with average precision: 0.0000
+0 instances of class curved-line_(tie-or-slur) with average precision: 0.0000
+2 instances of class dotted_horizontal_spanner with average precision: 0.0000
+0 instances of class double_sharp with average precision: 0.0000
+298 instances of class duration-dot with average precision: 0.0000
+107 instances of class dynamics_text with average precision: 0.0000
+31 instances of class f-clef with average precision: 0.0000
+7 instances of class fermata with average precision: 0.0000
+189 instances of class flat with average precision: 0.0000
+45 instances of class g-clef with average precision: 0.0000
+3 instances of class glissando with average precision: 0.0000
+47 instances of class grace-notehead-full with average precision: 0.0000
+19 instances of class grace_strikethrough with average precision: 0.0000
+26 instances of class hairpin-cresc with average precision: 0.0000
+6 instances of class hairpin-decr with average precision: 0.0000
+10 instances of class half_rest with average precision: 0.0000
+0 instances of class horizontal_spanner with average precision: 0.0000
+4 instances of class instrument_specific with average precision: 0.0000
+95 instances of class key_signature with average precision: 0.0000
+1119 instances of class ledger_line with average precision: 0.0000
+2 instances of class letter_A with average precision: 0.0000
+0 instances of class letter_C with average precision: 0.0000
+0 instances of class letter_E with average precision: 0.0000
+9 instances of class letter_F with average precision: 0.0000
+4 instances of class letter_L with average precision: 0.0000
+17 instances of class letter_M with average precision: 0.0000
+11 instances of class letter_P with average precision: 0.0000
+9 instances of class letter_R with average precision: 0.0000
+0 instances of class letter_S with average precision: 0.0000
+3 instances of class letter_T with average precision: 0.0000
+2 instances of class letter_V with average precision: 0.0000
+20 instances of class letter_a with average precision: 0.0000
+2 instances of class letter_b with average precision: 0.0000
+50 instances of class letter_c with average precision: 0.0000
+25 instances of class letter_d with average precision: 0.0000
+91 instances of class letter_e with average precision: 0.0000
+70 instances of class letter_f with average precision: 0.0000
+4 instances of class letter_g with average precision: 0.0000
+18 instances of class letter_i with average precision: 0.0000
+2 instances of class letter_j with average precision: 0.0000
+15 instances of class letter_l with average precision: 0.0000
+30 instances of class letter_m with average precision: 0.0000
+21 instances of class letter_n with average precision: 0.0000
+71 instances of class letter_o with average precision: 0.0000
+12 instances of class letter_other with average precision: 0.0000
+88 instances of class letter_p with average precision: 0.0000
+87 instances of class letter_r with average precision: 0.0000
+68 instances of class letter_s with average precision: 0.0000
+59 instances of class letter_t with average precision: 0.0000
+12 instances of class letter_u with average precision: 0.0000
+2 instances of class letter_v with average precision: 0.0000
+2 instances of class letter_x with average precision: 0.0000
+9 instances of class letter_z with average precision: 0.0000
+470 instances of class measure_separator with average precision: 0.0000
+8 instances of class multi-measure_rest with average precision: 0.0000
+9 instances of class multi-staff_brace with average precision: 0.0000
+7 instances of class multi-staff_bracket with average precision: 0.0000
+0 instances of class multiple-note_tremolo with average precision: 0.0000
+180 instances of class natural with average precision: 0.0000
+135 instances of class notehead-empty with average precision: 0.0000
+2893 instances of class notehead-full with average precision: 0.0000
+2 instances of class numeral_0 with average precision: 0.0000
+2 instances of class numeral_1 with average precision: 0.0000
+7 instances of class numeral_2 with average precision: 0.0000
+72 instances of class numeral_3 with average precision: 0.0000
+25 instances of class numeral_4 with average precision: 0.0000
+2 instances of class numeral_5 with average precision: 0.0000
+2 instances of class numeral_6 with average precision: 0.0000
+2 instances of class numeral_7 with average precision: 0.0000
+5 instances of class numeral_8 with average precision: 0.0000
+0 instances of class ornament(s) with average precision: 0.0000
+5 instances of class other-clef with average precision: 0.0000
+33 instances of class other-dot with average precision: 0.0000
+0 instances of class other_numeric_sign with average precision: 0.0000
+48 instances of class other_text with average precision: 0.0000
+74 instances of class quarter_rest with average precision: 0.0000
+9 instances of class repeat with average precision: 0.0000
+18 instances of class repeat-dot with average precision: 0.0000
+4 instances of class repeat_measure with average precision: 0.0000
+185 instances of class sharp with average precision: 0.0000
+255 instances of class slur with average precision: 0.0000
+250 instances of class staccato-dot with average precision: 0.0000
+20 instances of class staff_grouping with average precision: 0.0000
+2803 instances of class stem with average precision: 0.0000
+25 instances of class tempo_text with average precision: 0.0000
+34 instances of class tenuto with average precision: 0.0000
+6 instances of class thick_barline with average precision: 0.0000
+529 instances of class thin_barline with average precision: 0.0000
+94 instances of class tie with average precision: 0.0000
+34 instances of class time_signature with average precision: 0.0000
+1 instances of class transposition_text with average precision: 0.0000
+34 instances of class trill with average precision: 0.0000
+3 instances of class trill_wobble with average precision: 0.0000
+58 instances of class tuple with average precision: 0.0000
+11 instances of class tuple_bracketline with average precision: 0.0000
+3 instances of class unclassified with average precision: 0.0000
+0 instances of class volta with average precision: 0.0000
+5 instances of class whole-time_mark with average precision: 0.0000
+18 instances of class whole_rest with average precision: 0.0000
+mAP: 0.0000
+
+Epoch 00001: mAP improved from -inf to 0.00000, saving model to ./snapshots\detailnet_csv_2018-06-28.h5
+Training:   0%|▏                                                                                                                      | 1/500 [09:24<78:17:15, 564.80s/it]1
+108 instances of class 16th_flag with average precision: 0.0000loss: 0.980:  99%|███████████████████████████████████████████████████████▍| 99/100 [01:12<00:00,  1.45it/s]
+78 instances of class 16th_rest with average precision: 0.0000
+469 instances of class 8th_flag with average precision: 0.0000
+238 instances of class 8th_rest with average precision: 0.0000
+4 instances of class accent with average precision: 0.0000
+2 instances of class arpeggio_wobble with average precision: 0.0000
+902 instances of class beam with average precision: 0.0000
+3 instances of class breath_mark with average precision: 0.0000
+28 instances of class c-clef with average precision: 0.0000
+0 instances of class curved-line_(tie-or-slur) with average precision: 0.0000
+2 instances of class dotted_horizontal_spanner with average precision: 0.0000
+0 instances of class double_sharp with average precision: 0.0000
+298 instances of class duration-dot with average precision: 0.0000
+107 instances of class dynamics_text with average precision: 0.0000
+31 instances of class f-clef with average precision: 0.0000
+7 instances of class fermata with average precision: 0.0000
+189 instances of class flat with average precision: 0.0000
+45 instances of class g-clef with average precision: 0.0000
+3 instances of class glissando with average precision: 0.0000
+47 instances of class grace-notehead-full with average precision: 0.0000
+19 instances of class grace_strikethrough with average precision: 0.0000
+26 instances of class hairpin-cresc with average precision: 0.0000
+6 instances of class hairpin-decr with average precision: 0.0000
+10 instances of class half_rest with average precision: 0.0000
+0 instances of class horizontal_spanner with average precision: 0.0000
+4 instances of class instrument_specific with average precision: 0.0000
+95 instances of class key_signature with average precision: 0.0000
+1119 instances of class ledger_line with average precision: 0.0000
+2 instances of class letter_A with average precision: 0.0000
+0 instances of class letter_C with average precision: 0.0000
+0 instances of class letter_E with average precision: 0.0000
+9 instances of class letter_F with average precision: 0.0000
+4 instances of class letter_L with average precision: 0.0000
+17 instances of class letter_M with average precision: 0.0000
+11 instances of class letter_P with average precision: 0.0000
+9 instances of class letter_R with average precision: 0.0000
+0 instances of class letter_S with average precision: 0.0000
+3 instances of class letter_T with average precision: 0.0000
+2 instances of class letter_V with average precision: 0.0000
+20 instances of class letter_a with average precision: 0.0000
+2 instances of class letter_b with average precision: 0.0000
+50 instances of class letter_c with average precision: 0.0000
+25 instances of class letter_d with average precision: 0.0000
+91 instances of class letter_e with average precision: 0.0000
+70 instances of class letter_f with average precision: 0.0000
+4 instances of class letter_g with average precision: 0.0000
+18 instances of class letter_i with average precision: 0.0000
+2 instances of class letter_j with average precision: 0.0000
+15 instances of class letter_l with average precision: 0.0000
+30 instances of class letter_m with average precision: 0.0000
+21 instances of class letter_n with average precision: 0.0000
+71 instances of class letter_o with average precision: 0.0000
+12 instances of class letter_other with average precision: 0.0000
+88 instances of class letter_p with average precision: 0.0000
+87 instances of class letter_r with average precision: 0.0000
+68 instances of class letter_s with average precision: 0.0000
+59 instances of class letter_t with average precision: 0.0000
+12 instances of class letter_u with average precision: 0.0000
+2 instances of class letter_v with average precision: 0.0000
+2 instances of class letter_x with average precision: 0.0000
+9 instances of class letter_z with average precision: 0.0000
+470 instances of class measure_separator with average precision: 0.0000
+8 instances of class multi-measure_rest with average precision: 0.0000
+9 instances of class multi-staff_brace with average precision: 0.0000
+7 instances of class multi-staff_bracket with average precision: 0.0000
+0 instances of class multiple-note_tremolo with average precision: 0.0000
+180 instances of class natural with average precision: 0.0000
+135 instances of class notehead-empty with average precision: 0.0000
+2893 instances of class notehead-full with average precision: 0.0000
+2 instances of class numeral_0 with average precision: 0.0000
+2 instances of class numeral_1 with average precision: 0.0000
+7 instances of class numeral_2 with average precision: 0.0000
+72 instances of class numeral_3 with average precision: 0.0000
+25 instances of class numeral_4 with average precision: 0.0000
+2 instances of class numeral_5 with average precision: 0.0000
+2 instances of class numeral_6 with average precision: 0.0000
+2 instances of class numeral_7 with average precision: 0.0000
+5 instances of class numeral_8 with average precision: 0.0000
+0 instances of class ornament(s) with average precision: 0.0000
+5 instances of class other-clef with average precision: 0.0000
+33 instances of class other-dot with average precision: 0.0000
+0 instances of class other_numeric_sign with average precision: 0.0000
+48 instances of class other_text with average precision: 0.0000
+74 instances of class quarter_rest with average precision: 0.0000
+9 instances of class repeat with average precision: 0.0000
+18 instances of class repeat-dot with average precision: 0.0000
+4 instances of class repeat_measure with average precision: 0.0000
+185 instances of class sharp with average precision: 0.0000
+255 instances of class slur with average precision: 0.0000
+250 instances of class staccato-dot with average precision: 0.0000
+20 instances of class staff_grouping with average precision: 0.0000
+2803 instances of class stem with average precision: 0.0000
+25 instances of class tempo_text with average precision: 0.0000
+34 instances of class tenuto with average precision: 0.0000
+6 instances of class thick_barline with average precision: 0.0000
+529 instances of class thin_barline with average precision: 0.0000
+94 instances of class tie with average precision: 0.0000
+34 instances of class time_signature with average precision: 0.0000
+1 instances of class transposition_text with average precision: 0.0000
+34 instances of class trill with average precision: 0.0000
+3 instances of class trill_wobble with average precision: 0.0000
+58 instances of class tuple with average precision: 0.0000
+11 instances of class tuple_bracketline with average precision: 0.0000
+3 instances of class unclassified with average precision: 0.0000
+0 instances of class volta with average precision: 0.0000
+5 instances of class whole-time_mark with average precision: 0.0000
+18 instances of class whole_rest with average precision: 0.0000
+mAP: 0.0000
+
+Epoch 00002: mAP did not improve from 0.00000
+Training:   0%|▍                                                                                                                      | 2/500 [10:49<58:11:57, 420.72s/it]1
+108 instances of class 16th_flag with average precision: 0.0000loss: 0.951:  99%|███████████████████████████████████████████████████████▍| 99/100 [01:11<00:00,  1.46it/s]
+78 instances of class 16th_rest with average precision: 0.0000
+469 instances of class 8th_flag with average precision: 0.0000
+238 instances of class 8th_rest with average precision: 0.0000
+4 instances of class accent with average precision: 0.0000
+2 instances of class arpeggio_wobble with average precision: 0.0000
+902 instances of class beam with average precision: 0.0000
+3 instances of class breath_mark with average precision: 0.0000
+28 instances of class c-clef with average precision: 0.0000
+0 instances of class curved-line_(tie-or-slur) with average precision: 0.0000
+2 instances of class dotted_horizontal_spanner with average precision: 0.0000
+0 instances of class double_sharp with average precision: 0.0000
+298 instances of class duration-dot with average precision: 0.0000
+107 instances of class dynamics_text with average precision: 0.0000
+31 instances of class f-clef with average precision: 0.0000
+7 instances of class fermata with average precision: 0.0000
+189 instances of class flat with average precision: 0.0000
+45 instances of class g-clef with average precision: 0.0000
+3 instances of class glissando with average precision: 0.0000
+47 instances of class grace-notehead-full with average precision: 0.0000
+19 instances of class grace_strikethrough with average precision: 0.0000
+26 instances of class hairpin-cresc with average precision: 0.0000
+6 instances of class hairpin-decr with average precision: 0.0000
+10 instances of class half_rest with average precision: 0.0000
+0 instances of class horizontal_spanner with average precision: 0.0000
+4 instances of class instrument_specific with average precision: 0.0000
+95 instances of class key_signature with average precision: 0.0000
+1119 instances of class ledger_line with average precision: 0.0000
+2 instances of class letter_A with average precision: 0.0000
+0 instances of class letter_C with average precision: 0.0000
+0 instances of class letter_E with average precision: 0.0000
+9 instances of class letter_F with average precision: 0.0000
+4 instances of class letter_L with average precision: 0.0000
+17 instances of class letter_M with average precision: 0.0000
+11 instances of class letter_P with average precision: 0.0000
+9 instances of class letter_R with average precision: 0.0000
+0 instances of class letter_S with average precision: 0.0000
+3 instances of class letter_T with average precision: 0.0000
+2 instances of class letter_V with average precision: 0.0000
+20 instances of class letter_a with average precision: 0.0000
+2 instances of class letter_b with average precision: 0.0000
+50 instances of class letter_c with average precision: 0.0000
+25 instances of class letter_d with average precision: 0.0000
+91 instances of class letter_e with average precision: 0.0000
+70 instances of class letter_f with average precision: 0.0000
+4 instances of class letter_g with average precision: 0.0000
+18 instances of class letter_i with average precision: 0.0000
+2 instances of class letter_j with average precision: 0.0000
+15 instances of class letter_l with average precision: 0.0000
+30 instances of class letter_m with average precision: 0.0000
+21 instances of class letter_n with average precision: 0.0000
+71 instances of class letter_o with average precision: 0.0000
+12 instances of class letter_other with average precision: 0.0000
+88 instances of class letter_p with average precision: 0.0000
+87 instances of class letter_r with average precision: 0.0000
+68 instances of class letter_s with average precision: 0.0000
+59 instances of class letter_t with average precision: 0.0000
+12 instances of class letter_u with average precision: 0.0000
+2 instances of class letter_v with average precision: 0.0000
+2 instances of class letter_x with average precision: 0.0000
+9 instances of class letter_z with average precision: 0.0000
+470 instances of class measure_separator with average precision: 0.0000
+8 instances of class multi-measure_rest with average precision: 0.0000
+9 instances of class multi-staff_brace with average precision: 0.0000
+7 instances of class multi-staff_bracket with average precision: 0.0000
+0 instances of class multiple-note_tremolo with average precision: 0.0000
+180 instances of class natural with average precision: 0.0000
+135 instances of class notehead-empty with average precision: 0.0000
+2893 instances of class notehead-full with average precision: 0.0000
+2 instances of class numeral_0 with average precision: 0.0000
+2 instances of class numeral_1 with average precision: 0.0000
+7 instances of class numeral_2 with average precision: 0.0000
+72 instances of class numeral_3 with average precision: 0.0000
+25 instances of class numeral_4 with average precision: 0.0000
+2 instances of class numeral_5 with average precision: 0.0000
+2 instances of class numeral_6 with average precision: 0.0000
+2 instances of class numeral_7 with average precision: 0.0000
+5 instances of class numeral_8 with average precision: 0.0000
+0 instances of class ornament(s) with average precision: 0.0000
+5 instances of class other-clef with average precision: 0.0000
+33 instances of class other-dot with average precision: 0.0000
+0 instances of class other_numeric_sign with average precision: 0.0000
+48 instances of class other_text with average precision: 0.0000
+74 instances of class quarter_rest with average precision: 0.0000
+9 instances of class repeat with average precision: 0.0000
+18 instances of class repeat-dot with average precision: 0.0000
+4 instances of class repeat_measure with average precision: 0.0000
+185 instances of class sharp with average precision: 0.0000
+255 instances of class slur with average precision: 0.0000
+250 instances of class staccato-dot with average precision: 0.0000
+20 instances of class staff_grouping with average precision: 0.0000
+2803 instances of class stem with average precision: 0.0000
+25 instances of class tempo_text with average precision: 0.0000
+34 instances of class tenuto with average precision: 0.0000
+6 instances of class thick_barline with average precision: 0.0000
+529 instances of class thin_barline with average precision: 0.0000
+94 instances of class tie with average precision: 0.0000
+34 instances of class time_signature with average precision: 0.0000
+1 instances of class transposition_text with average precision: 0.0000
+34 instances of class trill with average precision: 0.0000
+3 instances of class trill_wobble with average precision: 0.0000
+58 instances of class tuple with average precision: 0.0000
+11 instances of class tuple_bracketline with average precision: 0.0000
+3 instances of class unclassified with average precision: 0.0000
+0 instances of class volta with average precision: 0.0000
+5 instances of class whole-time_mark with average precision: 0.0000
+18 instances of class whole_rest with average precision: 0.0000
+mAP: 0.0000
+
+Epoch 00003: mAP did not improve from 0.00000
+Training:   1%|▋                                                                                                                      | 3/500 [12:14<44:10:15, 319.95s/it]1
+108 instances of class 16th_flag with average precision: 0.0000loss: 0.946:  99%|███████████████████████████████████████████████████████▍| 99/100 [01:11<00:00,  1.35it/s]
+78 instances of class 16th_rest with average precision: 0.0000
+469 instances of class 8th_flag with average precision: 0.0000
+238 instances of class 8th_rest with average precision: 0.0000
+4 instances of class accent with average precision: 0.0000
+2 instances of class arpeggio_wobble with average precision: 0.0000
+902 instances of class beam with average precision: 0.0000
+3 instances of class breath_mark with average precision: 0.0000
+28 instances of class c-clef with average precision: 0.0000
+0 instances of class curved-line_(tie-or-slur) with average precision: 0.0000
+2 instances of class dotted_horizontal_spanner with average precision: 0.0000
+0 instances of class double_sharp with average precision: 0.0000
+298 instances of class duration-dot with average precision: 0.0000
+107 instances of class dynamics_text with average precision: 0.0000
+31 instances of class f-clef with average precision: 0.0000
+7 instances of class fermata with average precision: 0.0000
+189 instances of class flat with average precision: 0.0000
+45 instances of class g-clef with average precision: 0.0000
+3 instances of class glissando with average precision: 0.0000
+47 instances of class grace-notehead-full with average precision: 0.0000
+19 instances of class grace_strikethrough with average precision: 0.0000
+26 instances of class hairpin-cresc with average precision: 0.0000
+6 instances of class hairpin-decr with average precision: 0.0000
+10 instances of class half_rest with average precision: 0.0000
+0 instances of class horizontal_spanner with average precision: 0.0000
+4 instances of class instrument_specific with average precision: 0.0000
+95 instances of class key_signature with average precision: 0.0000
+1119 instances of class ledger_line with average precision: 0.0000
+2 instances of class letter_A with average precision: 0.0000
+0 instances of class letter_C with average precision: 0.0000
+0 instances of class letter_E with average precision: 0.0000
+9 instances of class letter_F with average precision: 0.0000
+4 instances of class letter_L with average precision: 0.0000
+17 instances of class letter_M with average precision: 0.0000
+11 instances of class letter_P with average precision: 0.0000
+9 instances of class letter_R with average precision: 0.0000
+0 instances of class letter_S with average precision: 0.0000
+3 instances of class letter_T with average precision: 0.0000
+2 instances of class letter_V with average precision: 0.0000
+20 instances of class letter_a with average precision: 0.0000
+2 instances of class letter_b with average precision: 0.0000
+50 instances of class letter_c with average precision: 0.0000
+25 instances of class letter_d with average precision: 0.0000
+91 instances of class letter_e with average precision: 0.0000
+70 instances of class letter_f with average precision: 0.0000
+4 instances of class letter_g with average precision: 0.0000
+18 instances of class letter_i with average precision: 0.0000
+2 instances of class letter_j with average precision: 0.0000
+15 instances of class letter_l with average precision: 0.0000
+30 instances of class letter_m with average precision: 0.0000
+21 instances of class letter_n with average precision: 0.0000
+71 instances of class letter_o with average precision: 0.0000
+12 instances of class letter_other with average precision: 0.0000
+88 instances of class letter_p with average precision: 0.0000
+87 instances of class letter_r with average precision: 0.0000
+68 instances of class letter_s with average precision: 0.0000
+59 instances of class letter_t with average precision: 0.0000
+12 instances of class letter_u with average precision: 0.0000
+2 instances of class letter_v with average precision: 0.0000
+2 instances of class letter_x with average precision: 0.0000
+9 instances of class letter_z with average precision: 0.0000
+470 instances of class measure_separator with average precision: 0.0000
+8 instances of class multi-measure_rest with average precision: 0.0000
+9 instances of class multi-staff_brace with average precision: 0.0000
+7 instances of class multi-staff_bracket with average precision: 0.0000
+0 instances of class multiple-note_tremolo with average precision: 0.0000
+180 instances of class natural with average precision: 0.0000
+135 instances of class notehead-empty with average precision: 0.0000
+2893 instances of class notehead-full with average precision: 0.0000
+2 instances of class numeral_0 with average precision: 0.0000
+2 instances of class numeral_1 with average precision: 0.0000
+7 instances of class numeral_2 with average precision: 0.0000
+72 instances of class numeral_3 with average precision: 0.0000
+25 instances of class numeral_4 with average precision: 0.0000
+2 instances of class numeral_5 with average precision: 0.0000
+2 instances of class numeral_6 with average precision: 0.0000
+2 instances of class numeral_7 with average precision: 0.0000
+5 instances of class numeral_8 with average precision: 0.0000
+0 instances of class ornament(s) with average precision: 0.0000
+5 instances of class other-clef with average precision: 0.0000
+33 instances of class other-dot with average precision: 0.0000
+0 instances of class other_numeric_sign with average precision: 0.0000
+48 instances of class other_text with average precision: 0.0000
+74 instances of class quarter_rest with average precision: 0.0000
+9 instances of class repeat with average precision: 0.0000
+18 instances of class repeat-dot with average precision: 0.0000
+4 instances of class repeat_measure with average precision: 0.0000
+185 instances of class sharp with average precision: 0.0000
+255 instances of class slur with average precision: 0.0000
+250 instances of class staccato-dot with average precision: 0.0000
+20 instances of class staff_grouping with average precision: 0.0000
+2803 instances of class stem with average precision: 0.0000
+25 instances of class tempo_text with average precision: 0.0000
+34 instances of class tenuto with average precision: 0.0000
+6 instances of class thick_barline with average precision: 0.0000
+529 instances of class thin_barline with average precision: 0.0000
+94 instances of class tie with average precision: 0.0000
+34 instances of class time_signature with average precision: 0.0000
+1 instances of class transposition_text with average precision: 0.0000
+34 instances of class trill with average precision: 0.0000
+3 instances of class trill_wobble with average precision: 0.0000
+58 instances of class tuple with average precision: 0.0000
+11 instances of class tuple_bracketline with average precision: 0.0000
+3 instances of class unclassified with average precision: 0.0000
+0 instances of class volta with average precision: 0.0000
+5 instances of class whole-time_mark with average precision: 0.0000
+18 instances of class whole_rest with average precision: 0.0000
+mAP: 0.0000
+
+Epoch 00004: mAP did not improve from 0.00000
+Training:   1%|▉                                                                                                                      | 4/500 [13:44<34:35:42, 251.09s/it]1
+108 instances of class 16th_flag with average precision: 0.0000loss: 0.937:  99%|███████████████████████████████████████████████████████▍| 99/100 [01:12<00:00,  1.29it/s]
+78 instances of class 16th_rest with average precision: 0.0000
+469 instances of class 8th_flag with average precision: 0.0000
+238 instances of class 8th_rest with average precision: 0.0000
+4 instances of class accent with average precision: 0.0000
+2 instances of class arpeggio_wobble with average precision: 0.0000
+902 instances of class beam with average precision: 0.0000
+3 instances of class breath_mark with average precision: 0.0000
+28 instances of class c-clef with average precision: 0.0000
+0 instances of class curved-line_(tie-or-slur) with average precision: 0.0000
+2 instances of class dotted_horizontal_spanner with average precision: 0.0000
+0 instances of class double_sharp with average precision: 0.0000
+298 instances of class duration-dot with average precision: 0.0000
+107 instances of class dynamics_text with average precision: 0.0000
+31 instances of class f-clef with average precision: 0.0000
+7 instances of class fermata with average precision: 0.0000
+189 instances of class flat with average precision: 0.0000
+45 instances of class g-clef with average precision: 0.0000
+3 instances of class glissando with average precision: 0.0000
+47 instances of class grace-notehead-full with average precision: 0.0000
+19 instances of class grace_strikethrough with average precision: 0.0000
+26 instances of class hairpin-cresc with average precision: 0.0000
+6 instances of class hairpin-decr with average precision: 0.0000
+10 instances of class half_rest with average precision: 0.0000
+0 instances of class horizontal_spanner with average precision: 0.0000
+4 instances of class instrument_specific with average precision: 0.0000
+95 instances of class key_signature with average precision: 0.0000
+1119 instances of class ledger_line with average precision: 0.0000
+2 instances of class letter_A with average precision: 0.0000
+0 instances of class letter_C with average precision: 0.0000
+0 instances of class letter_E with average precision: 0.0000
+9 instances of class letter_F with average precision: 0.0000
+4 instances of class letter_L with average precision: 0.0000
+17 instances of class letter_M with average precision: 0.0000
+11 instances of class letter_P with average precision: 0.0000
+9 instances of class letter_R with average precision: 0.0000
+0 instances of class letter_S with average precision: 0.0000
+3 instances of class letter_T with average precision: 0.0000
+2 instances of class letter_V with average precision: 0.0000
+20 instances of class letter_a with average precision: 0.0000
+2 instances of class letter_b with average precision: 0.0000
+50 instances of class letter_c with average precision: 0.0000
+25 instances of class letter_d with average precision: 0.0000
+91 instances of class letter_e with average precision: 0.0000
+70 instances of class letter_f with average precision: 0.0000
+4 instances of class letter_g with average precision: 0.0000
+18 instances of class letter_i with average precision: 0.0000
+2 instances of class letter_j with average precision: 0.0000
+15 instances of class letter_l with average precision: 0.0000
+30 instances of class letter_m with average precision: 0.0000
+21 instances of class letter_n with average precision: 0.0000
+71 instances of class letter_o with average precision: 0.0000
+12 instances of class letter_other with average precision: 0.0000
+88 instances of class letter_p with average precision: 0.0000
+87 instances of class letter_r with average precision: 0.0000
+68 instances of class letter_s with average precision: 0.0000
+59 instances of class letter_t with average precision: 0.0000
+12 instances of class letter_u with average precision: 0.0000
+2 instances of class letter_v with average precision: 0.0000
+2 instances of class letter_x with average precision: 0.0000
+9 instances of class letter_z with average precision: 0.0000
+470 instances of class measure_separator with average precision: 0.0000
+8 instances of class multi-measure_rest with average precision: 0.0000
+9 instances of class multi-staff_brace with average precision: 0.0000
+7 instances of class multi-staff_bracket with average precision: 0.0000
+0 instances of class multiple-note_tremolo with average precision: 0.0000
+180 instances of class natural with average precision: 0.0000
+135 instances of class notehead-empty with average precision: 0.0000
+2893 instances of class notehead-full with average precision: 0.0000
+2 instances of class numeral_0 with average precision: 0.0000
+2 instances of class numeral_1 with average precision: 0.0000
+7 instances of class numeral_2 with average precision: 0.0000
+72 instances of class numeral_3 with average precision: 0.0000
+25 instances of class numeral_4 with average precision: 0.0000
+2 instances of class numeral_5 with average precision: 0.0000
+2 instances of class numeral_6 with average precision: 0.0000
+2 instances of class numeral_7 with average precision: 0.0000
+5 instances of class numeral_8 with average precision: 0.0000
+0 instances of class ornament(s) with average precision: 0.0000
+5 instances of class other-clef with average precision: 0.0000
+33 instances of class other-dot with average precision: 0.0000
+0 instances of class other_numeric_sign with average precision: 0.0000
+48 instances of class other_text with average precision: 0.0000
+74 instances of class quarter_rest with average precision: 0.0000
+9 instances of class repeat with average precision: 0.0000
+18 instances of class repeat-dot with average precision: 0.0000
+4 instances of class repeat_measure with average precision: 0.0000
+185 instances of class sharp with average precision: 0.0000
+255 instances of class slur with average precision: 0.0000
+250 instances of class staccato-dot with average precision: 0.0000
+20 instances of class staff_grouping with average precision: 0.0000
+2803 instances of class stem with average precision: 0.0000
+25 instances of class tempo_text with average precision: 0.0000
+34 instances of class tenuto with average precision: 0.0000
+6 instances of class thick_barline with average precision: 0.0000
+529 instances of class thin_barline with average precision: 0.0000
+94 instances of class tie with average precision: 0.0000
+34 instances of class time_signature with average precision: 0.0000
+1 instances of class transposition_text with average precision: 0.0000
+34 instances of class trill with average precision: 0.0000
+3 instances of class trill_wobble with average precision: 0.0000
+58 instances of class tuple with average precision: 0.0000
+11 instances of class tuple_bracketline with average precision: 0.0000
+3 instances of class unclassified with average precision: 0.0000
+0 instances of class volta with average precision: 0.0000
+5 instances of class whole-time_mark with average precision: 0.0000
+18 instances of class whole_rest with average precision: 0.0000
+mAP: 0.0000
+
+Epoch 00005: mAP did not improve from 0.00000
+Training:   1%|█▏                                                                                                                     | 5/500 [15:12<27:46:53, 202.05s/it]f
+orrtl: error (200): program aborting due to control-C evention_loss: 0.955:  10%|█████▌                                                  | 10/100 [00:07<01:07,  1.34it/s]
+Image              PC                Routine            Line        Source
+libifcoremd.dll    00007FF9540094C4  Unknown               Unknown  Unknown
+KERNELBASE.dll     00007FF980267EDD  Unknown               Unknown  Unknown
+KERNEL32.DLL       00007FF980B91FE4  Unknown               Unknown  Unknown
+ntdll.dll          00007FF9834DCB31  Unknown               Unknown  Unknown
+PS>TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> $global:?
+False
+**********************
+Windows PowerShell transcript end
+End time: 20180628150416
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20180628183744
+Username: DONKEY\Alex
+RunAs User: DONKEY\Alex
+Configuration Name: 
+Machine: DONKEY (Microsoft Windows NT 10.0.16299.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command if((Get-ExecutionPolicy ) -ne 'AllSigned') { Set-ExecutionPolicy -Scope Process Bypass }; & 'C:\Users\Alex\Repositories\keras-retinanet\train.ps1'
+Process ID: 7996
+PSVersion: 5.1.16299.492
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.16299.492
+BuildVersion: 10.0.16299.492
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:/Users/Alex/Repositories/keras-retinanet/Transcripts/train-detailnet.txt
+C:\Programmieren\Anaconda3\lib\site-packages\h5py\__init__.py:36: FutureWarning: Conversion of the second argument of is
+subdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).ty
+pe`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+train.py:351: UserWarning: Using experimental backbone detailnet. Only resnet50 has been properly tested.
+  'Using experimental backbone {}. Only resnet50 has been properly tested.'.format(parsed_args.backbone))
+2018-06-28 18:37:47.005397: I T:\src\github\tensorflow\tensorflow\core\platform\cpu_feature_guard.cc:140] Your CPU suppo
+rts instructions that this TensorFlow binary was not compiled to use: AVX2
+22018-06-28 18:37:47.853148: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1435] Adding vi
+sible gpu devices: 0
+2018-06-28 18:37:48.460507: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:923] Device inte
+rconnect StreamExecutor with strength 1 edge matrix:
+2018-06-28 18:37:48.467045: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:929]      0
+2018-06-28 18:37:48.470309: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:942] 0:   N
+2018-06-28 18:37:48.473421: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1053] Created Te
+nsorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 8805 MB memory) -> physical GPU (device: 0, name: GeF
+orce GTX 1080 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Creating model, this may take a second...
+forrtl: error (200): program aborting due to control-C event
+Image              PC                Routine            Line        Source
+libifcoremd.dll    00007FF9406394C4  Unknown               Unknown  Unknown
+KERNELBASE.dll     00007FF980267EDD  Unknown               Unknown  Unknown
+KERNEL32.DLL       00007FF980B91FE4  Unknown               Unknown  Unknown
+ntdll.dll          00007FF9834DCB31  Unknown               Unknown  Unknown
+PS>TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> $global:?
+False
+**********************
+Windows PowerShell transcript end
+End time: 20180628183750
+**********************

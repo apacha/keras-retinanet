@@ -1,0 +1,19 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20180628233722
+Username: DONKEY\Alex
+RunAs User: DONKEY\Alex
+Configuration Name: 
+Machine: DONKEY (Microsoft Windows NT 10.0.16299.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command if((Get-ExecutionPolicy ) -ne 'AllSigned') { Set-ExecutionPolicy -Scope Process Bypass }; & 'C:\Users\Alex\Repositories\keras-retinanet\train.ps1'
+Process ID: 11252
+PSVersion: 5.1.16299.492
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.16299.492
+BuildVersion: 10.0.16299.492
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:/Users/Alex/Repositories/keras-retinanet/Transcripts/train-detailnet-adam-1e-5-small-anchors.txt
