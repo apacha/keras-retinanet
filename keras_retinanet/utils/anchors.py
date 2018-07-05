@@ -24,8 +24,8 @@ def anchor_targets_bbox(
         annotations,
         num_classes,
         mask_shape=None,
-        negative_overlap=0.3,
-        positive_overlap=0.4,
+        negative_overlap=0.4,
+        positive_overlap=0.5,
         verbose=False,
         **kwargs
 ):
@@ -166,17 +166,9 @@ def anchors_for_shape(
         strides = [2 ** x for x in pyramid_levels]
     if sizes is None:
         sizes = [2 ** (x + 2) for x in pyramid_levels]
-        # sizes = [2 ** (x + 1) for x in pyramid_levels]
     if ratios is None:
-        # ratios = np.array([0.125, 0.25, 0.5, 1, 2, 8, 16, 32])
-        # ratios = np.array([0.0625, 0.25, 1, 4, 16])
-        # ratios = np.array([0.5, 1, 2])
-        ratios = np.array([0.125, 0.5, 1, 2, 8])
-        # ratios = np.array([0.125, 0.5, 1, 2, 8])
-        # ratios = np.array([0.125, 0.5, 1, 2, 8])
-        # ratios = np.array([0.25, 0.5, 1, 2, 4])
+        ratios = np.array([0.5, 1, 2])
     if scales is None:
-        # scales = np.array([1])
         scales = np.array([2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)])
         # scales = [0.5, 1.0, 2.0] <- Definitely does not work better, because it defeats the purpose of multiscale stuff
 
