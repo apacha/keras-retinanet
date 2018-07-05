@@ -27,6 +27,8 @@ import keras.preprocessing.image
 import tensorflow as tf
 from keras.callbacks import EarlyStopping
 
+from keras_retinanet.preprocessing.mob_csv_generator import MobCsvGenerator
+
 if __name__ == "__main__" and __package__ is None:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
     import keras_retinanet.bin  # noqa: F401
@@ -186,7 +188,7 @@ def create_callbacks(model, backbone_name, prediction_model, validation_generato
 
     callbacks.append(keras.callbacks.ReduceLROnPlateau(
         monitor='mAP',
-        factor=0.5,
+        factor=0.8,
         patience=args.learning_rate_reduction_patience,
         verbose=1,
         mode='max',
@@ -279,6 +281,20 @@ def create_generators(args, preprocess_image):
             validation_generator = CSVGenerator(
                 args.val_annotations,
                 args.classes,
+                **common_args
+            )
+        else:
+            validation_generator = None
+    elif args.dataset_type == 'mob_csv':
+        train_generator = MobCsvGenerator(
+            args.annotations,
+            transform_generator=transform_generator,
+            **common_args
+        )
+
+        if args.val_annotations:
+            validation_generator = MobCsvGenerator(
+                args.val_annotations,
                 **common_args
             )
         else:
@@ -386,6 +402,11 @@ def parse_args(args):
     csv_parser.add_argument('annotations', help='Path to CSV file containing annotations for training.')
     csv_parser.add_argument('classes', help='Path to a CSV file containing class label mapping.')
     csv_parser.add_argument('--val-annotations',
+                            help='Path to CSV file containing annotations for validation (optional).')
+
+    mob_csv_parser = subparsers.add_parser('mob_csv')
+    mob_csv_parser.add_argument('annotations', help='Path to CSV file containing annotations for training.')
+    mob_csv_parser.add_argument('--val-annotations',
                             help='Path to CSV file containing annotations for validation (optional).')
 
     group = parser.add_mutually_exclusive_group()
