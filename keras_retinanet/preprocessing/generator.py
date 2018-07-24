@@ -102,7 +102,7 @@ class Generator(object):
         """
         raise NotImplementedError('name_to_label method not implemented')
 
-    def label_to_name(self, label):
+    def label_to_name(self, label: int) -> str:
         """ Map label to name.
         """
         raise NotImplementedError('label_to_name method not implemented')
@@ -243,7 +243,8 @@ class Generator(object):
         return image_batch
 
     def generate_anchors(self, image_shape):
-        anchors = anchors_for_shape(image_shape, shapes_callback=self.compute_shapes, verbose=self.first_call_to_anchors_for_shape)
+        anchors = anchors_for_shape(image_shape, shapes_callback=self.compute_shapes,
+                                    verbose=self.first_call_to_anchors_for_shape)
         if self.first_call_to_anchors_for_shape:
             self.first_call_to_anchors_for_shape = False
         return anchors

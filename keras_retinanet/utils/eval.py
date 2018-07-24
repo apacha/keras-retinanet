@@ -16,11 +16,14 @@ limitations under the License.
 
 from __future__ import print_function
 
+from typing import Callable, List
+
 from .anchors import compute_overlap
 from .visualization import draw_detections, draw_annotations
 
 import numpy as np
 import os
+import pandas as pd
 
 import cv2
 
@@ -54,6 +57,24 @@ def _compute_ap(recall, precision):
     return ap
 
 
+def convert_detections_for_csv_output(image_boxes: np.ndarray, image_scores: np.ndarray, image_labels: np.ndarray,
+                                      label_to_name: Callable[[int], str], image_path: str,
+                                      score_threshold=0.5) -> List:
+    selection = np.where(image_scores > score_threshold)[0]
+
+    # path_to_image, top, left, bottom, right, class_name
+    output_detections = []
+
+    for i in selection:
+        box = image_boxes[i, :]
+        left, top, right, bottom = box
+        class_name = label_to_name(image_labels[i])
+        confidence = image_scores[i]
+        output_detections.append([image_path, top, left, bottom, right, class_name, confidence])
+
+    return output_detections
+
+
 def _get_detections(generator, model, score_threshold=0.05, max_detections=1200, save_path=None, label_to_name=None):
     """ Get the detections from the model using the generator.
 
@@ -73,6 +94,9 @@ def _get_detections(generator, model, score_threshold=0.05, max_detections=1200,
 
     if not label_to_name:
         label_to_name = generator.label_to_name
+
+    # path_to_image, top, left, bottom, right, class_name
+    output_detections = []
 
     for i in range(generator.size()):
         raw_image = generator.load_image(i)
@@ -107,11 +131,21 @@ def _get_detections(generator, model, score_threshold=0.05, max_detections=1200,
             image_path = generator.image_names[i]
             cv2.imwrite(os.path.join(save_path, os.path.basename(image_path)), raw_image)
 
+            detections = convert_detections_for_csv_output(image_boxes, image_scores, image_labels, label_to_name,
+                                                           image_path)
+            output_detections.extend(detections)
+
         # copy detections to all_detections
         for label in range(generator.num_classes()):
             all_detections[i][label] = image_detections[image_detections[:, -1] == label, :-1]
 
         print('{}/{}'.format(i + 1, generator.size()), end='\r')
+
+    output_csv_path = os.path.join(save_path, "results.csv")
+    converted_output = pd.DataFrame(data=output_detections,
+                                    columns=["path_to_image", "top", "left", "bottom", "right", "class_name",
+                                             "confidence"])
+    converted_output.to_csv(output_csv_path, index=False, float_format="%.2f")
 
     return all_detections
 
