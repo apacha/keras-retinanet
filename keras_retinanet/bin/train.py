@@ -197,8 +197,6 @@ def create_callbacks(model, backbone_name, prediction_model, validation_generato
         verbose=1
     ))
 
-    # callbacks.append(TQDMCallback())
-
     return callbacks
 
 
@@ -303,10 +301,10 @@ def parse_args(args):
     parser.add_argument('--image-max-side', help='Rescale the image if the largest side is larger than max_side.',
                         type=int, default=2000)
     parser.add_argument('--early_stopping_patience',
-                        help='Number of epochs patience (= no improval), before stopping the training',
+                        help='Number of epochs patience (= no improvement), before stopping the training',
                         type=int, default=40)
     parser.add_argument('--learning_rate_reduction_patience',
-                        help='Number of epochs patience (= no improval), before reducing the learning rate',
+                        help='Number of epochs patience (= no improvement), before reducing the learning rate',
                         type=int, default=16)
 
     return check_args(parser.parse_args(args))
