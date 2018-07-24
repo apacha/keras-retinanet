@@ -103,7 +103,7 @@ def main(args=None):
 
     # create the generator
     backbone = models.create_backbone(args.backbone)
-    generator = create_generators(args, backbone.preprocess_image)
+    generator, _ = create_generators(args, backbone.preprocess_image)
 
     # load the model
     print('Loading model, this may take a second...')
