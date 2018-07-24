@@ -62,6 +62,7 @@ def parse_args(args):
 
     mob_csv_parser = subparsers.add_parser('mob_csv')
     mob_csv_parser.add_argument('annotations', help='Path to CSV file containing annotations for training.')
+    mob_csv_parser.add_argument('--val-annotations', help='Path to CSV file containing annotations for evaluation.')
 
     parser.add_argument('model', help='Path to RetinaNet model.')
     parser.add_argument('--convert-model',
@@ -101,29 +102,29 @@ def main(args=None):
     if args.save_path is not None and not os.path.exists(args.save_path):
         os.makedirs(args.save_path)
 
-    # create the generator
+    # create the evaluation_generator
     backbone = models.create_backbone(args.backbone)
-    generator, _ = create_generators(args, backbone.preprocess_image)
+    training_generator, evaluation_generator = create_generators(args, backbone.preprocess_image)
 
     # load the model
     print('Loading model, this may take a second...')
     model = models.load_model(args.model, backbone_name=args.backbone, convert=args.convert_model)
 
-    # print model summary
-    # print(model.summary())
+    print(model.summary())
 
     # start evaluation
     if args.dataset_type == 'coco':
         from ..utils.coco_eval import evaluate_coco
-        evaluate_coco(generator, model, args.score_threshold)
+        evaluate_coco(evaluation_generator, model, args.score_threshold)
     else:
         average_precisions = evaluate(
-            generator,
+            evaluation_generator,
             model,
             iou_threshold=args.iou_threshold,
             score_threshold=args.score_threshold,
             max_detections=args.max_detections,
-            save_path=args.save_path
+            save_path=args.save_path,
+            label_to_name=training_generator.label_to_name
         )
 
         # print evaluation
@@ -131,7 +132,7 @@ def main(args=None):
         precision = 0
         for label, (average_precision, num_annotations) in average_precisions.items():
             print('{:.0f} instances of class'.format(num_annotations),
-                  generator.label_to_name(label), 'with average precision: {:.4f}'.format(average_precision))
+                  evaluation_generator.label_to_name(label), 'with average precision: {:.4f}'.format(average_precision))
             if num_annotations > 0:
                 present_classes += 1
                 precision += average_precision

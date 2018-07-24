@@ -54,7 +54,7 @@ def _compute_ap(recall, precision):
     return ap
 
 
-def _get_detections(generator, model, score_threshold=0.05, max_detections=1200, save_path=None):
+def _get_detections(generator, model, score_threshold=0.05, max_detections=1200, save_path=None, label_to_name=None):
     """ Get the detections from the model using the generator.
 
     The result is a list of lists such that the size is:
@@ -70,6 +70,9 @@ def _get_detections(generator, model, score_threshold=0.05, max_detections=1200,
         A list of lists containing the detections for each image in the generator.
     """
     all_detections = [[None for i in range(generator.num_classes())] for j in range(generator.size())]
+
+    if not label_to_name:
+        label_to_name = generator.label_to_name
 
     for i in range(generator.size()):
         raw_image = generator.load_image(i)
@@ -99,8 +102,8 @@ def _get_detections(generator, model, score_threshold=0.05, max_detections=1200,
             [image_boxes, np.expand_dims(image_scores, axis=1), np.expand_dims(image_labels, axis=1)], axis=1)
 
         if save_path is not None:
-            draw_annotations(raw_image, generator.load_annotations(i), label_to_name=generator.label_to_name)
-            draw_detections(raw_image, image_boxes, image_scores, image_labels, label_to_name=generator.label_to_name)
+            draw_annotations(raw_image, generator.load_annotations(i), label_to_name=label_to_name)
+            draw_detections(raw_image, image_boxes, image_scores, image_labels, label_to_name=label_to_name)
 
             cv2.imwrite(os.path.join(save_path, '{}.png'.format(i)), raw_image)
 
@@ -145,7 +148,8 @@ def evaluate(
         iou_threshold=0.5,
         score_threshold=0.05,
         max_detections=1200,
-        save_path=None
+        save_path=None,
+        label_to_name=None
 ):
     """ Evaluate a given dataset using a given model.
 
@@ -161,7 +165,7 @@ def evaluate(
     """
     # gather all detections and annotations
     all_detections = _get_detections(generator, model, score_threshold=score_threshold, max_detections=max_detections,
-                                     save_path=save_path)
+                                     save_path=save_path, label_to_name=label_to_name)
     all_annotations = _get_annotations(generator)
     average_precisions = {}
 
