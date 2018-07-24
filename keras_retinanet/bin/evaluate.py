@@ -32,7 +32,7 @@ if __name__ == "__main__" and __package__ is None:
 # Change these to absolute imports if you copy this script outside the keras_retinanet package.
 from .. import models
 from ..utils.eval import evaluate
-from ..utils.keras_version import check_keras_version
+from ..utils.keras_version import check_keras_minimum_version_requirement
 
 
 def get_session():
@@ -90,29 +90,24 @@ def main(args=None):
         args = sys.argv[1:]
     args = parse_args(args)
 
-    # make sure keras is the minimum required version
-    check_keras_version()
+    check_keras_minimum_version_requirement()
 
     # optionally choose specific GPU
     if args.gpu:
         os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
     keras.backend.tensorflow_backend.set_session(get_session())
 
-    # make save path if it doesn't exist
-    if args.save_path is not None and not os.path.exists(args.save_path):
-        os.makedirs(args.save_path)
+    if args.save_path is not None:
+        os.makedirs(args.save_path, exist_ok=True)
 
-    # create the evaluation_generator
     backbone = models.create_backbone(args.backbone)
     training_generator, evaluation_generator = create_generators(args, backbone.preprocess_image)
 
-    # load the model
     print('Loading model, this may take a second...')
     model = models.load_model(args.model, backbone_name=args.backbone, convert=args.convert_model)
 
     print(model.summary())
 
-    # start evaluation
     if args.dataset_type == 'coco':
         from ..utils.coco_eval import evaluate_coco
         evaluate_coco(evaluation_generator, model, args.score_threshold)
@@ -127,7 +122,6 @@ def main(args=None):
             label_to_name=training_generator.label_to_name
         )
 
-        # print evaluation
         present_classes = 0
         precision = 0
         for label, (average_precision, num_annotations) in average_precisions.items():

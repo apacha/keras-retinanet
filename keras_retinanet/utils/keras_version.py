@@ -45,7 +45,7 @@ def assert_keras_version():
     assert(keras_version() >= minimum_keras_version), 'You are using keras version {}. The minimum required version is {}.'.format(detected, required)
 
 
-def check_keras_version():
+def check_keras_minimum_version_requirement():
     """ Check that the Keras version is up to date. If it isn't, print an error message and exit the script.
     """
     try:

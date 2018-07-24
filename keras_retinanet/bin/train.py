@@ -41,7 +41,7 @@ from ..callbacks import RedirectModel
 from ..callbacks.eval import Evaluate
 from ..models.retinanet import retinanet_bbox
 from ..utils.anchors import make_shapes_callback
-from ..utils.keras_version import check_keras_version
+from ..utils.keras_version import check_keras_minimum_version_requirement
 from ..utils.model import freeze as freeze_model
 
 
@@ -319,8 +319,7 @@ def main(args=None):
     # create object that stores backbone information
     backbone = models.create_backbone(args.backbone)
 
-    # make sure keras is the minimum required version
-    check_keras_version()
+    check_keras_minimum_version_requirement()
 
     # optionally choose specific GPU
     if args.gpu:
