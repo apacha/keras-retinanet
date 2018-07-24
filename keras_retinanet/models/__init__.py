@@ -1,4 +1,4 @@
-def backbone(backbone_name):
+def create_backbone(backbone_name):
     """ Returns a backbone object for the given backbone.
     """
     if 'resnet' in backbone_name:
@@ -12,7 +12,7 @@ def backbone(backbone_name):
     elif 'detailnet' in backbone_name:
         from .detailnet import DetailNetBackbone as b
     else:
-        raise NotImplementedError('Backbone class for  \'{}\' not implemented.'.format(backbone))
+        raise NotImplementedError('Backbone class for  \'{}\' not implemented.'.format(backbone_name))
 
     return b(backbone_name)
 
@@ -37,7 +37,8 @@ def load_model(filepath, backbone_name='resnet50', convert=False, nms=True):
     """
     import keras.models
 
-    model = keras.models.load_model(filepath, custom_objects=backbone(backbone_name).custom_objects)
+    custom_objects = create_backbone(backbone_name).custom_objects
+    model = keras.models.load_model(filepath, custom_objects=custom_objects)
     if convert:
         from .retinanet import retinanet_bbox
         model = retinanet_bbox(model=model, nms=nms)
