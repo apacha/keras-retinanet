@@ -1,0 +1,807 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20180706040636
+Username: DONKEY\Alex
+RunAs User: DONKEY\Alex
+Configuration Name: 
+Machine: DONKEY (Microsoft Windows NT 10.0.16299.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command if((Get-ExecutionPolicy ) -ne 'AllSigned') { Set-ExecutionPolicy -Scope Process Bypass }; & 'C:\Users\Alex\Repositories\keras-retinanet\train.ps1'
+Process ID: 14372
+PSVersion: 5.1.16299.492
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.16299.492
+BuildVersion: 10.0.16299.492
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:/Users/Alex/Repositories/keras-retinanet/Transcripts/mobilenet128_mensural_2018-07-05.txt
+C:\Programmieren\Anaconda3\lib\site-packages\h5py\__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated.
+In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+train.py:370: UserWarning: Using experimental backbone mobilenet128_1. Only resnet50 has been properly tested.
+  'Using experimental backbone {}. Only resnet50 has been properly tested.'.format(parsed_args.backbone))
+2018-07-06 04:06:38.816336: I T:\src\github\tensorflow\tensorflow\core\platform\cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not c
+ompiled to use: AVX2
+2018-07-06 04:06:39.013127: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1356] Found device 0 with properties:
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.582
+pciBusID: 0000:01:00.0
+totalMemory: 11.00GiB freeMemory: 9.10GiB
+2018-07-06 04:06:39.020084: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-07-06 04:06:39.599713: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-07-06 04:06:39.602808: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:929]      0
+2018-07-06 04:06:39.605178: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:942] 0:   N
+2018-07-06 04:06:39.608164: I T:\src\github\tensorflow\tensorflow\core\common_runtime\gpu\gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/devic
+e:GPU:0 with 8805 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Creating model, this may take a second...
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to
+==================================================================================================
+input_1 (InputLayer)            (None, None, None, 3 0
+__________________________________________________________________________________________________
+conv1_pad (ZeroPadding2D)       (None, None, None, 3 0           input_1[0][0]
+__________________________________________________________________________________________________
+conv1 (Conv2D)                  (None, None, None, 3 864         conv1_pad[0][0]
+__________________________________________________________________________________________________
+conv1_bn (BatchNormalization)   (None, None, None, 3 128         conv1[0][0]
+__________________________________________________________________________________________________
+conv1_relu (Activation)         (None, None, None, 3 0           conv1_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_1 (ZeroPadding2D)      (None, None, None, 3 0           conv1_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_1 (DepthwiseConv2D)     (None, None, None, 3 288         conv_pad_1[0][0]
+__________________________________________________________________________________________________
+conv_dw_1_bn (BatchNormalizatio (None, None, None, 3 128         conv_dw_1[0][0]
+__________________________________________________________________________________________________
+conv_dw_1_relu (Activation)     (None, None, None, 3 0           conv_dw_1_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_1 (Conv2D)              (None, None, None, 6 2048        conv_dw_1_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_1_bn (BatchNormalizatio (None, None, None, 6 256         conv_pw_1[0][0]
+__________________________________________________________________________________________________
+conv_pw_1_relu (Activation)     (None, None, None, 6 0           conv_pw_1_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_2 (ZeroPadding2D)      (None, None, None, 6 0           conv_pw_1_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_2 (DepthwiseConv2D)     (None, None, None, 6 576         conv_pad_2[0][0]
+__________________________________________________________________________________________________
+conv_dw_2_bn (BatchNormalizatio (None, None, None, 6 256         conv_dw_2[0][0]
+__________________________________________________________________________________________________
+conv_dw_2_relu (Activation)     (None, None, None, 6 0           conv_dw_2_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_2 (Conv2D)              (None, None, None, 1 8192        conv_dw_2_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_2_bn (BatchNormalizatio (None, None, None, 1 512         conv_pw_2[0][0]
+__________________________________________________________________________________________________
+conv_pw_2_relu (Activation)     (None, None, None, 1 0           conv_pw_2_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_3 (ZeroPadding2D)      (None, None, None, 1 0           conv_pw_2_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_3 (DepthwiseConv2D)     (None, None, None, 1 1152        conv_pad_3[0][0]
+__________________________________________________________________________________________________
+conv_dw_3_bn (BatchNormalizatio (None, None, None, 1 512         conv_dw_3[0][0]
+__________________________________________________________________________________________________
+conv_dw_3_relu (Activation)     (None, None, None, 1 0           conv_dw_3_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_3 (Conv2D)              (None, None, None, 1 16384       conv_dw_3_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_3_bn (BatchNormalizatio (None, None, None, 1 512         conv_pw_3[0][0]
+__________________________________________________________________________________________________
+conv_pw_3_relu (Activation)     (None, None, None, 1 0           conv_pw_3_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_4 (ZeroPadding2D)      (None, None, None, 1 0           conv_pw_3_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_4 (DepthwiseConv2D)     (None, None, None, 1 1152        conv_pad_4[0][0]
+__________________________________________________________________________________________________
+conv_dw_4_bn (BatchNormalizatio (None, None, None, 1 512         conv_dw_4[0][0]
+__________________________________________________________________________________________________
+conv_dw_4_relu (Activation)     (None, None, None, 1 0           conv_dw_4_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_4 (Conv2D)              (None, None, None, 2 32768       conv_dw_4_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_4_bn (BatchNormalizatio (None, None, None, 2 1024        conv_pw_4[0][0]
+__________________________________________________________________________________________________
+conv_pw_4_relu (Activation)     (None, None, None, 2 0           conv_pw_4_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_5 (ZeroPadding2D)      (None, None, None, 2 0           conv_pw_4_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_5 (DepthwiseConv2D)     (None, None, None, 2 2304        conv_pad_5[0][0]
+__________________________________________________________________________________________________
+conv_dw_5_bn (BatchNormalizatio (None, None, None, 2 1024        conv_dw_5[0][0]
+__________________________________________________________________________________________________
+conv_dw_5_relu (Activation)     (None, None, None, 2 0           conv_dw_5_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_5 (Conv2D)              (None, None, None, 2 65536       conv_dw_5_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_5_bn (BatchNormalizatio (None, None, None, 2 1024        conv_pw_5[0][0]
+__________________________________________________________________________________________________
+conv_pw_5_relu (Activation)     (None, None, None, 2 0           conv_pw_5_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_6 (ZeroPadding2D)      (None, None, None, 2 0           conv_pw_5_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_6 (DepthwiseConv2D)     (None, None, None, 2 2304        conv_pad_6[0][0]
+__________________________________________________________________________________________________
+conv_dw_6_bn (BatchNormalizatio (None, None, None, 2 1024        conv_dw_6[0][0]
+__________________________________________________________________________________________________
+conv_dw_6_relu (Activation)     (None, None, None, 2 0           conv_dw_6_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_6 (Conv2D)              (None, None, None, 5 131072      conv_dw_6_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_6_bn (BatchNormalizatio (None, None, None, 5 2048        conv_pw_6[0][0]
+__________________________________________________________________________________________________
+conv_pw_6_relu (Activation)     (None, None, None, 5 0           conv_pw_6_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_7 (ZeroPadding2D)      (None, None, None, 5 0           conv_pw_6_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_7 (DepthwiseConv2D)     (None, None, None, 5 4608        conv_pad_7[0][0]
+__________________________________________________________________________________________________
+conv_dw_7_bn (BatchNormalizatio (None, None, None, 5 2048        conv_dw_7[0][0]
+__________________________________________________________________________________________________
+conv_dw_7_relu (Activation)     (None, None, None, 5 0           conv_dw_7_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_7 (Conv2D)              (None, None, None, 5 262144      conv_dw_7_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_7_bn (BatchNormalizatio (None, None, None, 5 2048        conv_pw_7[0][0]
+__________________________________________________________________________________________________
+conv_pw_7_relu (Activation)     (None, None, None, 5 0           conv_pw_7_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_8 (ZeroPadding2D)      (None, None, None, 5 0           conv_pw_7_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_8 (DepthwiseConv2D)     (None, None, None, 5 4608        conv_pad_8[0][0]
+__________________________________________________________________________________________________
+conv_dw_8_bn (BatchNormalizatio (None, None, None, 5 2048        conv_dw_8[0][0]
+__________________________________________________________________________________________________
+conv_dw_8_relu (Activation)     (None, None, None, 5 0           conv_dw_8_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_8 (Conv2D)              (None, None, None, 5 262144      conv_dw_8_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_8_bn (BatchNormalizatio (None, None, None, 5 2048        conv_pw_8[0][0]
+__________________________________________________________________________________________________
+conv_pw_8_relu (Activation)     (None, None, None, 5 0           conv_pw_8_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_9 (ZeroPadding2D)      (None, None, None, 5 0           conv_pw_8_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_9 (DepthwiseConv2D)     (None, None, None, 5 4608        conv_pad_9[0][0]
+__________________________________________________________________________________________________
+conv_dw_9_bn (BatchNormalizatio (None, None, None, 5 2048        conv_dw_9[0][0]
+__________________________________________________________________________________________________
+conv_dw_9_relu (Activation)     (None, None, None, 5 0           conv_dw_9_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_9 (Conv2D)              (None, None, None, 5 262144      conv_dw_9_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_9_bn (BatchNormalizatio (None, None, None, 5 2048        conv_pw_9[0][0]
+__________________________________________________________________________________________________
+conv_pw_9_relu (Activation)     (None, None, None, 5 0           conv_pw_9_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_10 (ZeroPadding2D)     (None, None, None, 5 0           conv_pw_9_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_10 (DepthwiseConv2D)    (None, None, None, 5 4608        conv_pad_10[0][0]
+__________________________________________________________________________________________________
+conv_dw_10_bn (BatchNormalizati (None, None, None, 5 2048        conv_dw_10[0][0]
+__________________________________________________________________________________________________
+conv_dw_10_relu (Activation)    (None, None, None, 5 0           conv_dw_10_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_10 (Conv2D)             (None, None, None, 5 262144      conv_dw_10_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_10_bn (BatchNormalizati (None, None, None, 5 2048        conv_pw_10[0][0]
+__________________________________________________________________________________________________
+conv_pw_10_relu (Activation)    (None, None, None, 5 0           conv_pw_10_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_11 (ZeroPadding2D)     (None, None, None, 5 0           conv_pw_10_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_11 (DepthwiseConv2D)    (None, None, None, 5 4608        conv_pad_11[0][0]
+__________________________________________________________________________________________________
+conv_dw_11_bn (BatchNormalizati (None, None, None, 5 2048        conv_dw_11[0][0]
+__________________________________________________________________________________________________
+conv_dw_11_relu (Activation)    (None, None, None, 5 0           conv_dw_11_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_11 (Conv2D)             (None, None, None, 5 262144      conv_dw_11_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_11_bn (BatchNormalizati (None, None, None, 5 2048        conv_pw_11[0][0]
+__________________________________________________________________________________________________
+conv_pw_11_relu (Activation)    (None, None, None, 5 0           conv_pw_11_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_12 (ZeroPadding2D)     (None, None, None, 5 0           conv_pw_11_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_12 (DepthwiseConv2D)    (None, None, None, 5 4608        conv_pad_12[0][0]
+__________________________________________________________________________________________________
+conv_dw_12_bn (BatchNormalizati (None, None, None, 5 2048        conv_dw_12[0][0]
+__________________________________________________________________________________________________
+conv_dw_12_relu (Activation)    (None, None, None, 5 0           conv_dw_12_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_12 (Conv2D)             (None, None, None, 1 524288      conv_dw_12_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_12_bn (BatchNormalizati (None, None, None, 1 4096        conv_pw_12[0][0]
+__________________________________________________________________________________________________
+conv_pw_12_relu (Activation)    (None, None, None, 1 0           conv_pw_12_bn[0][0]
+__________________________________________________________________________________________________
+conv_pad_13 (ZeroPadding2D)     (None, None, None, 1 0           conv_pw_12_relu[0][0]
+__________________________________________________________________________________________________
+conv_dw_13 (DepthwiseConv2D)    (None, None, None, 1 9216        conv_pad_13[0][0]
+__________________________________________________________________________________________________
+conv_dw_13_bn (BatchNormalizati (None, None, None, 1 4096        conv_dw_13[0][0]
+__________________________________________________________________________________________________
+conv_dw_13_relu (Activation)    (None, None, None, 1 0           conv_dw_13_bn[0][0]
+__________________________________________________________________________________________________
+conv_pw_13 (Conv2D)             (None, None, None, 1 1048576     conv_dw_13_relu[0][0]
+__________________________________________________________________________________________________
+conv_pw_13_bn (BatchNormalizati (None, None, None, 1 4096        conv_pw_13[0][0]
+__________________________________________________________________________________________________
+conv_pw_13_relu (Activation)    (None, None, None, 1 0           conv_pw_13_bn[0][0]
+__________________________________________________________________________________________________
+C5_reduced (Conv2D)             (None, None, None, 2 262400      conv_pw_13_relu[0][0]
+__________________________________________________________________________________________________
+P5_upsampled (UpsampleLike)     (None, None, None, 2 0           C5_reduced[0][0]
+                                                                 conv_pw_11_relu[0][0]
+__________________________________________________________________________________________________
+C4_reduced (Conv2D)             (None, None, None, 2 131328      conv_pw_11_relu[0][0]
+__________________________________________________________________________________________________
+P4_merged (Add)                 (None, None, None, 2 0           P5_upsampled[0][0]
+                                                                 C4_reduced[0][0]
+__________________________________________________________________________________________________
+P4_upsampled (UpsampleLike)     (None, None, None, 2 0           P4_merged[0][0]
+                                                                 conv_pw_5_relu[0][0]
+__________________________________________________________________________________________________
+C3_reduced (Conv2D)             (None, None, None, 2 65792       conv_pw_5_relu[0][0]
+__________________________________________________________________________________________________
+P6 (Conv2D)                     (None, None, None, 2 2359552     conv_pw_13_relu[0][0]
+__________________________________________________________________________________________________
+P3_merged (Add)                 (None, None, None, 2 0           P4_upsampled[0][0]
+                                                                 C3_reduced[0][0]
+__________________________________________________________________________________________________
+C6_relu (Activation)            (None, None, None, 2 0           P6[0][0]
+__________________________________________________________________________________________________
+P3 (Conv2D)                     (None, None, None, 2 590080      P3_merged[0][0]
+__________________________________________________________________________________________________
+P4 (Conv2D)                     (None, None, None, 2 590080      P4_merged[0][0]
+__________________________________________________________________________________________________
+P5 (Conv2D)                     (None, None, None, 2 590080      C5_reduced[0][0]
+__________________________________________________________________________________________________
+P7 (Conv2D)                     (None, None, None, 2 590080      C6_relu[0][0]
+__________________________________________________________________________________________________
+regression_submodel (Model)     (None, None, 4)      2443300     P3[0][0]
+                                                                 P4[0][0]
+                                                                 P5[0][0]
+                                                                 P6[0][0]
+                                                                 P7[0][0]
+__________________________________________________________________________________________________
+classification_submodel (Model) (None, None, 52)     3439060     P3[0][0]
+                                                                 P4[0][0]
+                                                                 P5[0][0]
+                                                                 P6[0][0]
+                                                                 P7[0][0]
+__________________________________________________________________________________________________
+regression (Concatenate)        (None, None, 4)      0           regression_submodel[1][0]
+                                                                 regression_submodel[2][0]
+                                                                 regression_submodel[3][0]
+                                                                 regression_submodel[4][0]
+                                                                 regression_submodel[5][0]
+__________________________________________________________________________________________________
+classification (Concatenate)    (None, None, 52)     0           classification_submodel[1][0]
+                                                                 classification_submodel[2][0]
+                                                                 classification_submodel[3][0]
+                                                                 classification_submodel[4][0]
+                                                                 classification_submodel[5][0]
+==================================================================================================
+Total params: 14,290,616
+Trainable params: 14,268,728
+Non-trainable params: 21,888
+__________________________________________________________________________________________________
+None
+C:\Programmieren\Anaconda3\lib\site-packages\keras\callbacks.py:999: UserWarning: `epsilon` argument is deprecated and will be removed, use `min_delta` instead.
+  warnings.warn('`epsilon` argument is deprecated and '
+Epoch 1/500
+Strides = [8, 16, 32, 64, 128]
+Sizes = [32, 64, 128, 256, 512]
+Ratios = [0.5 1.  2. ]
+Scales = [1.         1.25992105 1.58740105]
+Classifying samples as positive if they overlap with ground truth more than 0.5 and as background if they overlap less than 0.4. Overlaps inbetween will be ignored
+2018-07-06 04:07:06.213626: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.78GiB
+. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-07-06 04:07:06.360493: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.77GiB
+. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-07-06 04:07:06.559814: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.77GiB
+. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-07-06 04:07:06.720799: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.79GiB
+. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-07-06 04:07:06.744720: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.77GiB
+. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-07-06 04:07:06.834920: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.67GiB
+. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+ 2/28 [=>............................] - ETA: 2:25 - loss: 3.8785 - regression_loss: 2.7442 - classification_loss: 1.13432018-07-06 04:07:08.379535: W T:\src\github\tensorflo
+w\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.71GiB. The caller indicates that this is not a failure, bu
+t may mean that there could be performance gains if more memory were available.
+2018-07-06 04:07:08.414759: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.78GiB
+. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-07-06 04:07:08.554520: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.84GiB
+. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2018-07-06 04:07:08.748113: W T:\src\github\tensorflow\tensorflow\core\common_runtime\bfc_allocator.cc:219] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.84GiB
+. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+28/28 [==============================] - 49s 2s/step - loss: 3.7604 - regression_loss: 2.6307 - classification_loss: 1.1297
+mAP: 0.0000
+
+Epoch 00001: mAP improved from -inf to 0.00000, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 2/500
+28/28 [==============================] - 18s 637ms/step - loss: 3.5584 - regression_loss: 2.4763 - classification_loss: 1.0820
+mAP: 0.0004
+
+Epoch 00002: mAP improved from 0.00000 to 0.00036, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 3/500
+28/28 [==============================] - 18s 638ms/step - loss: 2.9860 - regression_loss: 2.2938 - classification_loss: 0.6922
+mAP: 0.0011
+
+Epoch 00003: mAP improved from 0.00036 to 0.00114, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 4/500
+28/28 [==============================] - 18s 636ms/step - loss: 2.5960 - regression_loss: 1.9691 - classification_loss: 0.6268
+mAP: 0.0029
+
+Epoch 00004: mAP improved from 0.00114 to 0.00295, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 5/500
+28/28 [==============================] - 18s 636ms/step - loss: 2.4198 - regression_loss: 1.8411 - classification_loss: 0.5787
+mAP: 0.0036
+
+Epoch 00005: mAP improved from 0.00295 to 0.00362, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 6/500
+28/28 [==============================] - 18s 638ms/step - loss: 2.2663 - regression_loss: 1.7065 - classification_loss: 0.5598
+mAP: 0.0044
+
+Epoch 00006: mAP improved from 0.00362 to 0.00435, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 7/500
+28/28 [==============================] - 18s 634ms/step - loss: 2.1119 - regression_loss: 1.5735 - classification_loss: 0.5384
+mAP: 0.0048
+
+Epoch 00007: mAP improved from 0.00435 to 0.00475, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 8/500
+28/28 [==============================] - 18s 635ms/step - loss: 2.0010 - regression_loss: 1.4751 - classification_loss: 0.5259
+mAP: 0.0036
+
+Epoch 00008: mAP did not improve from 0.00475
+Epoch 9/500
+28/28 [==============================] - 18s 635ms/step - loss: 1.8793 - regression_loss: 1.3674 - classification_loss: 0.5119
+mAP: 0.0039
+
+Epoch 00009: mAP did not improve from 0.00475
+Epoch 10/500
+28/28 [==============================] - 18s 637ms/step - loss: 1.7999 - regression_loss: 1.3009 - classification_loss: 0.4990
+mAP: 0.0029
+
+Epoch 00010: mAP did not improve from 0.00475
+Epoch 11/500
+28/28 [==============================] - 18s 636ms/step - loss: 1.6740 - regression_loss: 1.1653 - classification_loss: 0.5087
+mAP: 0.0033
+
+Epoch 00011: mAP did not improve from 0.00475
+Epoch 12/500
+28/28 [==============================] - 18s 636ms/step - loss: 1.5842 - regression_loss: 1.0981 - classification_loss: 0.4861
+mAP: 0.0042
+
+Epoch 00012: mAP did not improve from 0.00475
+Epoch 13/500
+28/28 [==============================] - 18s 635ms/step - loss: 1.4747 - regression_loss: 0.9928 - classification_loss: 0.4819
+mAP: 0.0030
+
+Epoch 00013: mAP did not improve from 0.00475
+Epoch 14/500
+28/28 [==============================] - 18s 637ms/step - loss: 1.3668 - regression_loss: 0.9059 - classification_loss: 0.4609
+mAP: 0.0013
+
+Epoch 00014: mAP did not improve from 0.00475
+Epoch 15/500
+28/28 [==============================] - 18s 636ms/step - loss: 1.3624 - regression_loss: 0.9066 - classification_loss: 0.4558
+mAP: 0.0017
+
+Epoch 00015: mAP did not improve from 0.00475
+Epoch 16/500
+28/28 [==============================] - 18s 636ms/step - loss: 1.2800 - regression_loss: 0.8407 - classification_loss: 0.4393
+mAP: 0.0026
+
+Epoch 00016: mAP did not improve from 0.00475
+Epoch 17/500
+28/28 [==============================] - 18s 636ms/step - loss: 1.2956 - regression_loss: 0.8477 - classification_loss: 0.4479
+mAP: 0.0010
+
+Epoch 00017: mAP did not improve from 0.00475
+Epoch 18/500
+28/28 [==============================] - 18s 637ms/step - loss: 1.1920 - regression_loss: 0.7664 - classification_loss: 0.4256
+mAP: 0.0010
+
+Epoch 00018: mAP did not improve from 0.00475
+Epoch 19/500
+28/28 [==============================] - 18s 636ms/step - loss: 1.0931 - regression_loss: 0.6869 - classification_loss: 0.4062
+mAP: 0.0010
+
+Epoch 00019: mAP did not improve from 0.00475
+Epoch 20/500
+28/28 [==============================] - 18s 635ms/step - loss: 1.1329 - regression_loss: 0.7467 - classification_loss: 0.3862
+mAP: 0.0014
+
+Epoch 00020: mAP did not improve from 0.00475
+Epoch 21/500
+28/28 [==============================] - 18s 633ms/step - loss: 1.0810 - regression_loss: 0.7054 - classification_loss: 0.3755
+mAP: 0.0009
+
+Epoch 00021: mAP did not improve from 0.00475
+Epoch 22/500
+28/28 [==============================] - 18s 637ms/step - loss: 0.9223 - regression_loss: 0.5664 - classification_loss: 0.3559
+mAP: 0.0007
+
+Epoch 00022: mAP did not improve from 0.00475
+Epoch 23/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.9238 - regression_loss: 0.5934 - classification_loss: 0.3304
+mAP: 0.0010
+
+Epoch 00023: mAP did not improve from 0.00475
+
+Epoch 00023: ReduceLROnPlateau reducing learning rate to 7.999999797903001e-05.
+Epoch 24/500
+28/28 [==============================] - 18s 634ms/step - loss: 0.8583 - regression_loss: 0.5456 - classification_loss: 0.3127
+mAP: 0.0013
+
+Epoch 00024: mAP did not improve from 0.00475
+Epoch 25/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.8238 - regression_loss: 0.5225 - classification_loss: 0.3013
+mAP: 0.0008
+
+Epoch 00025: mAP did not improve from 0.00475
+Epoch 26/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.7557 - regression_loss: 0.4647 - classification_loss: 0.2910
+mAP: 0.0015
+
+Epoch 00026: mAP did not improve from 0.00475
+Epoch 27/500
+28/28 [==============================] - 18s 637ms/step - loss: 0.7420 - regression_loss: 0.4595 - classification_loss: 0.2824
+mAP: 0.0007
+
+Epoch 00027: mAP did not improve from 0.00475
+Epoch 28/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.8448 - regression_loss: 0.5580 - classification_loss: 0.2867
+mAP: 0.0011
+
+Epoch 00028: mAP did not improve from 0.00475
+Epoch 29/500
+28/28 [==============================] - 18s 635ms/step - loss: 0.8161 - regression_loss: 0.5309 - classification_loss: 0.2853
+mAP: 0.0007
+
+Epoch 00029: mAP did not improve from 0.00475
+Epoch 30/500
+28/28 [==============================] - 18s 640ms/step - loss: 0.7471 - regression_loss: 0.4855 - classification_loss: 0.2616
+mAP: 0.0007
+
+Epoch 00030: mAP did not improve from 0.00475
+Epoch 31/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.7001 - regression_loss: 0.4459 - classification_loss: 0.2542
+mAP: 0.0005
+
+Epoch 00031: mAP did not improve from 0.00475
+Epoch 32/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.6655 - regression_loss: 0.4198 - classification_loss: 0.2456
+mAP: 0.0013
+
+Epoch 00032: mAP did not improve from 0.00475
+Epoch 33/500
+28/28 [==============================] - 18s 635ms/step - loss: 0.5866 - regression_loss: 0.3550 - classification_loss: 0.2317
+mAP: 0.0008
+
+Epoch 00033: mAP did not improve from 0.00475
+Epoch 34/500
+28/28 [==============================] - 18s 635ms/step - loss: 0.5744 - regression_loss: 0.3516 - classification_loss: 0.2229
+mAP: 0.0013
+
+Epoch 00034: mAP did not improve from 0.00475
+Epoch 35/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.5447 - regression_loss: 0.3329 - classification_loss: 0.2118
+mAP: 0.0007
+
+Epoch 00035: mAP did not improve from 0.00475
+Epoch 36/500
+28/28 [==============================] - 18s 640ms/step - loss: 0.5490 - regression_loss: 0.3400 - classification_loss: 0.2090
+mAP: 0.0014
+
+Epoch 00036: mAP did not improve from 0.00475
+Epoch 37/500
+28/28 [==============================] - 18s 635ms/step - loss: 0.5864 - regression_loss: 0.3850 - classification_loss: 0.2014
+mAP: 0.0013
+
+Epoch 00037: mAP did not improve from 0.00475
+Epoch 38/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.5378 - regression_loss: 0.3398 - classification_loss: 0.1980
+mAP: 0.0060
+
+Epoch 00038: mAP improved from 0.00475 to 0.00600, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 39/500
+28/28 [==============================] - 18s 635ms/step - loss: 0.6302 - regression_loss: 0.4362 - classification_loss: 0.1940
+mAP: 0.0008
+
+Epoch 00039: mAP did not improve from 0.00600
+Epoch 40/500
+28/28 [==============================] - 18s 640ms/step - loss: 0.5060 - regression_loss: 0.3287 - classification_loss: 0.1772
+mAP: 0.0051
+
+Epoch 00040: mAP did not improve from 0.00600
+Epoch 41/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.4742 - regression_loss: 0.3056 - classification_loss: 0.1686
+mAP: 0.0033
+
+Epoch 00041: mAP did not improve from 0.00600
+Epoch 42/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.5060 - regression_loss: 0.3434 - classification_loss: 0.1626
+mAP: 0.0099
+
+Epoch 00042: mAP improved from 0.00600 to 0.00986, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 43/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.4326 - regression_loss: 0.2754 - classification_loss: 0.1572
+mAP: 0.0074
+
+Epoch 00043: mAP did not improve from 0.00986
+Epoch 44/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.4365 - regression_loss: 0.2880 - classification_loss: 0.1486
+mAP: 0.0041
+
+Epoch 00044: mAP did not improve from 0.00986
+Epoch 45/500
+28/28 [==============================] - 18s 640ms/step - loss: 0.4061 - regression_loss: 0.2640 - classification_loss: 0.1421
+mAP: 0.0109
+
+Epoch 00045: mAP improved from 0.00986 to 0.01091, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 46/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.4009 - regression_loss: 0.2693 - classification_loss: 0.1316
+mAP: 0.0081
+
+Epoch 00046: mAP did not improve from 0.01091
+Epoch 47/500
+28/28 [==============================] - 18s 640ms/step - loss: 0.3743 - regression_loss: 0.2482 - classification_loss: 0.1261
+mAP: 0.0050
+
+Epoch 00047: mAP did not improve from 0.01091
+Epoch 48/500
+28/28 [==============================] - 18s 635ms/step - loss: 0.4118 - regression_loss: 0.2926 - classification_loss: 0.1193
+mAP: 0.0136
+
+Epoch 00048: mAP improved from 0.01091 to 0.01357, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 49/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.4224 - regression_loss: 0.3036 - classification_loss: 0.1188
+mAP: 0.0097
+
+Epoch 00049: mAP did not improve from 0.01357
+Epoch 50/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.4006 - regression_loss: 0.2903 - classification_loss: 0.1102
+mAP: 0.0102
+
+Epoch 00050: mAP did not improve from 0.01357
+Epoch 51/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.3913 - regression_loss: 0.2851 - classification_loss: 0.1062
+mAP: 0.0103
+
+Epoch 00051: mAP did not improve from 0.01357
+Epoch 52/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.4024 - regression_loss: 0.2989 - classification_loss: 0.1035
+mAP: 0.0153
+
+Epoch 00052: mAP improved from 0.01357 to 0.01530, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 53/500
+28/28 [==============================] - 18s 637ms/step - loss: 0.3545 - regression_loss: 0.2562 - classification_loss: 0.0983
+mAP: 0.0090
+
+Epoch 00053: mAP did not improve from 0.01530
+Epoch 54/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.3361 - regression_loss: 0.2408 - classification_loss: 0.0953
+mAP: 0.0070
+
+Epoch 00054: mAP did not improve from 0.01530
+Epoch 55/500
+28/28 [==============================] - 18s 640ms/step - loss: 0.3266 - regression_loss: 0.2312 - classification_loss: 0.0954
+mAP: 0.0164
+
+Epoch 00055: mAP improved from 0.01530 to 0.01635, saving model to ./snapshots\mobilenet128_1_mob_csv_2018-07-06_04-06.h5
+Epoch 56/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.3920 - regression_loss: 0.3012 - classification_loss: 0.0908
+mAP: 0.0152
+
+Epoch 00056: mAP did not improve from 0.01635
+Epoch 57/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.3293 - regression_loss: 0.2444 - classification_loss: 0.0849
+mAP: 0.0095
+
+Epoch 00057: mAP did not improve from 0.01635
+Epoch 58/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.3534 - regression_loss: 0.2708 - classification_loss: 0.0827
+mAP: 0.0107
+
+Epoch 00058: mAP did not improve from 0.01635
+Epoch 59/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.3175 - regression_loss: 0.2382 - classification_loss: 0.0793
+mAP: 0.0092
+
+Epoch 00059: mAP did not improve from 0.01635
+Epoch 60/500
+28/28 [==============================] - 18s 637ms/step - loss: 0.2823 - regression_loss: 0.2064 - classification_loss: 0.0758
+mAP: 0.0126
+
+Epoch 00060: mAP did not improve from 0.01635
+Epoch 61/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.2811 - regression_loss: 0.2024 - classification_loss: 0.0788
+mAP: 0.0127
+
+Epoch 00061: mAP did not improve from 0.01635
+Epoch 62/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.2941 - regression_loss: 0.2128 - classification_loss: 0.0812
+mAP: 0.0126
+
+Epoch 00062: mAP did not improve from 0.01635
+Epoch 63/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.2961 - regression_loss: 0.2240 - classification_loss: 0.0722
+mAP: 0.0153
+
+Epoch 00063: mAP did not improve from 0.01635
+Epoch 64/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.2900 - regression_loss: 0.2246 - classification_loss: 0.0654
+mAP: 0.0143
+
+Epoch 00064: mAP did not improve from 0.01635
+Epoch 65/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.3081 - regression_loss: 0.2442 - classification_loss: 0.0639
+mAP: 0.0123
+
+Epoch 00065: mAP did not improve from 0.01635
+Epoch 66/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.2815 - regression_loss: 0.2227 - classification_loss: 0.0588
+mAP: 0.0118
+
+Epoch 00066: mAP did not improve from 0.01635
+Epoch 67/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.2529 - regression_loss: 0.1973 - classification_loss: 0.0556
+mAP: 0.0113
+
+Epoch 00067: mAP did not improve from 0.01635
+Epoch 68/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.2343 - regression_loss: 0.1817 - classification_loss: 0.0526
+mAP: 0.0125
+
+Epoch 00068: mAP did not improve from 0.01635
+Epoch 69/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.2468 - regression_loss: 0.1953 - classification_loss: 0.0515
+mAP: 0.0124
+
+Epoch 00069: mAP did not improve from 0.01635
+Epoch 70/500
+28/28 [==============================] - 18s 637ms/step - loss: 0.2448 - regression_loss: 0.1956 - classification_loss: 0.0492
+mAP: 0.0118
+
+Epoch 00070: mAP did not improve from 0.01635
+Epoch 71/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.2350 - regression_loss: 0.1875 - classification_loss: 0.0476
+mAP: 0.0148
+
+Epoch 00071: mAP did not improve from 0.01635
+
+Epoch 00071: ReduceLROnPlateau reducing learning rate to 6.399999838322402e-05.
+Epoch 72/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.2226 - regression_loss: 0.1790 - classification_loss: 0.0437
+mAP: 0.0126
+
+Epoch 00072: mAP did not improve from 0.01635
+Epoch 73/500
+28/28 [==============================] - 18s 640ms/step - loss: 0.2170 - regression_loss: 0.1759 - classification_loss: 0.0411
+mAP: 0.0110
+
+Epoch 00073: mAP did not improve from 0.01635
+Epoch 74/500
+28/28 [==============================] - 18s 641ms/step - loss: 0.1912 - regression_loss: 0.1512 - classification_loss: 0.0400
+mAP: 0.0090
+
+Epoch 00074: mAP did not improve from 0.01635
+Epoch 75/500
+28/28 [==============================] - 18s 637ms/step - loss: 0.1906 - regression_loss: 0.1522 - classification_loss: 0.0384
+mAP: 0.0125
+
+Epoch 00075: mAP did not improve from 0.01635
+Epoch 76/500
+28/28 [==============================] - 18s 633ms/step - loss: 0.1816 - regression_loss: 0.1435 - classification_loss: 0.0381
+mAP: 0.0104
+
+Epoch 00076: mAP did not improve from 0.01635
+Epoch 77/500
+28/28 [==============================] - 18s 640ms/step - loss: 0.1890 - regression_loss: 0.1516 - classification_loss: 0.0374
+mAP: 0.0108
+
+Epoch 00077: mAP did not improve from 0.01635
+Epoch 78/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.2381 - regression_loss: 0.2012 - classification_loss: 0.0369
+mAP: 0.0129
+
+Epoch 00078: mAP did not improve from 0.01635
+Epoch 79/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.1941 - regression_loss: 0.1594 - classification_loss: 0.0347
+mAP: 0.0135
+
+Epoch 00079: mAP did not improve from 0.01635
+Epoch 80/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.1929 - regression_loss: 0.1593 - classification_loss: 0.0336
+mAP: 0.0153
+
+Epoch 00080: mAP did not improve from 0.01635
+Epoch 81/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.1837 - regression_loss: 0.1514 - classification_loss: 0.0323
+mAP: 0.0110
+
+Epoch 00081: mAP did not improve from 0.01635
+Epoch 82/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.1682 - regression_loss: 0.1362 - classification_loss: 0.0321
+mAP: 0.0108
+
+Epoch 00082: mAP did not improve from 0.01635
+Epoch 83/500
+28/28 [==============================] - 18s 633ms/step - loss: 0.2411 - regression_loss: 0.2085 - classification_loss: 0.0325
+mAP: 0.0153
+
+Epoch 00083: mAP did not improve from 0.01635
+Epoch 84/500
+28/28 [==============================] - 18s 636ms/step - loss: 0.1813 - regression_loss: 0.1504 - classification_loss: 0.0309
+mAP: 0.0121
+
+Epoch 00084: mAP did not improve from 0.01635
+Epoch 85/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.1701 - regression_loss: 0.1394 - classification_loss: 0.0307
+mAP: 0.0134
+
+Epoch 00085: mAP did not improve from 0.01635
+Epoch 86/500
+28/28 [==============================] - 18s 635ms/step - loss: 0.1666 - regression_loss: 0.1380 - classification_loss: 0.0286
+mAP: 0.0137
+
+Epoch 00086: mAP did not improve from 0.01635
+Epoch 87/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.1803 - regression_loss: 0.1537 - classification_loss: 0.0266
+mAP: 0.0158
+
+Epoch 00087: mAP did not improve from 0.01635
+
+Epoch 00087: ReduceLROnPlateau reducing learning rate to 5.119999987073243e-05.
+Epoch 88/500
+28/28 [==============================] - 18s 641ms/step - loss: 0.1473 - regression_loss: 0.1224 - classification_loss: 0.0249
+mAP: 0.0092
+
+Epoch 00088: mAP did not improve from 0.01635
+Epoch 89/500
+28/28 [==============================] - 18s 637ms/step - loss: 0.1562 - regression_loss: 0.1319 - classification_loss: 0.0242
+mAP: 0.0138
+
+Epoch 00089: mAP did not improve from 0.01635
+Epoch 90/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.1556 - regression_loss: 0.1319 - classification_loss: 0.0237
+mAP: 0.0139
+
+Epoch 00090: mAP did not improve from 0.01635
+Epoch 91/500
+28/28 [==============================] - 18s 638ms/step - loss: 0.1310 - regression_loss: 0.1076 - classification_loss: 0.0234
+mAP: 0.0092
+
+Epoch 00091: mAP did not improve from 0.01635
+Epoch 92/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.1289 - regression_loss: 0.1062 - classification_loss: 0.0227
+mAP: 0.0126
+
+Epoch 00092: mAP did not improve from 0.01635
+Epoch 93/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.1259 - regression_loss: 0.1034 - classification_loss: 0.0225
+mAP: 0.0116
+
+Epoch 00093: mAP did not improve from 0.01635
+Epoch 94/500
+28/28 [==============================] - 18s 642ms/step - loss: 0.1403 - regression_loss: 0.1186 - classification_loss: 0.0218
+mAP: 0.0131
+
+Epoch 00094: mAP did not improve from 0.01635
+Epoch 95/500
+28/28 [==============================] - 18s 639ms/step - loss: 0.1129 - regression_loss: 0.0918 - classification_loss: 0.0211
+mAP: 0.0122
+
+Epoch 00095: mAP did not improve from 0.01635
+Epoch 00095: early stopping
+Trained for: 0:42:21.669902
+**********************
+Windows PowerShell transcript end
+End time: 20180706044911
+**********************

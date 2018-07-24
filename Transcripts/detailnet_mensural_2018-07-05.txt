@@ -1,12 +1,12 @@
 ﻿**********************
 Windows PowerShell transcript start
-Start time: 20180629193002
+Start time: 20180706124211
 Username: DONKEY\Alex
 RunAs User: DONKEY\Alex
 Configuration Name: 
 Machine: DONKEY (Microsoft Windows NT 10.0.16299.0)
 Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command if((Get-ExecutionPolicy ) -ne 'AllSigned') { Set-ExecutionPolicy -Scope Process Bypass }; & 'C:\Users\Alex\Repositories\keras-retinanet\train.ps1'
-Process ID: 9796
+Process ID: 14372
 PSVersion: 5.1.16299.492
 PSEdition: Desktop
 PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.16299.492
@@ -16,9 +16,9 @@ WSManStackVersion: 3.0
 PSRemotingProtocolVersion: 2.3
 SerializationVersion: 1.1.0.1
 **********************
-Transcript started, output file is C:/Users/Alex/Repositories/keras-retinanet/Transcripts/train-densenet121-lr-1e-4.txt
+Transcript started, output file is C:/Users/Alex/Repositories/keras-retinanet/Transcripts/detailnet_mensural_2018-07-05.txt
 
 **********************
 Windows PowerShell transcript end
-End time: 20180629200918
+End time: 20180706131259
 **********************
