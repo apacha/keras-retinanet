@@ -8,6 +8,12 @@ $number_of_epochs = 500
 echo "Appending required paths to temporary PYTHONPATH"
 $env:PYTHONPATH = "$($pathToGitRoot);$($pathToSourceRoot)"
 
+Start-Transcript -path "$($pathToTranscript)/resnet50_deepscores_2018-07-30.txt" -append
+python train.py  --steps 60 --epochs $number_of_epochs --image-min-side 1300 --image-max-side 2000  --backbone resnet50 mob_csv ../../data/normalized/deepscores/training.csv --val-annotations ../../data/normalized/deepscores/validation.csv
+Stop-Transcript
+
+exit
+
 Start-Transcript -path "$($pathToTranscript)/mobilenet128_muscima_2018-07-05.txt" -append
 python train.py  --steps 84  --epochs $number_of_epochs --image-min-side 1000 --image-max-side 1800 --backbone mobilenet128_1 mob_csv ../../data/normalized/muscima/training.csv --val-annotations ../../data/normalized/muscima/validation.csv
 Stop-Transcript
