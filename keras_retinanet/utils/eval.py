@@ -141,11 +141,12 @@ def _get_detections(generator, model, score_threshold=0.05, max_detections=1200,
 
         print('{}/{}'.format(i + 1, generator.size()), end='\r')
 
-    output_csv_path = os.path.join(save_path, "results.csv")
-    converted_output = pd.DataFrame(data=output_detections,
-                                    columns=["path_to_image", "top", "left", "bottom", "right", "class_name",
-                                             "confidence"])
-    converted_output.to_csv(output_csv_path, index=False, float_format="%.2f")
+    if save_path is not None:
+        output_csv_path = os.path.join(save_path, "results.csv")
+        converted_output = pd.DataFrame(data=output_detections,
+                                        columns=["path_to_image", "top", "left", "bottom", "right", "class_name",
+                                                 "confidence"])
+        converted_output.to_csv(output_csv_path, index=False, float_format="%.2f")
 
     return all_detections
 
