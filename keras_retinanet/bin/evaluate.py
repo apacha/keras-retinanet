@@ -17,6 +17,7 @@ limitations under the License.
 import argparse
 import os
 import sys
+from time import time
 
 import keras
 import tensorflow as tf
@@ -112,6 +113,7 @@ def main(args=None):
         from ..utils.coco_eval import evaluate_coco
         evaluate_coco(evaluation_generator, model, args.score_threshold)
     else:
+        start_time = time()
         average_precisions = evaluate(
             evaluation_generator,
             model,
@@ -131,6 +133,8 @@ def main(args=None):
                 present_classes += 1
                 precision += average_precision
         print('mAP: {:.4f}'.format(precision / present_classes))
+        end_time = time()
+        print("Execution time: {0}".format(end_time - start_time))
 
 
 if __name__ == '__main__':
